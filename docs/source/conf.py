@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = u'Chubao File System'
+project = u'CFS'
 copyright = u'Copyright 2018 The Chubao Authors.'
 author = u'The Chubao Authors'
 
