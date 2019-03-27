@@ -28,7 +28,7 @@
      :align: center
 
 
-  在随机写入时覆盖现有的文件内容时，我们采用了一种基于Multi-Raft的复制协议，该协议类似于元数据子系统中使用的协议，以确保强一致性。<br>
+  在随机写入时覆盖现有的文件内容时，我们采用了一种基于Multi-Raft的复制协议，该协议类似于元数据子系统中使用的协议，以确保强一致性
 
   .. image:: ../pic/workflow-overwriting.png
 	 :align: center
