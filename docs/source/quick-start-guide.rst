@@ -149,8 +149,8 @@
         ],
         "rack": "",
         "disks": [
-        "/data0:1:40000"
-        ]  
+           "/data0:107374182400"
+       ]
       }
 
    详细配置参数请参考 :doc:`user-guide/datanode`.
