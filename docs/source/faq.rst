@@ -28,7 +28,7 @@
                 JAVA_LDFLAGS="$JAVA_LDFLAGS -lzstd"
             fi
  
-2. 本机编译CFS，部署到其它机器上无法启动
+2. 本机编译ChubaoFS，部署到其它机器上无法启动
 
    首先请确认使用 ``PORTABLE=1 make static_lib`` 命令编译rocksdb，然后使用ldd命令查看依赖的库，在机器上是否安装，安装缺少的库后，执行 ``ldconfig`` 命令
 

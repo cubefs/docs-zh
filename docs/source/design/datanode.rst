@@ -20,15 +20,15 @@
 
 - 强一致性
 
-  成员间的文件复制，根据文件写入模式，CFS采用不同的复制策略。
+  成员间的文件复制，根据文件写入模式，ChubaoFS采用不同的复制策略。
 
-  当文件按顺序写入CFS时，使用主备份复制协议来确保与优化的IO吞吐量的强一致性。
+  当文件按顺序写入ChubaoFS时，使用主备份复制协议来确保与优化的IO吞吐量的强一致性。
 
   .. image:: ../pic/workflow-sequential-write.png
      :align: center
 
 
-  在随机写入时覆盖现有的文件内容时，我们采用了一种基于Multi-Raft的复制协议，该协议类似于元数据子系统中使用的协议，以确保强一致性
+  在随机写入时覆盖现有的文件内容时，我们采用了一种基于Multi-Raft的复制协议，该协议类似于元数据子系统中使用的协议，以确保强一致性。<br>
 
   .. image:: ../pic/workflow-overwriting.png
 	 :align: center
