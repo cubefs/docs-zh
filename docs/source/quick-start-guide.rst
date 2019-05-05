@@ -80,7 +80,7 @@
        "raftReplicaPort": "9094",
        "totalMem":  "17179869184",
        "consulAddr": "http://consul.prometheus-cfs.local",
-        "warnLogDir":"/export/home/tomcat/UMP-Monitor/logs/",
+       "warnLogDir":"/export/home/tomcat/UMP-Monitor/logs/",
        "exporterPort": 9511,
        "masterAddrs": [
            "192.168.31.173:80",
@@ -183,7 +183,7 @@
       {
         "mountPoint": "/mnt/fuse",
         "volName": "test",
-		"owner": "cfs",
+        "owner": "cfs",
         "masterAddr": "192.168.31.173:80,192.168.31.141:80,192.168.30.200:80",
         "logDir": "/export/Logs/client",
         "warnLogDir":"/export/home/tomcat/UMP-Monitor/logs/",
