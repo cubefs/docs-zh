@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = u'CFS'
+project = u'ChubaoFS'
 copyright = u'Copyright 2018 The Chubao Authors.'
 author = u'The Chubao Authors'
 
@@ -102,7 +102,7 @@ html_theme = 'sphinx_rtd_theme'
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'CFS Doc'
+htmlhelp_basename = 'ChubaoFS Doc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -131,8 +131,8 @@ latex_elements = {
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'CFS', u'ChubaoFS Documentation',
-     author, 'CFS', 'One line description of project.',
+    (master_doc, 'ChubaoFS', u'ChubaoFS Documentation',
+     author, 'ChubaoFS', 'One line description of project.',
      'Miscellaneous'),
 ]
 

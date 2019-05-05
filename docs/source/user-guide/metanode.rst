@@ -20,6 +20,9 @@
    "consulAddr", "字符串", "prometheus注册接口", "否" 
    "exporterPort", "字符串", "prometheus获取监控数据端口", "否" 
    "masterAddrs", "字符串", "master服务地址", "是"
+   "totalMem","字符串","最大可用内存","No",
+   "warnLogDir","字符串","报警信息存储目录","No"
+
 
 
 
@@ -32,13 +35,15 @@
         "listen": "9021",
         "prof": "9092",
         "logLevel": "debug",
-        "metadataDir": "/export/cfs/metanode_meta",
-        "logDir": "/export/Logs/cfs/metanode",
-        "raftDir": "/export/cfs/metanode_raft",
+        "metaDir": "/export/Data/metanode",
+        "logDir": "/export/Logs/metanode",
+        "raftDir": "/export/Data/metanode/raft",
+        "warnLogDir":"/export/home/tomcat/UMP-Monitor/logs/",
         "raftHeartbeatPort": "9093",
         "raftReplicaPort": "9094",
         "consulAddr": "http://consul.prometheus-cfs.local",
         "exporterPort": 9511,
+        "totalMem":  "17179869184",
         "masterAddrs": [
             "192.168.31.173:80",
             "192.168.31.141:80",

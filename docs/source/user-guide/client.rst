@@ -24,7 +24,8 @@ fuse.json
      "volName": "test",
      "owner": "cfs",
      "masterAddr": "192.168.31.173:80,192.168.31.141:80,192.168.30.200:80",
-     "logDir": "/export/Logs/cfs",
+     "logDir": "/export/Logs/client",
+     "warnLogDir":"/export/home/tomcat/UMP-Monitor/logs/",
      "logLevel": "info",
      "profPort": "10094"
    }
@@ -46,6 +47,7 @@ fuse.json
    "icacheTimeout", "string", "客户端inode cache有效期，单位：秒", "否"
    "enSyncWrite", "string", "使能DirectIO同步写，即DirectIO强制数据节点落盘", "否"
    "autoInvalData", "string", "FUSE挂载使用AutoInvalData选项", "否"
+   "warnLogDir","string","报警信息存储目录”,"否”
 
 挂载
 ---------------
@@ -56,4 +58,4 @@ fuse.json
 
    nohup ./client -c fuse.json &
 
-如果使用示例的``fuse.json``，则客户端被挂载到``/mnt/fuse``。所有针对``/mnt/fuse``的操作都将被作用于CFS。
+如果使用示例的``fuse.json``，则客户端被挂载到``/mnt/fuse``。所有针对``/mnt/fuse``的操作都将被作用于ChubaoFS。
