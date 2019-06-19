@@ -6,7 +6,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/dataPartition/create?count=40&name=test"
+   curl -v "http://127.0.0.1/dataPartition/create?count=400&name=test"
 
 
 创建指定数量的数据分片

@@ -50,3 +50,10 @@
             "192.168.30.200:80"
         ]
     }
+
+启动服务
+-------------
+
+.. code-block:: bash
+
+   nohup ./cfs-server -c metanode.json > nohup.out &

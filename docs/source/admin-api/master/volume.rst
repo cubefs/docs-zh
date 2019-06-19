@@ -6,7 +6,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/admin/createVol?name=test&capacity=100&owner=cfs"
+   curl -v "http://127.0.0.1/admin/createVol?name=test&capacity=100&owner=cfs&mpCount=3"
 
 
 为用户创建卷，并分配一组数据分片和元数据分片.
@@ -17,6 +17,7 @@
    "name", "string", ""
    "capacity", "int", "卷的配额,单位是GB"
    "owner", "string", "vol的所有者"
+   "mpCount","int","初始化metaPartition个数"
 
 删除
 -------------

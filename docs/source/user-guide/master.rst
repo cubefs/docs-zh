@@ -65,4 +65,4 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
 
 .. code-block:: bash
 
-   nohup ./master -c config.json > nohup.out &
+   nohup ./cfs-server -c master.json > nohup.out &

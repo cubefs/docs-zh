@@ -29,10 +29,10 @@
 
 .. code-block:: bash
 
-   nohup ./cmd -c master.json &
+   nohup ./cfs-server -c master.json &
 
 
-示例 ``master.json`` ：
+示例 ``master.json`` ：注意：master服务最少应该启动3个节点实例
 
 .. code-block:: json
 
@@ -59,12 +59,12 @@
 
 启动元数据节点
 ^^^^^^^^^^^^^^^^^^^^^
-
 .. code-block:: bash
 
-   nohup ./cmd -c meta.json &
 
-示例 ``meta.json`` ：
+   nohup ./cfs-server -c metanode.json &
+
+示例 ``meta.json`` ：注意：metanode服务最少应该启动3个节点实例
 
 .. code-block:: json
 
@@ -129,9 +129,9 @@
 
    .. code-block:: bash
    
-      nohup ./cmd -c datanode.json &
+      nohup ./cfs-server -c datanode.json &
 
-   示例 ``datanode.json`` :
+   示例 ``datanode.json`` :注意：datanode服务最少应该启动4个节点实例
    
    .. code-block:: json
 

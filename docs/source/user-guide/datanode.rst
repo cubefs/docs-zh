@@ -8,7 +8,7 @@
 
 .. code-block:: bash
 
-   nohup cfs-datanode -c datanode.json &
+   nohup cfs-server -c datanode.json &
 
 
 配置参数
