@@ -4,7 +4,7 @@
 启动数据节点
 ---------------------
 
-通过执行ChubaoFS的二进制文件并用“-c”参数指定的配置文件来启动一个DATANODE进程。
+通过执行ChubaoFS的二进制文件并用“-c”参数指定的配置文件来启动一个DATANODE进程。注意datanode的实例最少需要４个
 
 .. code-block:: bash
 
@@ -43,7 +43,7 @@
        "port": "6000",
        "prof": "6001",
        "logDir": "/export/Logs/datanode",
-       "logLevel": "debug",
+       "logLevel": "info",
        "raftHeartbeat": "9095",
        "raftReplica": "9096",    
        "raftDir": "/export/Logs/datanode/raft",

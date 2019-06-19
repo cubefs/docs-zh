@@ -73,7 +73,7 @@
        "listen": "9021",
        "prof": "9092",
        "logLevel": "info",
-       "metaDir": "/export/Data/metanode",
+       "metadataDir": "/export/Data/metanode",
        "logDir": "/export/Logs/metanode",
        "raftDir": "/export/Data/metanode/raft",
        "raftHeartbeatPort": "9093",
@@ -165,9 +165,9 @@
 
 .. code-block:: bash
 
-   curl -v "http://192.168.31.173/admin/createVol?name=test&capacity=100&owner=cfs"
+   curl -v "http://192.168.31.173/admin/createVol?name=test&capacity=10000&owner=cfs"
 
-   如果执行性能测试，请调用相应的API，创建足够多的数据分片（data partition）
+   如果执行性能测试，请调用相应的API，创建足够多的数据分片（data partition）,如果集群中有8块磁盘，那么需要创建80个datapartition
 
 挂载客户端
 ------------

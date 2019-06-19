@@ -3,7 +3,7 @@
 
 元数据节点是由多个元数据分片(meta partition)和基于multiRaft的对应个数的raft实例组成；
 每个元数据分片(meta partition)都是一个inode范围，且包含两个内存BTrees： inode BTree
-和dentry BTree。
+和dentry BTree。注意：metanode的实例最少需要3个
 
 .. csv-table:: Properties
    :header: "配置项", "类型", "描述", "是否必须"
@@ -35,7 +35,7 @@
         "listen": "9021",
         "prof": "9092",
         "logLevel": "debug",
-        "metaDir": "/export/Data/metanode",
+        "metadataDir": "/export/Data/metanode",
         "logDir": "/export/Logs/metanode",
         "raftDir": "/export/Data/metanode/raft",
         "warnLogDir":"/export/home/tomcat/UMP-Monitor/logs/",
