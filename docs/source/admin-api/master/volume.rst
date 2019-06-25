@@ -9,7 +9,7 @@
    curl -v "http://127.0.0.1/admin/createVol?name=test&capacity=100&owner=cfs&mpCount=3"
 
 
-为用户创建卷，并分配一组数据分片和元数据分片.
+为用户创建卷，并分配一组数据分片和元数据分片. 在创建新卷时，默认分配10个数据分片和3个元数据分片.
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
