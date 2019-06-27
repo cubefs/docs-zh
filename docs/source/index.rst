@@ -27,6 +27,7 @@
    user-guide/client
    user-guide/monitor
    user-guide/fuse
+   user-guide/docker
    
 .. toctree::
    :maxdepth: 2
