@@ -30,8 +30,10 @@
    "exporterPort", "string", "监控系统的端口", "否"
    "masterAddr", "string slice", "集群管理器的地址", "是"
    "rack", "string", "机架号", "否"
-   "disks", "string slice", "磁盘挂载路径:最小剩余空间", "是"
-   "warnLogDir","string","报警信息存储位置","No"
+   "disks", "string slice", "
+   | 格式：*磁盘挂载路径:预留空间*
+   | 预留空间配置范围[20G,50G]", "是"
+   "warnLogDir","string","报警信息存储位置","否"
 
 
 **举例：**
