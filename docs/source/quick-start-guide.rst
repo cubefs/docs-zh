@@ -7,21 +7,7 @@
 编译服务端
 ^^^^^^^^^^^^^
 
-在ChubaoFS的设计中，服务端包括资源管理节点（resource manager），元数据节点（metanode）和数据节点（datanode）。为了版本匹配及混合部署便捷，服务端提供同一个可执行程序。
-
-构建ChubaoFS服务端需要依赖RocksDB， `build RocksDB v5.9.2+ <https://github.com/facebook/rocksdb/blob/master/INSTALL.md>`_ 。推荐使用 ``make static_lib`` 编译RocksDB。然后执行如下命令编译ChubaoFS客户端。
-
-.. code-block:: bash
-
-   cd cmd; sh build.sh
-
-编译客户端
-^^^^^^^^^^^^
-.. code-block:: bash
-
-   cd client; sh build.sh
-
-或者，使用如下命令同时构建server，client及相关的依赖：
+使用如下命令同时构建server，client及相关的依赖：
 
 .. code-block:: bash
 
