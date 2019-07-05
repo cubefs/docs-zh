@@ -4,14 +4,13 @@
 编译构建
 --------
 
-编译服务端
-^^^^^^^^^^^^^
-
 使用如下命令同时构建server，client及相关的依赖：
 
 .. code-block:: bash
 
-   make build
+   $ git clone http://github.com/chubaofs/chubaofs.git
+   $ cd chubaofs
+   $ make build
 
 如果构建成功，将在`build/bin` 目录中生成可执行文件`cfs-server`和`cfs-client`。
 
