@@ -37,6 +37,12 @@
 
 .. toctree::
    :maxdepth: 1
+   :caption: 运维手册
+
+   maintenance
+
+.. toctree::
+   :maxdepth: 1
    :caption: 测试评估
    
    evaluation

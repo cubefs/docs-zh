@@ -79,3 +79,19 @@
    :header: "参数", "类型", "描述"
    
    "id", "uint64", "数据分片的ID"
+
+磁盘下线
+--------
+
+.. code-block:: bash
+
+   curl -v "http://127.0.0.1/disk/decommission?addr=127.0.0.1:5000&disk=/cfs1"
+
+
+同步下线磁盘上的所有数据分片，并且为每一个数据分配在集群内创建一个新的副本
+
+.. csv-table:: 参数列表
+   :header: "参数", "类型", "描述"
+
+   "addr", "string", "要下线的副本的地址"
+   "disk", "string", "故障磁盘"
