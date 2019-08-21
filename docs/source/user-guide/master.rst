@@ -33,7 +33,6 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
    "clusterName", "字符串", "集群名字", "是"
    "exporterPort", "整型", "The prometheus exporter port", "否"
    "consulAddr", "字符串", "consul注册地址，供prometheus exporter使用", "否"
-   "warnLogDir","字符串","报警信息存储目录","No"
 
 
 
@@ -53,7 +52,6 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
     "logLevel":"info",
     "walDir":"/export/Data/master/raft",
     "storeDir":"/export/Data/master/rocksdbstore",
-    "warnLogDir":"/export/home/tomcat/UMP-Monitor/logs/",
     "exporterPort": 9510,
     "consulAddr": "http://consul.prometheus-cfs.local",
     "clusterName":"test"
