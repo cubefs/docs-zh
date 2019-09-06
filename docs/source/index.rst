@@ -36,10 +36,16 @@
    administration
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: 运维手册
 
    maintenance
+
+.. toctree::
+   :maxdepth: 2
+   :caption: 使用案例
+
+   use-cases
 
 .. toctree::
    :maxdepth: 1
