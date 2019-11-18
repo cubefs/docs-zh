@@ -29,6 +29,7 @@
    "consulAddr", "string", "监控系统的地址", "否"
    "exporterPort", "string", "监控系统的端口", "否"
    "masterAddr", "string slice", "集群管理器的地址", "是"
+   "localIP","字符串","本机ip地址","否,如果不填写该选项，则使用和master通信的ip地址"
    "rack", "string", "机架号", "否"
    "disks", "string slice", "
    | 格式：*磁盘挂载路径:预留空间*
@@ -43,6 +44,7 @@
        "role": "datanode",
        "port": "6000",
        "prof": "6001",
+       "localIP":"192.168.31.174",
        "logDir": "/export/Logs/datanode",
        "logLevel": "info",
        "raftHeartbeat": "9095",
