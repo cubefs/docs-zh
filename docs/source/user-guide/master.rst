@@ -33,6 +33,7 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
    "clusterName", "字符串", "集群名字", "是"
    "exporterPort", "整型", "The prometheus exporter port", "否"
    "consulAddr", "字符串", "consul注册地址，供prometheus exporter使用", "否"
+   "metaNodeReservedMem","字符串","如果metanode的内存小于这个值，metanode被置为只读状态“
 
 
 
@@ -54,7 +55,8 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
     "storeDir":"/export/Data/master/rocksdbstore",
     "exporterPort": 9510,
     "consulAddr": "http://consul.prometheus-cfs.local",
-    "clusterName":"test"
+    "clusterName":"test",
+    "metaNodeReservedMem": "134217728"
    }
 
 

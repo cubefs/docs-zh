@@ -20,7 +20,8 @@
    "consulAddr", "字符串", "prometheus注册接口", "否" 
    "exporterPort", "字符串", "prometheus获取监控数据端口", "否" 
    "masterAddrs", "字符串", "master服务地址", "是"
-   "totalMem","字符串","最大可用内存","No",
+   "totalMem","字符串","最大可用内存","是",
+   "localIP","字符串","本机ip地址","否,如果不填写该选项，则使用和master通信的ip地址"
 
 
 
@@ -34,6 +35,7 @@
         "listen": "9021",
         "prof": "9092",
         "logLevel": "debug",
+        "localIP":"192.168.31.173",
         "metadataDir": "/export/Data/metanode",
         "logDir": "/export/Logs/metanode",
         "raftDir": "/export/Data/metanode/raft",
