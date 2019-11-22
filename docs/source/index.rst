@@ -18,7 +18,7 @@
    design/client
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: 用户手册
 
    user-guide/master
@@ -28,6 +28,7 @@
    user-guide/monitor
    user-guide/fuse
    user-guide/docker
+   user-guide/csi-driver
    
 .. toctree::
    :maxdepth: 2
