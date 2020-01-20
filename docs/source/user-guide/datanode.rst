@@ -18,7 +18,7 @@
    :header: "关键字", "参数类型", "描述", "是否必要"
 
    "role", "string", "Role必须配置为“datanode”", "是"
-   "port", "string", "数据节点作为服务端启动TCP监听的端口", "是"
+   "listen", "string", "数据节点作为服务端启动TCP监听的端口", "是"
    "localIP", "string", "数据节点作为服务端选用的IP", "否"
    "prof", "string", "数据节点提供HTTP接口所用的端口", "是"
    "logDir", "string", "调测日志存放的路径", "是"
@@ -42,7 +42,7 @@
 
    {
        "role": "datanode",
-       "port": "6000",
+       "listen": "6000",
        "prof": "6001",
        "localIP":"192.168.31.174",
        "logDir": "/export/Logs/datanode",

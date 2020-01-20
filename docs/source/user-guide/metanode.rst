@@ -19,7 +19,7 @@
    "raftReplicaPort", "字符串", "raft数据传输端口", "是" 
    "consulAddr", "字符串", "prometheus注册接口", "否" 
    "exporterPort", "字符串", "prometheus获取监控数据端口", "否" 
-   "masterAddrs", "字符串", "master服务地址", "是"
+   "masterAddr", "字符串", "master服务地址", "是"
    "totalMem","字符串","最大可用内存","是",
    "localIP","字符串","本机ip地址","否,如果不填写该选项，则使用和master通信的ip地址"
 
@@ -44,7 +44,7 @@
         "consulAddr": "http://consul.prometheus-cfs.local",
         "exporterPort": 9511,
         "totalMem":  "17179869184",
-        "masterAddrs": [
+        "masterAddr": [
             "192.168.31.173:80",
             "192.168.31.141:80",
             "192.168.30.200:80"

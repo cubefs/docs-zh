@@ -32,7 +32,7 @@
    {
      "role": "master",
      "ip": "192.168.31.173",
-     "port": "80",
+     "listen": "80",
      "prof":"10088",
      "id":"1",
      "peers": "1:192.168.31.173:80,2:192.168.31.141:80,3:192.168.30.200:80",
@@ -74,7 +74,7 @@
        "totalMem":  "17179869184",
        "consulAddr": "http://consul.prometheus-cfs.local",
        "exporterPort": 9511,
-       "masterAddrs": [
+       "masterAddr": [
            "192.168.31.173:80",
            "192.168.31.141:80",
            "192.168.30.200:80"
@@ -129,7 +129,7 @@
 
       {
         "role": "datanode",
-        "port": "6000",
+        "listen": "6000",
         "prof": "6001",
         "logDir": "/export/Logs/datanode",
         "logLevel": "info",
