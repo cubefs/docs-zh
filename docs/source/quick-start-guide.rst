@@ -152,6 +152,37 @@
 
    详细配置参数请参考 :doc:`user-guide/datanode`.
 
+启动对象管理节点
+^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+   nohup ./cfs-server -c objectnode.json &
+
+示例 *objectnode.json is* 如下：
+
+.. code-block:: json
+
+    {
+        "role": "objectnode",
+        "domains": [
+            "object.cfs.local"
+        ],
+        "listen": 80,
+        "masterAddr": [
+            "master1.cfs.local:80",
+            "master2.cfs.local:80",
+            "master3.cfs.local:80"
+        ],
+        "logLevel": "info",
+        "logDir": "/export/Logs/objectnode",
+        "region": "cn_bj"
+    }
+
+
+关于 *object.json* 的更多详细配置请参考 :doc:`user-guide/objectnode`.
+
+
 创建Volume卷
 ^^^^^^^^^^^^^
 
@@ -184,6 +215,8 @@
 
 
 详细配置参数请参考 :doc:`user-guide/client`.
+
+用户可以使用不同的挂载点在同一台机器上同时启动多个客户端
 
 升级注意事项
 ---------------
