@@ -6,6 +6,7 @@
    :caption: 快速开始
 
    overview
+   user-guide/yum
    quick-start-guide
 
 .. toctree::
@@ -31,7 +32,9 @@
    user-guide/authnode
    user-guide/monitor
    user-guide/fuse
+   user-guide/yum
    user-guide/docker
+   user-guide/csi-driver
    
 .. toctree::
    :maxdepth: 2

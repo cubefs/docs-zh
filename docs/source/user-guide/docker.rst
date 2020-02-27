@@ -1,4 +1,4 @@
-Docker
+启动docker集群
 ========================
 
 在docker目录下，run_docker.sh工具用来方便运行ChubaoFS docker-compose试用集群。
