@@ -6,7 +6,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/dataPartition/create?count=400&name=test"
+   curl -v "http://10.196.59.198:17010/dataPartition/create?count=400&name=test"
 
 
 创建指定数量的数据分片
@@ -22,7 +22,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/dataPartition/get?id=100"  | python -m json.tool
+   curl -v "http://10.196.59.198:17010/dataPartition/get?id=100"  | python -m json.tool
 
 
 .. csv-table:: 参数列表
@@ -54,7 +54,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/dataPartition/decommission?id=13&addr=127.0.0.1:5000"
+   curl -v "http://10.196.59.198:17010/dataPartition/decommission?id=13&addr=10.196.59.201:17310"
 
 
 移除数据分片的某个副本，并且创建一个新的副本
@@ -70,7 +70,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/dataPartition/load?id=1"
+   curl -v "http://10.196.59.198:17010/dataPartition/load?id=1"
 
 
 给数据分片的每个副本都发送比对副本文件的任务，然后异步的检查每个副本上的文件crc是否一致
@@ -85,7 +85,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/disk/decommission?addr=127.0.0.1:5000&disk=/cfs1"
+   curl -v "http://10.196.59.198:17010/disk/decommission?addr=10.196.59.201:17310&disk=/cfs1"
 
 
 同步下线磁盘上的所有数据分片，并且为每一个数据分配在集群内创建一个新的副本

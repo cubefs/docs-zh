@@ -6,7 +6,7 @@ ChubaoFS 集成了prometheus作为性能监控指标采集模块。在各模块�
 .. code-block:: json
 
    {
-       "exporterPort": 9510,
+       "exporterPort": 9505,
        "consulAddr": "http://consul.prometheus-cfs.local"
    }
 

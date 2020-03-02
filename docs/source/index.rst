@@ -7,7 +7,7 @@
 
    overview
    user-guide/yum
-   quick-start-guide
+   manual-deploy
 
 .. toctree::
    :maxdepth: 2

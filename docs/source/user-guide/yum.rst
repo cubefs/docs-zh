@@ -32,15 +32,15 @@ yum工具自动部署集群
 .. code-block:: yaml
 
     [master]
-    10.196.0.1
-    10.196.0.2
-    10.196.0.3
+    10.196.59.198
+    10.196.59.199
+    10.196.59.200
     [datanode]
     ...
     [cfs:vars]
     ansible_ssh_port=22
     ansible_ssh_user=root
-    ansible_ssh_pass="uu"
+    ansible_ssh_pass="password"
     ...
     #datanode config
     ...
@@ -61,4 +61,4 @@ yum工具自动部署集群
 
 全部角色启动后，可以登录到 **client** 角色所在节点验证挂载点 **/cfs/mountpoint** 是否已经挂载ChubaoFS文件系统。
 
-在浏览器中打开链接http://10.196.0.1:8500 查看监控系统(监控系统的IP地址已在 **iplist** 文件的 **[monitor]** 模块定义).
+在浏览器中打开链接http://consul.prometheus-cfs.local 查看监控系统(监控系统的IP地址已在 **iplist** 文件的 **[monitor]** 模块定义).

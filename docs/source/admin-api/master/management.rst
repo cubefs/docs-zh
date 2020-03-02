@@ -6,7 +6,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/raftNode/add?addr=127.0.0.1:80&id=3"
+   curl -v "http://10.196.59.198:17010/raftNode/add?addr=10.196.59.197:17010&id=3"
 
 
 增加新的master节点到raft复制组
@@ -22,7 +22,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/raftNode/remove?addr=127.0.0.1:80&id=3"
+   curl -v "http://10.196.59.198:17010/raftNode/remove?addr=10.196.59.197:17010&id=3"
 
 
 从raft复制组总移除某个节点

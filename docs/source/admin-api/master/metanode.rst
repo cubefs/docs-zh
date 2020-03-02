@@ -6,7 +6,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/metaNode/get?addr=127.0.0.1:9021"  | python -m json.tool
+   curl -v "http://10.196.59.198:17010/metaNode/get?addr=10.196.59.202:17210"  | python -m json.tool
 
 
 展示元数据节点的详细信息,包括地址,总的内存大小,已使用内存大小等等.
@@ -22,7 +22,7 @@
 
    {
        "ID": 3,
-       "Addr": "127.0.0.1:9021",
+       "Addr": "10.196.59.202:17210",
        "IsActive": true,
        "Sender": {
            "TaskMap": {}
@@ -45,7 +45,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/metaNode/decommission?addr=127.0.0.1:9021"
+   curl -v "http://10.196.59.198:17010/metaNode/decommission?addr=10.196.59.202:17210"
 
 
 从集群中下线某个元数据节点, 该节点上的所有元数据分片都会被异步的迁移到集群中其它可用的元数据节点
@@ -60,7 +60,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/threshold/set?threshold=0.75"
+   curl -v "http://10.196.59.198:17010/threshold/set?threshold=0.75"
 
 
 如果某元数据节点内存使用率达到这个阈值,则该节点上所有的元数据分片都会被设置为只读.
