@@ -6,7 +6,7 @@ Inode管理命令
 
 .. code-block:: bash
 
-   curl -v http://127.0.0.1:9092/getInode?pid=100&ino=1024
+   curl -v http://10.196.59.202:17210/getInode?pid=100&ino=1024
 
 .. csv-table:: 请求参数说明：
    :header: "参数", "类型", "描述"
@@ -19,7 +19,7 @@ Inode管理命令
 
 .. code-block:: bash
 
-   curl -v http://127.0.0.1:9092/getExtentsByInode?pid=100&ino=1024
+   curl -v http://10.196.59.202:17210/getExtentsByInode?pid=100&ino=1024
     
 .. csv-table:: 请求参数：
    :header: "参数", "类型", "描述"
@@ -32,7 +32,7 @@ Inode管理命令
 
 .. code-block:: bash
 
-   curl -v http://127.0.0.1:9092/getAllInodes?pid=100
+   curl -v http://10.196.59.202:17210/getAllInodes?pid=100
 
 .. csv-table:: 请求参数：
    :header: "参数", "类型", "描述"

@@ -6,7 +6,7 @@
 
 .. code-block:: bash
 
-   curl -v  http://127.0.0.1:9092/getPartitions
+   curl -v  http://10.196.59.202:17210/getPartitions
 
 
 获取指定分片ID的当前状态信息
@@ -14,7 +14,7 @@
 
 .. code-block:: bash
 
-   curl -v http://127.0.0.1:9092/getPartitionById?pid=100
+   curl -v http://10.196.59.202:17210/getPartitionById?pid=100
 
 获取指定分片id的当前状态信息，包含当前分片组的raft leader地址，raft组成员，inode分配游标等信息
     

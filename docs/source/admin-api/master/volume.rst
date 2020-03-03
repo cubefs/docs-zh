@@ -6,7 +6,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/admin/createVol?name=test&capacity=100&owner=cfs&mpCount=3"
+   curl -v "http://10.196.59.198:17010/admin/createVol?name=test&capacity=100&owner=cfs&mpCount=3"
 
 
 为用户创建卷，并分配一组数据分片和元数据分片. 在创建新卷时，默认分配10个数据分片和3个元数据分片.
@@ -24,7 +24,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/vol/delete?name=test&authKey=md5(owner)"
+   curl -v "http://10.196.59.198:17010/vol/delete?name=test&authKey=md5(owner)"
 
 
 首先把卷标记为逻辑删除, 然后通过周期性任务删除所有数据分片和元数据分片,最终从持久化存储中删除.
@@ -40,7 +40,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/client/vol?name=test&authKey=md5(owner)" | python -m json.tool
+   curl -v "http://10.196.59.198:17010/client/vol?name=test&authKey=md5(owner)" | python -m json.tool
 
 
 展示卷的基本信息,包括卷的名字,所有的数据分片和元数据分片信息等.
@@ -68,7 +68,7 @@
 
 .. code-block:: bash
 
-   curl -v http://127.0.0.1/client/volStat?name=test
+   curl -v http://10.196.59.198:17010/client/volStat?name=test
 
 
 展示卷的总空间大小和已使用空间大小信息
@@ -94,7 +94,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/vol/update?name=test&capacity=100&authKey=md5(owner)"
+   curl -v "http://10.196.59.198:17010/vol/update?name=test&capacity=100&authKey=md5(owner)"
 
 增加卷的配额
 

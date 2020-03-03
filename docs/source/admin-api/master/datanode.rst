@@ -6,7 +6,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/dataNode/get?addr=127.0.0.1:5000"  | python -m json.tool
+   curl -v "http://10.196.59.198:17010/dataNode/get?addr=10.196.59.201:17310"  | python -m json.tool
 
 
 显示数据节点的详情,包括数据节点的地址，总的容量，已使用空间等等.
@@ -28,7 +28,7 @@
        "UsedWeight": 2438143586304,
        "Available": 37228069113856,
        "Rack": "rack1",
-       "Addr": "10.196.30.231:6000",
+       "Addr": "10.196.59.201:17310",
        "ReportTime": "2018-12-06T10:56:38.881784447+08:00",
        "Ratio": 0.06146650815226848,
        "SelectCount": 5,
@@ -45,7 +45,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/dataNode/decommission?addr=127.0.0.1:5000"
+   curl -v "http://10.196.59.198:17010/dataNode/decommission?addr=10.196.59.201:17310"
 
 
 从集群中下线某个数据节点, 该数据节点上的所有数据分片都会被异步的迁移到集群中其它可用的数据节点

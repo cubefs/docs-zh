@@ -6,7 +6,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/metaPartition/create?name=test&start=10000"
+   curl -v "http://10.196.59.198:17010/metaPartition/create?name=test&start=10000"
 
 
 手动切分元数据分片,如果卷的最大的元数据分片inode的范围是[0,end),end 大于start参数,原来最大的元数据分片的inode范围变为[0,start], 新创建的元数据分片的范围是[start+1,end)
@@ -22,7 +22,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/client/metaPartition?id=1" | python -m json.tool
+   curl -v "http://10.196.59.198:17010/client/metaPartition?id=1" | python -m json.tool
 
 
 展示元数据分片的详细信息,包括分片ID,分片的起始范围等等.
@@ -55,7 +55,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/metaPartition/decommission?id=13&addr=127.0.0.1:9021"
+   curl -v "http://10.196.59.198:17010/metaPartition/decommission?id=13&addr=10.196.59.202:17210"
 
 
 下线元数据分片的某个副本,并且创建一个新的副本
@@ -71,7 +71,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://127.0.0.1/metaPartition/load?id=1"
+   curl -v "http://10.196.59.198:17010/metaPartition/load?id=1"
 
 
 发送比对副本任务到各个副本，然后检查各个副本的Crc是否一致
