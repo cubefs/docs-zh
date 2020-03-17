@@ -11,7 +11,7 @@ Chubaofs基于Container Storage Interface (CSI) (https://kubernetes-csi.github.i
 Kubernetes v1.12
 -------------------
 
-在Kubernetes v1.12集群中使用Chubaofs。
+在Kubernetes v1.12集群中使用ChubaoFS CSI。
 
 Kubernetes配置要求
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,35 +135,22 @@ nginx动态挂载Chubaofs示例
 
 
 
-Kubernetes v1.15
+Kubernetes v1.15+
 --------------------
 
-在Kubernetes v1.15集群中使用Chubaofs。
+在Kubernetes v1.15+ 集群中使用ChubaoFS CSI。
 
 Kubernetes配置要求
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-为了在kubernetes集群中部署cfscsi插件，kubernetes集群需要满足以下配置。
+为了在kubernetes集群中部署cfscsi插件，kubernetes api-server需要设置 ``--allow-privileged=true``。
 
-kube-apiserver启动参数:
+从Kubernetes 1.13.0开始， ``allow-privileged=true`` 成为kubelet启动的默认值。参考CSI官方github: https://kubernetes-csi.github.io/docs/deploying.html
 
-.. code-block:: bash
+准备一个ChubaoFS集群
+^^^^^^^^^^^^^^^^^
 
-    --feature-gates=CSIPersistentVolume=true,MountPropagation=true
-    --runtime-config=api/all
-
-kube-controller-manager启动参数:
-
-.. code-block:: bash
-
-    --feature-gates=CSIPersistentVolume=true
-
-kubelet启动参数:
-
-.. code-block:: bash
-
-    --feature-gates=CSIPersistentVolume=true,MountPropagation=true,KubeletPluginsWatcher=true
-    --enable-controller-attach-detach=true
+ChubaoFS集群部署可参考 https://github.com/chubaofs/chubaofs.
 
 获取插件源码及脚本
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -173,93 +160,90 @@ kubelet启动参数:
     $ git clone https://github.com/chubaofs/chubaofs-csi.git
     $ cd chubaofs-csi
 
-拉取官方CSI镜像
+ChubaoFS CSI插件部署
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
-    docker pull quay.io/k8scsi/csi-attacher:v1.0.0
-    docker pull quay.io/k8scsi/csi-node-driver-registrar:v1.0.2
-    docker pull quay.io/k8scsi/csi-provisioner:v1.0.0
+    $ kubectl apply -f deploy/csi-controller-deployment.yaml
+    $ kubectl apply -f deploy/csi-node-daemonset.yaml
 
-获取cfscsi镜像
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+创建StorageClass
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-有两种方式可以实现。
+.. code-block:: yaml
 
-* 方式一：从docker.io拉取镜像
+    kind: StorageClass
+    apiVersion: storage.k8s.io/v1
+    metadata:
+      name: chubaofs-sc
+    provisioner: csi.chubaofs.com
+    reclaimPolicy: Delete
+    parameters:
+      masterAddr: "master-service.chubaofs.svc.cluster.local:8080"
+      owner: "csi-user"
+      consulAddr: "consul-service.chubaofs.svc.cluster.local:8500"
+      logLevel: "debug"
 
-.. code-block:: bash
+参数 ``provisioner`` 指定插件名称。这里设置为 ``csi.chubaofs.com`` , kubernetes会将PVC的创建、挂载等任务调度给 ``deploy/csi-controller-deployment.yaml`` 和 ``deploy/csi-node-daemonset.yaml`` 中定义的ChubaoFS CSI插件去处理。
 
-    docker pull docker.io/chubaofs/cfscsi:v1.0.0
 
-* 方式二：根据源码编译镜像
+.. csv-table::
+   :header: "参数名", "描述"
 
-.. code-block:: bash
-
-    make cfs-image
-
-创建kubeconfig
-^^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: bash
-
-    kubectl create configmap kubecfg --from-file=pkg/chubaofs/deploy/kubernetes/kubecfg
-
-创建RBAC和StorageClass
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+   "MasterAddr", "ChubaoFS Master地址"
+   "consulAddr", "监控地址"
 
 .. code-block:: bash
 
-    kubectl apply -f pkg/chubaofs/deploy/dynamic_provision/cfs-rbac.yaml
-    kubectl apply -f pkg/chubaofs/deploy/dynamic_provision/cfs-sc.yaml
-
-部署cfscsi插件
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-* 方式一：将cfscsi ControllerServer和NodeServer绑定在同一个sidecar容器
-
-修改 ``pkg/chubaofs/deploy/dynamic_provision/sidecar/cfs-sidecar.yaml`` 文件，将环境变量 ``MASTER_ADDRESS`` 设置为Chubaofs的实际Master地址，将 ``<NodeServer IP>`` 设置为kubernetes集群任意IP（如果被调度到该IP的pod需要动态挂载Chubaofs网盘，则必须为该IP部署cfscsi sidecar容器）。
-
-.. code-block:: bash
-
-    kubectl apply -f pkg/chubaofs/deploy/dynamic_provision/sidecar/cfs-sidecar.yaml
-
-* 方式二：将cfscsi插件ControllerServer和NodeServer分别部署为statefulset和daemonset（推荐此种）
-
-修改 ``pkg/chubaofs/deploy/dynamic_provision/independent`` 文件夹下 ``csi-controller-statefulset.yaml`` 和 ``csi-node-daemonset.yaml`` 文件，将环境变量 ``MASTER_ADDRESS`` 设置为Chubaofs的实际Master地址 ，将 ``<ControllerServer IP>`` 设置为kubernetes集群中任意节点IP。
-
-为Kubernetes集群中的节点添加标签，拥有 ``csi-role=controller`` 标签的节点为ControllerServer。拥有 ``csi-role=node`` 标签的节点为NodeServer，也可以删除 ``csi-node-daemonset.yaml`` 文件中的 ``nodeSelector`` ，这样kubernetes集群所有节点均为NodeServer。
-
-.. code-block:: bash
-
-    kubectl label nodes <ControllerServer IP> csi-role=controller
-    kubectl label nodes <NodeServer IP1> csi-role=node
-    kubectl label nodes <NodeServer IP2> csi-role=node
-    ...
-
-部署：
-
-.. code-block:: bash
-
-    kubectl apply -f pkg/chubaofs/deploy/dynamic_provision/independent/csi-controller-statefulset.yaml
-    kubectl apply -f pkg/chubaofs/deploy/dynamic_provision/independent/csi-node-daemonset.yaml
+    $ kubectl create -f deploy/storageclass-chubaofs.yaml
 
 创建PVC
-^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: chubaofs-pvc
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: chubaofs-sc
+
+``storageClassName`` 需要和刚刚创建的StorageClass的 ``metadata`` 中的name属性保持一致。这样就会根据 ``chubaofs-sc`` 中定义的参数来创建存储卷。
 
 .. code-block:: bash
 
-    kubectl apply -f pkg/chubaofs/deploy/dynamic_provision/cfs-pvc.yaml
+    $ kubectl create -f examples/pvc.yaml
 
-nginx动态挂载Chubaofs示例
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+在应用中挂载PVC
+^^^^^^^^^^^^^
+
+接下来就可以在你自己的应用中挂载刚刚创建的PVC到指定目录了。
+
+.. code-block:: yaml
+
+    ...
+    spec:
+      containers:
+        - name: csi-demo
+          image: alpine:3.10.3
+          volumeMounts:
+            - name: mypvc
+              mountPath: /data
+      volumes:
+        - name: mypvc
+          persistentVolumeClaim:
+            claimName: chubaofs-pvc
+    ···
 
 .. code-block:: bash
 
-    docker pull nginx
-    kubectl apply -f pkg/chubaofs/deploy/dynamic_provision/pv-pod.yaml
-
-
+    $ kubectl create -f examples/deployment.yaml
 
 
