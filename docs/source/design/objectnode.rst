@@ -38,13 +38,27 @@ ObjectNode是一种无状态设计，具有很高的可扩展性，能够直接�
 
     Put object '*example/a/b.txt*' will be create and write data to file '*/a/b.txt*' in volume '*example*'.
 
-鉴权
+用户
 --------------
-对象存储接口中的签名验证算法与amazons3服务完全兼容。由资源管理器（Master）在创建卷时生成的 *AccessKey* 和 *SecretKey* 组成的身份验证， *AccessKey* 是整个ChubaoFS集群中唯一的16个字符的字符串。
+在使用对象存储功能前，需要先通过资源管理器创建用户。创建用户的同时，会为每个用户生成 *AccessKey* 和 *SecretKey* ，其中 *AccessKey* 是整个ChubaoFS集群中唯一的16个字符的字符串。
 
-由卷拥有并由资源管理器（主）与卷视图（卷拓扑）一起存储的身份验证密钥。
+ChubaoFS以卷的 **Owner** 字段作为用户ID。创建用户的方式有两种：
 
-用户可以通过管理API获取，请参见 **Get Volume Information** ，链接： :doc:`/admin-api/master/volume`
+1. 通过资源管理器的API创建卷时，如果集群中没有与该卷的Owner同名的用户时，会自动创建一个用户ID为Owner的用户
+
+2. 调用资源管理器的用户管理API创建用户，链接： :doc:`/admin-api/master/user`
+
+授权与鉴权
+--------------
+对象存储接口中的签名验证算法与Amazon S3服务完全兼容。用户可以通过管理API获取用户信息，请参见 **Get User Information** ，链接： :doc:`/admin-api/master/user` 。从中获取 *AccessKey* 和 *SecretKey* 后，即可利用算法生成签名来访问对象存储功能。
+
+用户对于自己名下的卷，拥有所有的访问权限。用户可以授予其他用户指定权限来访问自己名下的卷。权限分为以下三类：
+
+- 只读或读写权限；
+- 单个操作的权限，比如GetObject、PutObject等；
+- 自定义权限。
+
+当用户使用对象存储功能进行某种操作时，ChubaoFS会鉴别该用户是否拥有当前操作的权限。
 
 临时隐藏数据
 -------------------------
