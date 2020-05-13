@@ -41,25 +41,25 @@
 .. code-block:: json
 
    {
-       "role": "datanode",
-       "listen": "17310",
-       "prof": "17320",
-       "logDir": "/cfs/datanode/log",
-       "logLevel": "info",
-       "raftHeartbeat": "17330",
-       "raftReplica": "17340",
-       "raftDir": "/cfs/datanode/log",
-       "consulAddr": "http://consul.prometheus-cfs.local",
-       "exporterPort": 9502,
-       "masterAddr": [
-               "10.196.59.198:17010",
-               "10.196.59.199:17010",
-               "10.196.59.200:17010"
-       ],
-       "rack": "",
+        "role": "datanode",
+        "listen": "17310",
+        "prof": "17320",
+        "logDir": "/cfs/datanode/log",
+        "logLevel": "info",
+        "raftHeartbeat": "17330",
+        "raftReplica": "17340",
+        "raftDir": "/cfs/datanode/log",
+        "consulAddr": "http://consul.prometheus-cfs.local",
+        "exporterPort": 9502,
+        "masterAddr": [
+            "10.196.59.198:17010",
+            "10.196.59.199:17010",
+            "10.196.59.200:17010"
+        ],
+        "rack": "",
         "disks": [
-           "/data0:10737418240",
-           "/data1:10737418240"
-       ]
+            "/data0:10737418240",
+            "/data1:10737418240"
+        ]
    }
 

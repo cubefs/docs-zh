@@ -27,9 +27,6 @@
    | Listen and accept ip address and port of this server.
    | Format: ``IP:PORT`` or ``:PORT``
    | Default: ``:80``", "Yes"
-   "region", "string", "
-   | Region of this gateway. Used by S3-like interface signature validation.
-   | Default: ``cfs_default``", "No"
    "domains", "string slice", "
    | Domain of S3-like interface which makes wildcard domain support
    | Format: ``DOMAIN``", "No"
@@ -52,7 +49,6 @@
    {
         "role": "objectnode",
         "listen": "17410",
-        "region": "cn_bj",
         "domains": [
             "object.cfs.local"
         ],
@@ -78,6 +74,8 @@
 对象存储接口使用方法
 -------------------------------
 对象子系统（ObjectNode）提供S3兼容的对象存储接口，所以可以直接使用原生的Amazon S3 SDKs来使用系统。
+
+对象存储功能中，使用的 ``Region`` 变量为 **集群名称** 。
 
 通过 **Supported S3-compatible APIs** 获取更详细的信息，地址： :doc:`/design/objectnode`
 
