@@ -103,7 +103,7 @@ ChubaoFS将卷的 **Owner** 字段看作一个用户ID。例如，创建卷时Ow
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
    
-   "keywords", "string", "查询时的过滤关键字"
+   "keywords", "string", "查询用户ID包含此关键字的用户信息"
 
 更新用户信息
 -----------

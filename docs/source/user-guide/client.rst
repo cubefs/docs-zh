@@ -52,7 +52,7 @@ fuse.json
     "token", "string", "如果创建卷时开启了enableToken，此参数填写对应权限的token", "否"
     "readRate", "int", "限制每秒读取次数，默认无限制", "否"
     "writeRate", "int", "限制每秒写入次数，默认无限制", "否"
-    "followerRead", "bool", "从follower副本中读取数据，默认为false", "否"
+    "followerRead", "bool", "从follower中读取数据，默认为false", "否"
     "accessKey", "string", "卷所属用户的鉴权密钥", "否"
     "secretKey", "string", "卷所属用户的鉴权密钥", "否"
     "disableDcache", "bool", "禁用Dentry缓存，默认为false", "否"

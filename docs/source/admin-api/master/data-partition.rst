@@ -9,7 +9,7 @@
    curl -v "http://10.196.59.198:17010/dataPartition/create?count=400&name=test"
 
 
-创建指定数量的数据分片
+创建指定数量的数据分片。
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
@@ -24,6 +24,7 @@
 
    curl -v "http://10.196.59.198:17010/dataPartition/get?id=100"  | python -m json.tool
 
+展示数据分片的详细信息，包括副本数量、卷信息等。
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
@@ -36,17 +37,18 @@
 
    {
        "PartitionID": 100,
-       "LastLoadTime": 1544082851,
+       "LastLoadedTime": 1544082851,
        "ReplicaNum": 3,
        "Status": 2,
        "Replicas": {},
-       "PartitionType": "extent",
-       "PersistenceHosts": {},
+       "Hosts": {},
        "Peers": {},
-       "MissNodes": {},
+       "Zones": {},
+       "MissingNodes": {},
        "VolName": "test",
-       "RandomWrite": true,
-       "FileInCoreMap": {}
+       "VolID": 2,
+       "FileInCoreMap": {},
+       "FilesWithMissingReplica": {}
    }
 
 下线副本
@@ -57,7 +59,7 @@
    curl -v "http://10.196.59.198:17010/dataPartition/decommission?id=13&addr=10.196.59.201:17310"
 
 
-移除数据分片的某个副本，并且创建一个新的副本
+移除数据分片的某个副本，并且创建一个新的副本。
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
@@ -73,7 +75,7 @@
    curl -v "http://10.196.59.198:17010/dataPartition/load?id=1"
 
 
-给数据分片的每个副本都发送比对副本文件的任务，然后异步的检查每个副本上的文件crc是否一致
+给数据分片的每个副本都发送比对副本文件的任务，然后异步的检查每个副本上的文件crc是否一致。
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
@@ -88,7 +90,7 @@
    curl -v "http://10.196.59.198:17010/disk/decommission?addr=10.196.59.201:17310&disk=/cfs1"
 
 
-同步下线磁盘上的所有数据分片，并且为每一个数据分配在集群内创建一个新的副本
+同步下线磁盘上的所有数据分片，并且为每一个数据分配在集群内创建一个新的副本。
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
