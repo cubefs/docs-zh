@@ -10,14 +10,14 @@ CLI工具配置及使用方法
 
 下载ChubaoFS源码后，在 ``chubaofs/cli`` 目录下，执行命令 ``go build`` ，即可生成 ``cli`` 可执行程序。
 
-同时，在 ``root`` 目录下会生成名为 ``.cfs-cli.json`` 的配置文件，修改master地址为当前集群的master地址即可。
+同时，在 ``root`` 目录下会生成名为 ``.cfs-cli.json`` 的配置文件，修改master地址为当前集群的master地址即可。也可使用命令 ``./cli config info`` 和 ``./cli config set`` 来查看和设置配置文件。
 
 使用方法
 ---------
 
 在 ``chubaofs/cli`` 目录下，执行命令 ``./cli --help`` 或 ``./cli -h`` ，可获取CLI的帮助文档。
 
-CLI共分为五类命令：
+CLI主要分为六类管理命令：
 
 .. csv-table:: 命令列表
    :header: "命令", "描述"
@@ -25,6 +25,7 @@ CLI共分为五类命令：
    "cli cluster", "集群管理"
    "cli metanode", "元数据节点管理"
    "cli datanode", "数据节点管理"
+   "cli datapartition", "数据分片管理"
    "cli volume, vol", "卷管理"
    "cli user", "用户管理"
 
@@ -33,21 +34,32 @@ CLI共分为五类命令：
 
 .. code-block:: bash
 
-    ./cli cluster info     #获取集群信息，包括集群名称、地址、卷数量、节点数量及使用率等
+    ./cli cluster info          #获取集群信息，包括集群名称、地址、卷数量、节点数量及使用率等
+
+.. code-block:: bash
+
+    ./cli cluster stat          #按区域获取元数据和数据节点的使用量、状态等
 
 元数据节点管理命令
 >>>>>>>>>>>>>>>>>
 
 .. code-block:: bash
 
-    ./cli metanode list    #获取所有元数据节点的信息，包括id、地址、读写状态及存活状态
+    ./cli metanode list         #获取所有元数据节点的信息，包括id、地址、读写状态及存活状态
 
 数据节点管理命令
 >>>>>>>>>>>>>>>>>
 
 .. code-block:: bash
 
-    ./cli datanode list    #获取所有数据节点的信息，包括id、地址、读写状态及存活状态
+    ./cli datanode list         #获取所有数据节点的信息，包括id、地址、读写状态及存活状态
+
+数据分片管理命令
+>>>>>>>>>>>>>>>>>
+
+.. code-block:: bash
+
+    ./cli datapartition info [VOLUME] [Partition ID]        #获取指定数据分片的信息
 
 卷管理命令
 >>>>>>>>>>>>>>>>>

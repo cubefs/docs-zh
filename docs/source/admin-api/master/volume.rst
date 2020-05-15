@@ -16,9 +16,9 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述", "是否必需", "默认值"
    
-   "name", "string", "卷名称", "是", "-"
-   "capacity", "int", "卷的配额,单位是GB", "是", "-"
-   "owner", "string", "卷的所有者，同时也是用户ID", "是", "-"
+   "name", "string", "卷名称", "是", "无"
+   "capacity", "int", "卷的配额,单位是GB", "是", "无"
+   "owner", "string", "卷的所有者，同时也是用户ID", "是", "无"
    "mpCount", "int", "初始化元数据分片个数", "否", "3"
    "replicaNum", "int", "副本数量，取值为2或3", "否", "3"
    "size", "int", "数据分片大小，单位GB", "否", "120"
@@ -111,7 +111,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 
    curl -v "http://10.196.59.198:17010/vol/update?name=test&capacity=100&authKey=md5(owner)"
 
-增加卷的配额，也可调整副本数量、。
+增加卷的配额，也可调整其它相关参数。
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述", "是否必需"
@@ -119,7 +119,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    "name", "string", "卷名称", "是"
    "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息", "是"
    "capacity", "int", "扩充后卷的配额,单位是GB", "是"
-   "replicaNum", "int", "副本数量", "否"
+   "replicaNum", "int", "副本数量，取值为2或3", "否"
    "zoneName", "string", "更新所在区域名", "否"
    "enableToken", "bool", "是否开启token控制读写权限", "否"
    "followerRead", "bool", "允许从follower读取数据", "否"
@@ -136,7 +136,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述", "是否必需"
 
-   "keywords", "string", "获取卷名包含此关键字的卷信息"
+   "keywords", "string", "获取卷名包含此关键字的卷信息", "否"
 
 响应示例
 

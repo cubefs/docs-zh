@@ -70,3 +70,8 @@ fuse.json
    nohup ./cfs-client -c fuse.json &
 
 如果使用示例的``fuse.json``，则客户端被挂载到``/mnt/fuse``。所有针对``/mnt/fuse``的操作都将被作用于ChubaoFS。
+
+卸载
+-------------
+
+建议使用标准的Linux ``umount`` 命令终止挂载。
