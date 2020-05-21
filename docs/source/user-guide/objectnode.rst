@@ -10,6 +10,7 @@
 
    nohup cfs-server -c objectnode.json &
 
+如果不打算使用对象存储功能，无需启动ObjectNode节点。
 
 配置
 -----------------------
@@ -26,9 +27,6 @@
    | Listen and accept ip address and port of this server.
    | Format: ``IP:PORT`` or ``:PORT``
    | Default: ``:80``", "Yes"
-   "region", "string", "
-   | Region of this gateway. Used by S3-like interface signature validation.
-   | Default: ``cfs_default``", "No"
    "domains", "string slice", "
    | Domain of S3-like interface which makes wildcard domain support
    | Format: ``DOMAIN``", "No"
@@ -51,7 +49,6 @@
    {
         "role": "objectnode",
         "listen": "17410",
-        "region": "cn_bj",
         "domains": [
             "object.cfs.local"
         ],
@@ -66,15 +63,19 @@
         "prof": "7013"
    }
 
-获取鉴权秘钥
+获取鉴权密钥
 ----------------------------
-鉴权秘钥由卷所有，并且存储于资源管理节点（master）的卷视图中
+鉴权秘钥由各用户所有，存储于用户信息中。
 
-用户可以通过**Get Volume Information**来获取详细的管理接口信息，参加：:doc:`/admin-api/master/volume`
+创建用户可以参见链接：:doc:`/admin-api/master/user`。
+
+如已创建用户，用户可以通过链接中的相关API获取用户信息，以获取鉴权密钥 *Access Key* 和 *Secret Key* 。
 
 对象存储接口使用方法
 -------------------------------
 对象子系统（ObjectNode）提供S3兼容的对象存储接口，所以可以直接使用原生的Amazon S3 SDKs来使用系统。
+
+对象存储功能中，使用的 ``Region`` 变量为 **集群名称** 。
 
 通过 **Supported S3-compatible APIs** 获取更详细的信息，地址： :doc:`/design/objectnode`
 

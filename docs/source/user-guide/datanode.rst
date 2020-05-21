@@ -4,7 +4,7 @@
 启动数据节点
 ---------------------
 
-通过执行ChubaoFS的二进制文件并用“-c”参数指定的配置文件来启动一个DATANODE进程。注意datanode的实例最少需要４个
+通过执行ChubaoFS的二进制文件并用“-c”参数指定的配置文件来启动一个DATANODE进程。注意datanode的实例最少需要４个。
 
 .. code-block:: bash
 
@@ -29,8 +29,7 @@
    "consulAddr", "string", "监控系统的地址", "否"
    "exporterPort", "string", "监控系统的端口", "否"
    "masterAddr", "string slice", "集群管理器的地址", "是"
-   "localIP","字符串","本机ip地址","否,如果不填写该选项，则使用和master通信的ip地址"
-   "rack", "string", "机架号", "否"
+   "localIP","字符串","本机ip地址","否，如果不填写该选项，则使用和master通信的ip地址"
    "disks", "string slice", "
    | 格式：*磁盘挂载路径:预留空间*
    | 预留空间配置范围[20G,50G]", "是"
@@ -41,26 +40,25 @@
 .. code-block:: json
 
    {
-       "role": "datanode",
-       "listen": "17310",
-       "prof": "17320",
-       "logDir": "/cfs/datanode/log",
-       "logLevel": "info",
-       "raftHeartbeat": "17330",
-       "raftReplica": "17340",
-       "raftDir": "/cfs/datanode/log",
-       "consulAddr": "http://consul.prometheus-cfs.local",
-       "exporterPort": 9502,
-       "masterAddr": [
-               "10.196.59.198:17010",
-               "10.196.59.199:17010",
-               "10.196.59.200:17010"
-       ],
-       "rack": "",
+        "role": "datanode",
+        "listen": "17310",
+        "prof": "17320",
+        "logDir": "/cfs/datanode/log",
+        "logLevel": "info",
+        "raftHeartbeat": "17330",
+        "raftReplica": "17340",
+        "raftDir": "/cfs/datanode/log",
+        "consulAddr": "http://consul.prometheus-cfs.local",
+        "exporterPort": 9502,
+        "masterAddr": [
+            "10.196.59.198:17010",
+            "10.196.59.199:17010",
+            "10.196.59.200:17010"
+        ],
         "disks": [
-           "/data0:10737418240",
-           "/data1:10737418240"
-       ]
+            "/data0:10737418240",
+            "/data1:10737418240"
+        ]
    }
 
 

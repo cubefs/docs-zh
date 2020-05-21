@@ -17,7 +17,7 @@ Master负责管理ChubaoFS整个集群，主要存储5种元数据，包括：�
 ChubaoFS 使用 **JSON** 作为配置文件的格式.
 
 .. csv-table:: 属性
-   :header: "配置项", "类型", "描述", "是否必须"
+   :header: "配置项", "类型", "描述", "是否必需", "默认值"
    
    "role", "字符串", "进程的角色，值只能是 master", "是"
    "ip", "字符串", "主机ip", "是"
@@ -26,14 +26,14 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
    "id", "字符串", "区分不同的master节点", "是"
    "peers", "字符串", "raft复制组成员信息", "是"
    "logDir", "字符串", "日志文件存储目录", "是"
-   "logLevel", "字符串", "日志级别，默认是 *error*.", "否"
+   "logLevel", "字符串", "日志级别", "否", "error"
    "retainLogs", "字符串", "保留多少条raft日志.", "是"
    "walDir", "字符串", "raft wal日志存储目录.", "是"
    "storeDir", "字符串", "RocksDB数据存储目录.此目录必须存在，如果目录不存在，无法启动服务", "是"
    "clusterName", "字符串", "集群名字", "是"
    "exporterPort", "整型", "The prometheus exporter port", "否"
    "consulAddr", "字符串", "consul注册地址，供prometheus exporter使用", "否"
-   "metaNodeReservedMem","字符串","如果metanode的内存小于这个值，metanode被置为只读状态"
+   "metaNodeReservedMem","字符串","元数据节点预留内存大小，单位：字节", "否", "1073741824"
 
 
 

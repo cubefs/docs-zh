@@ -12,6 +12,7 @@
    admin-api/master/meta-partition
    admin-api/master/data-partition
    admin-api/master/management
+   admin-api/master/user
    
 元数据节点
 ===============
@@ -23,3 +24,12 @@
    admin-api/metanode/partition
    admin-api/metanode/inode
    admin-api/metanode/dentry
+
+使用CLI工具管理集群
+===================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: CLI
+
+   admin-api/cli/cli

@@ -143,7 +143,6 @@
            "10.196.59.199:17010",
            "10.196.59.200:17010"
         ],
-        "rack": "",
         "disks": [
            "/data0:10737418240",
            "/data1:10737418240"
@@ -175,8 +174,7 @@
            "10.196.59.200:17010"
         ],
         "logLevel": "info",
-        "logDir": "/cfs/Logs/objectnode",
-        "region": "cn_bj"
+        "logDir": "/cfs/Logs/objectnode"
     }
 
 

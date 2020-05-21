@@ -6,7 +6,7 @@
 和dentry BTree。注意：metanode的实例最少需要3个
 
 .. csv-table:: Properties
-   :header: "配置项", "类型", "描述", "是否必须"
+   :header: "配置项", "类型", "描述", "是否必需"
  
    "role", "字符串", "进程角色： *metanode*", "是"
    "listen", "字符串", "监听和接受请求的端口", "是"
@@ -20,8 +20,8 @@
    "consulAddr", "字符串", "prometheus注册接口", "否" 
    "exporterPort", "字符串", "prometheus获取监控数据端口", "否" 
    "masterAddr", "字符串", "master服务地址", "是"
-   "totalMem","字符串","最大可用内存","是",
-   "localIP","字符串","本机ip地址","否,如果不填写该选项，则使用和master通信的ip地址"
+   "totalMem","字符串","最大可用内存，此值需高于master配置中metaNodeReservedMem的值，单位：字节","是"
+   "localIP","字符串","本机ip地址","否，如果不填写该选项，则使用和master通信的ip地址"
 
 
 

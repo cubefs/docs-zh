@@ -9,7 +9,7 @@
    curl -v "http://10.196.59.198:17010/dataNode/get?addr=10.196.59.201:17310"  | python -m json.tool
 
 
-显示数据节点的详情,包括数据节点的地址，总的容量，已使用空间等等.
+显示数据节点的详情，包括数据节点的地址、总的容量、已使用空间等等。
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
@@ -21,22 +21,22 @@
 .. code-block:: json
 
    {
-       "MaxDiskAvailWeight": 3708923232256,
-       "CreatedVolWeights": 2705829396480,
-       "RemainWeightsForCreateVol": 36960383303680,
        "TotalWeight": 39666212700160,
        "UsedWeight": 2438143586304,
-       "Available": 37228069113856,
-       "Rack": "rack1",
+       "AvailableSpace": 37228069113856,
+       "ID": 2,
+       "Zone": "zone1",
        "Addr": "10.196.59.201:17310",
        "ReportTime": "2018-12-06T10:56:38.881784447+08:00",
-       "Ratio": 0.06146650815226848,
-       "SelectCount": 5,
+       "IsActive": true
+       "UsageRatio": 0.06146650815226848,
+       "SelectTimes": 5,
        "Carry": 1.0655859145960367,
-       "Sender": {
-           "TaskMap": {}
-       },
-       "DataPartitionCount": 21
+       "DataPartitionReports": {},
+       "DataPartitionCount": 21,
+       "NodeSetID": 3,
+       "PersistenceDataPartitions": {},
+       "BadDisks": {}
    }
 
 
