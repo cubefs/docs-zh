@@ -119,9 +119,9 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    "name", "string", "卷名称", "是"
    "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息", "是"
    "capacity", "int", "扩充后卷的配额,单位是GB", "是"
+   "zoneName", "string", "更新后所在区域，若不设置将被更新至default区域", "是"
    "replicaNum", "int", "副本数量，取值为2或3", "否"
-   "zoneName", "string", "更新所在区域名", "否"
-   "enableToken", "bool", "是否开启token控制读写权限", "否"
+   "enableToken", "bool", "是否开启token控制读写权限，默认设为``false``", "否"
    "followerRead", "bool", "允许从follower读取数据", "否"
 
 获取卷列表
