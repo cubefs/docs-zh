@@ -44,7 +44,7 @@
 
 4. 创建卷时指定的参数，如果日后需要变更怎么办？
 
-    使用master的updateVol接口可以实现变更容量 ``capacity`` 、副本数 ``replicaNum`` 、区域 ``zoneName`` 、开启token控制 ``enableToken`` 、 ``followerRead`` 等参数。
+    使用master的updateVol接口可以实现变更容量 ``capacity`` 、区域 ``zoneName`` 、开启token控制 ``enableToken`` 、 ``followerRead`` 等参数。
 
 5. 如何上线新磁盘？
 
