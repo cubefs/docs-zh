@@ -59,6 +59,7 @@ fuse.json
     "subdir", "string", "设置子目录挂载", "否"
     "fsyncOnClose", "bool", "文件关闭后执行fsync操作，默认为true", "否"
     "maxcpus", "int", "最大可使用的cpu核数，可限制client进程cpu使用率", "否"
+    "enableXattr", "bool", "是否使用*xattr*，默认是false", "否"
 
 挂载
 ---------------
