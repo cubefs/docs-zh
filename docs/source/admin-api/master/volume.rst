@@ -15,7 +15,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述", "是否必需", "默认值"
-   
+
    "name", "string", "卷名称", "是", "无"
    "capacity", "int", "卷的配额,单位是GB", "是", "无"
    "owner", "string", "卷的所有者，同时也是用户ID", "是", "无"
@@ -40,9 +40,9 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
-   
+
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
 
 查询
 ---------
@@ -56,9 +56,9 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
-   
+
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
 
 响应示例
 
@@ -87,7 +87,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
-   
+
    "name", "string", "卷名称"
 
 响应示例
@@ -116,7 +116,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    :header: "参数", "类型", "描述", "是否必需"
 
    "name", "string", "卷名称", "是"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息", "是"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息", "是"
    "capacity", "int", "扩充后卷的配额,单位是GB", "是"
    "zoneName", "string", "更新后所在区域，若不设置将被更新至default区域", "是"
    "enableToken", "bool", "是否开启token控制读写权限，默认设为``false``", "否"
@@ -172,7 +172,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    :header: "参数", "类型", "描述"
 
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
    "tokenType", "int", "1代表只读token，2代表读写token"
 
 
@@ -189,7 +189,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    :header: "参数", "类型", "描述"
 
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
    "tokenType", "int", "1代表只读token，2代表读写token"
    "token", "string", "token值"
 
@@ -207,7 +207,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    :header: "参数", "类型", "描述"
 
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
    "token", "string", "待删除的token值"
 
 

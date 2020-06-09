@@ -47,7 +47,7 @@
      "metaNodeReservedMem": "1073741824"
    }
 
-   
+
 详细配置参数请参考 :doc:`user-guide/master` 。
 
 启动元数据节点
@@ -96,35 +96,35 @@
     1.1 查看机器磁盘信息，选择给ChubaoFS使用的磁盘
 
         .. code-block:: bash
-   
+
            fdisk -l
-	
+
     1.2 格式化磁盘，建议格式化为XFS
 
         .. code-block:: bash
-   
+
            mkfs.xfs -f /dev/sdx
-		
+
     1.3 创建挂载目录
-        
+
         .. code-block:: bash
-   
-           mkdir /data0	
-	
+
+           mkdir /data0
+
     1.4 挂载磁盘
-        
+
         .. code-block:: bash
-   
+
            mount /dev/sdx /data0
 
 2. 启动数据节点
 
    .. code-block:: bash
-   
+
       nohup ./cfs-server -c datanode.json &
 
    示例 ``datanode.json`` :注意：datanode服务最少应该启动4个节点实例
-   
+
    .. code-block:: json
 
       {
@@ -198,9 +198,9 @@
 3. 运行 ``nohup client -c fuse.json &`` 启动客户端。
 
    样例 *fuse.json* ,
-   
+
    .. code-block:: json
-   
+
       {
         "mountPoint": "/cfs/mountpoint",
         "volName": "ltptest",
@@ -234,3 +234,5 @@
 .. code-block:: bash
 
    curl -v "http://10.196.59.198:17010/cluster/freeze?enable=false"
+
+*注：升级节点时不能修改各节点配置文件的端口。*
