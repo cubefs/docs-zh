@@ -15,12 +15,11 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述", "是否必需", "默认值"
-   
+
    "name", "string", "卷名称", "是", "无"
    "capacity", "int", "卷的配额,单位是GB", "是", "无"
    "owner", "string", "卷的所有者，同时也是用户ID", "是", "无"
    "mpCount", "int", "初始化元数据分片个数", "否", "3"
-   "replicaNum", "int", "副本数量，取值为2或3", "否", "3"
    "size", "int", "数据分片大小，单位GB", "否", "120"
    "followerRead", "bool", "允许从follower读取数据", "否", "false"
    "crossZone", "bool", "是否跨区域，如设为true，则不能设置zoneName参数", "否", "false"
@@ -41,9 +40,9 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
-   
+
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
 
 查询
 ---------
@@ -57,9 +56,9 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
-   
+
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
 
 响应示例
 
@@ -88,7 +87,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
-   
+
    "name", "string", "卷名称"
 
 响应示例
@@ -117,10 +116,9 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    :header: "参数", "类型", "描述", "是否必需"
 
    "name", "string", "卷名称", "是"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息", "是"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息", "是"
    "capacity", "int", "扩充后卷的配额,单位是GB", "是"
    "zoneName", "string", "更新后所在区域，若不设置将被更新至default区域", "是"
-   "replicaNum", "int", "副本数量，取值为2或3", "否"
    "enableToken", "bool", "是否开启token控制读写权限，默认设为``false``", "否"
    "followerRead", "bool", "允许从follower读取数据", "否"
 
@@ -174,7 +172,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    :header: "参数", "类型", "描述"
 
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
    "tokenType", "int", "1代表只读token，2代表读写token"
 
 
@@ -191,7 +189,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    :header: "参数", "类型", "描述"
 
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
    "tokenType", "int", "1代表只读token，2代表读写token"
    "token", "string", "token值"
 
@@ -209,7 +207,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    :header: "参数", "类型", "描述"
 
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的MD5值作为认证信息"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
    "token", "string", "待删除的token值"
 
 

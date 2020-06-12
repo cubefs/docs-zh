@@ -72,7 +72,6 @@ CLI主要分为六类管理命令：
         --dp-size  uint                                     #指定数据分片的大小，单位GB（默认为120）
         --follower-read                                     #启用从follower副本中读取数据的功能（默认为true）
         --mp-count int                                      #指定初始元数据分片的数量（默认为3）
-        --replicas int                                      #指定卷的副本数量（默认为3）
         -y, --yes                                           #跳过所有问题并设置回答为"yes"
 
 .. code-block:: bash

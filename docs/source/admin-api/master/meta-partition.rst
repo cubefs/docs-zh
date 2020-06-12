@@ -13,7 +13,7 @@
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
-   
+
    "name", "string", "卷的名字"
    "start", "uint64", "根据此值切分元数据分片"
 
@@ -22,14 +22,14 @@
 
 .. code-block:: bash
 
-   curl -v "http://10.196.59.198:17010/client/metaPartition?id=1" | python -m json.tool
+   curl -v "http://10.196.59.198:17010/metaPartition/get?id=1" | python -m json.tool
 
 
 展示元数据分片的详细信息，包括分片ID，分片的起始范围等等。
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
-   
+
    "id", "uint64", "元数据分片ID"
 
 响应示例
@@ -66,7 +66,7 @@
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
-   
+
    "id", "uint64", "元数据分片ID"
    "addr", "string", "要下线副本的地址"
 
