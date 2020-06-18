@@ -176,3 +176,46 @@
             "NodeSet": {}
         }
     ]
+
+
+获取节点信息
+-----------
+
+.. code-block:: bash
+
+   curl -v "http://192.168.0.11:17010/admin/getNodeInfo"
+
+
+获取metanode、datanode节点信息
+
+响应示例
+
+.. code-block:: json
+
+    {
+        "code": 0,
+        "msg": "success",
+        "data": {
+            "batchCount": 0,
+            "markDeleteRate": 0
+        }
+    }
+
+
+设置节点信息
+-----------
+
+.. code-block:: bash
+
+   curl -v "http://192.168.0.11:17010/admin/setNodeInfo?batchCount=100&markDeleteRate=100"
+
+设置metanode、datanode节点信息
+
+
+.. csv-table:: 参数列表
+   :header: "参数", "类型", "描述"
+
+   "batchCount", "uint64", "metanode 删除批量大小"
+   "markDeleteRate", "uint64", "datanode批量删除限速设置. 0代表未做限速设置"
+
+
