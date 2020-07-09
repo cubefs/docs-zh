@@ -142,38 +142,6 @@
 
 配置文件的详细信息 *objectnode.json*, 请参阅 :doc:`user-guide/objectnode`.
 
-启动动 console
-^^^^^^^^^^^^^^^^
-
-.. code-block:: bash
-
-   nohup ./cfs-server -c console.json &
-
-示例 ``console.json`` 内容如下
-
-.. code-block:: json
-
-    {
-      "role": "console",
-      "logDir": "/cfs/log/",
-      "logLevel": "debug",
-      "listen": "80",
-      "masterAddr": [
-         "192.168.0.11:17010",
-         "192.168.0.12:17010",
-         "192.168.0.13:17010"
-      ],
-      "objectNodeDomain": "object.chubao.io",
-      "master_instance": "192.168.0.11:9066",
-      "monitor_addr": "http://192.168.0.102:9090",
-      "dashboard_addr": "http://192.168.0.103:3000",
-      "monitor_app": "cfs",
-      "monitor_cluster": "cfs"
-   }
-
-
-配置文件的详细信息 *console.json*, 请参阅 :doc:`user-guide/console`.
-
 启动管理平台（非必须）
 ^^^^^^^^^^^^^^^^
 
@@ -198,7 +166,7 @@
         "objectNodeDomain": "object.chubao.io",
         "master_instance": "192.168.0.11:9066",
         "monitor_addr": "http://192.168.0.102:9090",
-        "dashboard_addr": "http://192.168.0.103:3000",
+        "dashboard_addr": "http://192.168.0.103",
         "monitor_app": "cfs",
         "monitor_cluster": "cfs"
     }
