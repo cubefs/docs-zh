@@ -82,6 +82,100 @@
    }
 
 
+启动元数据节点
+^^^^^^^^^^^^^^^^^^^^^
+.. code-block:: bash
+
+
+   nohup ./cfs-server -c metanode.json &
+
+示例 ``meta.json`` ：注意：metanode服务最少应该启动3个节点实例
+
+.. code-block:: json
+
+   {
+       "role": "metanode",
+       "listen": "17210",
+       "prof": "17220",
+       "logLevel": "info",
+       "metadataDir": "/cfs/metanode/data/meta",
+       "logDir": "/cfs/metanode/log",
+       "raftDir": "/cfs/metanode/data/raft",
+       "raftHeartbeatPort": "17230",
+       "raftReplicaPort": "17240",
+       "totalMem":  "8589934592",
+       "consulAddr": "http://consul.prometheus-cfs.local",
+       "exporterPort": 9501,
+       "masterAddr": [
+           "10.196.59.198:17010",
+           "10.196.59.199:17010",
+           "10.196.59.200:17010"
+       ]
+   }
+
+启动动 ObjectNode
+^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+   nohup ./cfs-server -c objectnode.json &
+
+示例 ``objectnode.json`` 内容如下
+
+.. code-block:: json
+
+    {
+        "role": "objectnode",
+        "domains": [
+            "object.cfs.local"
+        ],
+        "listen": 17410,
+        "masterAddr": [
+           "10.196.59.198:17010",
+           "10.196.59.199:17010",
+           "10.196.59.200:17010"
+        ],
+        "logLevel": "info",
+        "logDir": "/cfs/Logs/objectnode"
+    }
+
+
+配置文件的详细信息 *objectnode.json*, 请参阅 :doc:`user-guide/objectnode`.
+
+
+启动管理平台（非必须）
+^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+   nohup ./cfs-server -c console.json &
+
+示例 ``console.json`` 内容如下
+
+.. code-block:: json
+
+    {
+        "role": "console",
+        "logDir": "/cfs/log/",
+        "logLevel": "debug",
+        "listen": "80",
+        "masterAddr": [
+            "192.168.0.11:17010",
+            "192.168.0.12:17010",
+            "192.168.0.13:17010"
+        ],
+        "objectNodeDomain": "object.chubao.io",
+        "master_instance": "192.168.0.11:9066",
+        "monitor_addr": "http://192.168.0.102:9090",
+        "dashboard_addr": "http://192.168.0.103:3000",
+        "monitor_app": "cfs",
+        "monitor_cluster": "cfs"
+    }
+
+
+配置文件的详细信息 *console.json*, 请参阅 :doc:`user-guide/console`.
+
+
 详细配置参数请参考 :doc:`user-guide/metanode`.
 
 启动数据节点
