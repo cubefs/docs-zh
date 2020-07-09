@@ -142,7 +142,6 @@
 
 配置文件的详细信息 *objectnode.json*, 请参阅 :doc:`user-guide/objectnode`.
 
-
 启动管理平台（非必须）
 ^^^^^^^^^^^^^^^^
 
@@ -167,7 +166,7 @@
         "objectNodeDomain": "object.chubao.io",
         "master_instance": "192.168.0.11:9066",
         "monitor_addr": "http://192.168.0.102:9090",
-        "dashboard_addr": "http://192.168.0.103:3000",
+        "dashboard_addr": "http://192.168.0.103",
         "monitor_app": "cfs",
         "monitor_cluster": "cfs"
     }
