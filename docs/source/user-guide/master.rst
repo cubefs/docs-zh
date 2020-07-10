@@ -31,7 +31,7 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
    "walDir", "字符串", "raft wal日志存储目录.", "是"
    "storeDir", "字符串", "RocksDB数据存储目录.此目录必须存在，如果目录不存在，无法启动服务", "是"
    "clusterName", "字符串", "集群名字", "是"
-   "exporterPort", "整型", "The prometheus exporter port", "否"
+   "exporterPort", "整型", "prometheus获取监控数据端口", "否"
    "consulAddr", "字符串", "consul注册地址，供prometheus exporter使用", "否"
    "metaNodeReservedMem","字符串","元数据节点预留内存大小，单位：字节", "否", "1073741824"
 
