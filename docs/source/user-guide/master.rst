@@ -18,7 +18,7 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
 
 .. csv-table:: 属性
    :header: "配置项", "类型", "描述", "是否必需", "默认值"
-   
+
    "role", "字符串", "进程的角色，值只能是 master", "是"
    "ip", "字符串", "主机ip", "是"
    "listen", "字符串", "http服务监听的端口号", "是"
@@ -34,6 +34,15 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
    "exporterPort", "整型", "The prometheus exporter port", "否"
    "consulAddr", "字符串", "consul注册地址，供prometheus exporter使用", "否"
    "metaNodeReservedMem","字符串","元数据节点预留内存大小，单位：字节", "否", "1073741824"
+   "heartbeatPort","字符串","raft心跳通信端口", "否", "5901"
+   "replicaPort","字符串","raft数据传输端口", "否", "5902"
+   "nodeSetCap","字符串","NodeSet的容量", "否", "18"
+   "missingDataPartitionInterval","字符串","当此时间段内没有收到副本的心跳，该副本被认为已丢失，单位：s", "否", "24h"
+   "dataPartitionTimeOutSec","字符串","当此时间段内没有收到副本的心跳，该副本被认为非存活，单位：s","否", "10min"
+   "numberOfDataPartitionsToLoad","字符串","一次最多检查多少数据分片","否", "40"
+   "secondsToFreeDataPartitionAfterLoad","字符串","在多少秒之后开始释放由加载数据分片任务占用的内存","否", "300"
+   "tickInterval","字符串","检查心跳和选举超时的计时器间隔，单位：ms","否","500"
+   "electionTick","字符串","在计时器重置多少次时，选举超时","否", "5"
 
 
 

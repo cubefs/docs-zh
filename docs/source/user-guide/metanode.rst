@@ -23,7 +23,7 @@
    "totalMem","字符串","最大可用内存，此值需高于master配置中metaNodeReservedMem的值，单位：字节","是"
    "localIP","字符串","本机ip地址","否，如果不填写该选项，则使用和master通信的ip地址"
    "zoneName", "字符串", "指定区域", "否，默认分配至``default``区域"
-
+   "deleteBatchCount","int64","一次性批量删除多少inode节点，默认``500``","否"
 
 
 
