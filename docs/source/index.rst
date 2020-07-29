@@ -62,8 +62,8 @@
    contributing
 
 .. toctree::
-   :maxdepth: 2
-   :caption: 常见问题
+   :maxdepth: 3
+   :caption: 集群运维
 
+   env
    faq
-   operations

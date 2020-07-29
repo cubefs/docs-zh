@@ -6,24 +6,45 @@
 
 **集群信息**
 
-.. csv-table:: 集群信息
+.. csv-table::
    :file: csv/performance-environment.csv
 
 **卷设置**
 
+.. csv-table::
+   :file: csv/performance-volume.csv
+
+设置方法:
+
 .. code-block:: bash
 
-    #!/bin/bash
-    # create volume
-    curl "http://${MASTER}/admin/createVol?name=intest&owner=cfs&capacity=300000000&mpCount=10"
-    # increase 1500 data partitions
-    curl "http://${MASTER}/dataPartition/create?name=intest&count=1500"
+    $ cfs-cli volume create test-vol {owner} --capacity=300000000 --mp-count=10
+    Create a new volume:
+      Name                : test-vol
+      Owner               : ltptest
+      Dara partition size : 120 GB
+      Meta partition count: 10
+      Capacity            : 300000000 GB
+      Replicas            : 3
+      Allow follower read : Enabled
+
+    Confirm (yes/no)[yes]: yes
+    Create volume success.
+
+    $ cfs-cli volume add-dp test-vol 1490
+
+**client配置**
+
+.. csv-table::
+   :file: csv/performance-client.csv
 
 
-- 初始元数据分区数： ``10``
-- 元数据副本数： ``3``
-- 初始数据分区数： ``1510``
-- 数据副本数： ``3``
+.. code-block:: bash
+
+   #查看当前iops：
+   $ http://[ClientIP]:[ProfPort]/rate/get
+   #设置iops，默认值-1代表不限制iops
+   $ http://[ClientIP]:[ProfPort]/rate/set?write=800&read=800
 
 小文件性能评估
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -47,11 +68,11 @@
 **测试结果**
 
 .. image:: pic/cfs-small-file-benchmark.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Small File Benchmark
 
-.. csv-table:: 小文件性能评估结果
+.. csv-table::
    :file: csv/cfs-small-file-benchmark.csv
 
 IO性能评估
@@ -83,34 +104,34 @@ IO性能评估
         -nrfiles=1 \
         -size=10G
 
-**带宽**
+**带宽(MB/s)**
 
 .. image:: pic/cfs-fio-sequential-read-bandwidth.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Sequential Read Bandwidth (MB/s)
 
-.. csv-table:: 顺序读带宽 (MB/s)
+.. csv-table::
    :file: csv/cfs-fio-sequential-read-bandwidth.csv
 
 **IOPS**
 
 .. image:: pic/cfs-fio-sequential-read-iops.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Sequential Read IOPS
 
-.. csv-table:: 顺序读IOPS
+.. csv-table::
    :file: csv/cfs-fio-sequential-read-iops.csv
 
-**延迟**
+**延迟(微秒)**
 
 .. image:: pic/cfs-fio-sequential-read-latency.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Sequential Read Latency (Microsecond)
 
-.. csv-table:: 顺序读延迟 (微秒)
+.. csv-table::
    :file: csv/cfs-fio-sequential-read-latency.csv
 
 2. 顺序写
@@ -133,34 +154,34 @@ IO性能评估
         -nrfiles=1 \
         -size=10G
 
-**带宽**
+**带宽(MB/s)**
 
 .. image:: pic/cfs-fio-sequential-write-bandwidth.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Sequential Write Bandwidth (MB/s)
 
-.. csv-table:: 顺序写带宽 (MB/s)
+.. csv-table::
    :file: csv/cfs-fio-sequential-write-bandwidth.csv
 
 **IOPS**
 
 .. image:: pic/cfs-fio-sequential-write-iops.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Sequential Write IOPS
 
-.. csv-table:: 顺序写IOPS
+.. csv-table::
    :file: csv/cfs-fio-sequential-write-iops.csv
 
-**延迟**
+**延迟(微秒)**
 
 .. image:: pic/cfs-fio-sequential-write-latency.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Sequential Write Latency (Microsecond)
 
-.. csv-table:: 顺序写延迟 (微秒)
+.. csv-table::
    :file: csv/cfs-fio-sequential-write-latency.csv
 
 3. 随机读
@@ -185,34 +206,34 @@ IO性能评估
         -nrfiles=1 \
         -size=10G
 
-**带宽**
+**带宽(MB/s)**
 
 .. image:: pic/cfs-fio-random-read-bandwidth.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt:  Random Read Bandwidth (MB/s)
 
-.. csv-table:: 随机读带宽 (MB/s)
+.. csv-table::
    :file: csv/cfs-fio-random-read-bandwidth.csv
 
 **IOPS**
 
 .. image:: pic/cfs-fio-random-read-iops.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt:  Random Read IOPS
 
-.. csv-table:: 随机读IOPS
+.. csv-table::
    :file: csv/cfs-fio-random-read-iops.csv
 
-**延迟**
+**延迟(微秒)**
 
 .. image:: pic/cfs-fio-random-read-latency.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt:  Random Read Latency (Microsecond)
 
-.. csv-table:: 随机读延迟 (微秒)
+.. csv-table::
    :file: csv/cfs-fio-random-read-latency.csv
 
 4. 随机写
@@ -237,34 +258,34 @@ IO性能评估
         -nrfiles=1 \
         -size=10G
 
-**带宽**
+**带宽(MB/s)**
 
 .. image:: pic/cfs-fio-random-write-bandwidth.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt:  Random Write Bandwidth (MB/s)
 
-.. csv-table:: 随机写带宽 (MB/s)
+.. csv-table::
    :file: csv/cfs-fio-random-write-bandwidth.csv
 
 **IOPS**
 
 .. image:: pic/cfs-fio-random-write-iops.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt:  Random Write IOPS
 
-.. csv-table:: 随机写IOPS
+.. csv-table::
    :file: csv/cfs-fio-random-write-iops.csv
 
-**延迟**
+**延迟(微秒)**
 
 .. image:: pic/cfs-fio-random-write-latency.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt:  Random Write Latency
 
-.. csv-table:: 随机写延迟 (微秒)
+.. csv-table::
    :file: csv/cfs-fio-random-write-latency.csv
 
 元数据性能评估
@@ -288,7 +309,7 @@ IO性能评估
 **目录创建**
 
 .. image:: pic/cfs-mdtest-dir-creation.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Dir Creation
 
@@ -298,7 +319,7 @@ IO性能评估
 **目录删除**
 
 .. image:: pic/cfs-mdtest-dir-removal.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Dir Removal
 
@@ -308,7 +329,7 @@ IO性能评估
 **目录状态查看**
 
 .. image:: pic/cfs-mdtest-dir-stat.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Dir Stat
 
@@ -318,41 +339,41 @@ IO性能评估
 **文件创建**
 
 .. image:: pic/cfs-mdtest-file-creation.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: File Creation
 
-.. csv-table:: 文件创建评估结果
+.. csv-table::
    :file: csv/cfs-mdtest-file-creation.csv
 
 **文件删除**
 
 .. image:: pic/cfs-mdtest-file-removal.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: File Removal
 
-.. csv-table:: 文件删除评估结果
+.. csv-table::
    :file: csv/cfs-mdtest-file-removal.csv
 
 **Tree创建**
 
 .. image:: pic/cfs-mdtest-tree-creation.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Tree Creation
 
-.. csv-table:: Tree创建评估结果
+.. csv-table::
    :file: csv/cfs-mdtest-tree-creation.csv
 
 **Tree删除**
 
 .. image:: pic/cfs-mdtest-tree-removal.png
-   :align: center
+   :align: left
    :scale: 50 %
    :alt: Tree Removal
 
-.. csv-table:: Tree删除评估结果
+.. csv-table::
    :file: csv/cfs-mdtest-tree-removal.csv
 
 功能完整性评估
