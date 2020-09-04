@@ -3,12 +3,12 @@
 
 元数据节点是由多个元数据分片(meta partition)和基于multiRaft的对应个数的raft实例组成；
 每个元数据分片(meta partition)都是一个inode范围，且包含两个内存BTrees： inode BTree
-和dentry BTree。注意：metanode的实例最少需要3个
+和dentry BTree。注意：MetaNode的实例最少需要3个
 
 .. csv-table:: Properties
    :header: "配置项", "类型", "描述", "是否必需"
 
-   "role", "字符串", "进程角色： *metanode*", "是"
+   "role", "字符串", "进程角色： *MetaNode*", "是"
    "listen", "字符串", "监听和接受请求的端口", "是"
    "prof", "字符串", "调试和管理员API接口", "是"
    "logLevel", "字符串", "日志级别，默认: *error*", "否"
@@ -65,5 +65,5 @@
 
   * listen、raftHeartbeatPort、raftReplicaPort这三个配置选项在程序首次配置启动后，不能修改；
   * 相关的配置信息被记录在metadataDir目录下的constcfg文件中，如果需要强制修改，需要手动删除该文件；
-  * 上述三个配置选项和metanode在master的注册信息有关。如果修改，将导致master无法定位到修改前的metanode信息；
+  * 上述三个配置选项和MetaNode在master的注册信息有关。如果修改，将导致master无法定位到修改前的metanode信息；
 
