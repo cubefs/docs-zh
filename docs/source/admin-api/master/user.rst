@@ -164,7 +164,7 @@ ChubaoFS将卷的 **Owner** 字段看作一个用户ID。例如，创建卷时Ow
 
 .. code-block:: bash
 
-   curl -H "Content-Type:application/json" -X POST --data '{"volume":"vol","user_src":"user1","user_dst":"user2","force":"true"}' "http://10.196.59.198:17010/user/transferVol"
+   curl -H "Content-Type:application/json" -X POST --data '{"volume":"vol","user_src":"user1","user_dst":"user2","force":true}' "http://10.196.59.198:17010/user/transferVol"
 
 转交指定卷的所有权。此操作将指定卷从源用户名下移除，并添加至目标用户名下；同时，卷结构中的Owner字段的取值也将更新为目标用户的用户ID。
 
