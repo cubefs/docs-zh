@@ -81,39 +81,7 @@
        ]
    }
 
-
-启动元数据节点
-^^^^^^^^^^^^^^^^^^^^^
-.. code-block:: bash
-
-
-   nohup ./cfs-server -c metanode.json &
-
-示例 ``meta.json`` ：注意：metanode服务最少应该启动3个节点实例
-
-.. code-block:: json
-
-   {
-       "role": "metanode",
-       "listen": "17210",
-       "prof": "17220",
-       "logLevel": "info",
-       "metadataDir": "/cfs/metanode/data/meta",
-       "logDir": "/cfs/metanode/log",
-       "raftDir": "/cfs/metanode/data/raft",
-       "raftHeartbeatPort": "17230",
-       "raftReplicaPort": "17240",
-       "totalMem":  "8589934592",
-       "consulAddr": "http://consul.prometheus-cfs.local",
-       "exporterPort": 9501,
-       "masterAddr": [
-           "10.196.59.198:17010",
-           "10.196.59.199:17010",
-           "10.196.59.200:17010"
-       ]
-   }
-
-启动动 ObjectNode
+启动 ObjectNode
 ^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
