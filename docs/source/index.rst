@@ -17,6 +17,7 @@
    design/metanode
    design/datanode
    design/objectnode.rst
+   design/blobstore
    design/client
    design/authnode
 
