@@ -45,7 +45,6 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
    "secondsToFreeDataPartitionAfterLoad","字符串","在多少秒之后开始释放由加载数据分片任务占用的内存","否", "300"
    "tickInterval","字符串","检查心跳和选举超时的计时器间隔，单位：ms","否","500"
    "electionTick","字符串","在计时器重置多少次时，选举超时","否", "5"
-   "electionTick","字符串","在计时器重置多少次时，选举超时","否", "5"
 
 
 
