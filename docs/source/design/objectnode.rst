@@ -10,9 +10,9 @@
      :align: center
 
 ObjectNode是一个功能性的子系统节点。它根据需要从资源管理器（Master）获取卷视图（卷拓扑）。
-每个ObjectNode直接与元数据子系统（MetaNode）和数据子系统（DataNode）通信。
+每个ObjectNode直接与元数据子系统（MetaNode）和副本子系统（DataNode）通信。
 
-ObjectNode是一种无状态设计，具有很高的可扩展性，能够直接操作ChubaoFS集群中存储的所有文件，而无需任何卷装入操作。
+ObjectNode是一种无状态设计，具有很高的可扩展性，能够直接操作ChubaoFS集群中存储的所有文件，而无需任何卷装入操作。 *暂不支持纠删码卷*
 
 特性
 --------

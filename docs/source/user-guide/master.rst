@@ -31,6 +31,8 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
    "walDir", "字符串", "raft wal日志存储目录.", "是"
    "storeDir", "字符串", "RocksDB数据存储目录.此目录必须存在，如果目录不存在，无法启动服务", "是"
    "clusterName", "字符串", "集群名字", "是"
+   "blobStoreAddr","字符串","纠删码子系统的地址，使用纠删码子系统时需配置","否", "5"
+   "blobStoreServicePath","字符串","纠删码子系统的服务路径，使用纠删码子系统时需配置","否", "5"
    "exporterPort", "整型", "prometheus获取监控数据端口", "否"
    "consulAddr", "字符串", "consul注册地址，供prometheus exporter使用", "否"
    "metaNodeReservedMem","字符串","元数据节点预留内存大小，单位：字节", "否", "1073741824"
@@ -42,6 +44,7 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
    "numberOfDataPartitionsToLoad","字符串","一次最多检查多少数据分片","否", "40"
    "secondsToFreeDataPartitionAfterLoad","字符串","在多少秒之后开始释放由加载数据分片任务占用的内存","否", "300"
    "tickInterval","字符串","检查心跳和选举超时的计时器间隔，单位：ms","否","500"
+   "electionTick","字符串","在计时器重置多少次时，选举超时","否", "5"
    "electionTick","字符串","在计时器重置多少次时，选举超时","否", "5"
 
 
