@@ -25,6 +25,18 @@
    admin-api/metanode/inode
    admin-api/metanode/dentry
 
+BlobStore管理
+=============
+
+.. toctree::
+   :maxdepth: 2
+   :caption: BlobStore
+
+   admin-api/blobstore/blobnode
+   admin-api/blobstore/clustermgr
+   admin-api/blobstore/scheduler
+
+
 使用CLI工具管理集群
 ===================
 

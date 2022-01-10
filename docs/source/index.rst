@@ -36,6 +36,7 @@
    user-guide/yum
    user-guide/docker
    user-guide/csi-driver
+   user-guide/blobstore
    
 .. toctree::
    :maxdepth: 2

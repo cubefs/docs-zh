@@ -84,11 +84,12 @@
 
 详细配置参数请参考 :doc:`user-guide/metanode`.
 
-部署纠删码子系统
+启动纠删码子系统
 ^^^^^^^^^^^^^^^^^^^^^
-部署参考 :doc:`user-guide/master` 。
 
-启动动 ObjectNode
+部署参考 :doc:`user-guide/blobstore` 。
+
+启动 ObjectNode
 ^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
