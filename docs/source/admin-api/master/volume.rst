@@ -45,50 +45,6 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    "name", "string", "卷名称"
    "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
 
-查询卷概要信息
----------
-
-.. code-block:: bash
-
-   curl -v "http://192.168.0.11:17010/admin/getVol?name=ltptest" | python -m json.tool
-
-
-展示卷的概要信息，包括卷的名字、容量、数据分片和元数据分片数量信息等。
-
-.. csv-table:: 参数列表
-   :header: "参数", "类型", "描述"
-
-   "name", "string", "卷名称"
-
-响应示例
-
-.. code-block:: json
-
-   {
-       "Authenticate": false,
-       "Capacity": 30,
-       "CreateTime": "2020-08-27 06:18:02",
-       "CrossZone": false,
-       "DentryCount": 3,
-       "Description": "",
-       "DpCnt": 10,
-       "DpReplicaNum": 3,
-       "EnableToken": false,
-       "FollowerRead": true,
-       "ID": 10,
-       "InodeCount": 4,
-       "MaxMetaPartitionID": 3,
-       "MpCnt": 3,
-       "MpReplicaNum": 3,
-       "Name": "ltptest",
-       "NeedToLowerReplica": false,
-       "Owner": "ltptest",
-       "RwDpCnt": 10,
-       "Status": 0,
-       "Tokens": {},
-       "ZoneName": "default"
-   }
-
 
 查询卷详细信息
 ---------

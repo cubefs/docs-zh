@@ -56,47 +56,18 @@
        "BadDisks": {}
    }
 
-设置节点状态
----------
-
-.. code-block:: bash
-
-   curl -v "http://192.168.0.11:17010/admin/setNodeState?start=6&end=10&nodeType=dataNode&state=true&zoneName=zone1"
-
-功能：
-
-
-设置节点（数据节点、元数据节点）状态，对于指定区域下的节点，id从start到end的节点，设置相应状态。
-可以将其设置为不可写状态，以便于之后对数据节点、元数据节点进行下线操作
-
-
-.. csv-table:: 参数列表
-   :header: "参数", "类型", "描述"
-
-   "start", "string", "开始id"
-   "end", "string", "结束id"
-   "nodeType", "string", "节点类型，dataNode：数据节点、metaNode：元数据节点、all：数据节点、元数据节点"
-   "state", "string", "状态，设置为true，对应节点会变为不可写"
-   "zoneName", "string", "指定区域，不可为空"
-
 
 下线节点
 ---------
 
 .. code-block:: bash
 
-   curl -v "http://192.168.0.11:17010/dataNode/decommission?addr=192.168.0.33:17310&zoneName=default&strict=false"
+   curl -v "http://192.168.0.11:17010/dataNode/decommission?addr=192.168.0.33:17310"
 
 
-从集群中下线某个数据节点, 该数据节点上的所有数据分片都会被异步的迁移到集群中其它可用的数据节点，分为普通模式和严格模式
-为了避免下线node时其被写入新数据，可以先进行设置节点状态操作
+从集群中下线某个数据节点, 该数据节点上的所有数据分片都会被异步的迁移到集群中其它可用的数据节点
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
    
    "addr", "string", "数据节点和master的交互地址"
-   "zoneName", "string", "指定区域，如果为空则默认值为原数据节点所属区域"
-   "strict", "bool", "是否为严格模式，默认false"
-
-严格模式，必须大小小于1G、文件数目相等，普通模式，大小差别小于1G即可
-
