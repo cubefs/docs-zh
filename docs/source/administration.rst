@@ -35,7 +35,7 @@ BlobStore管理
    admin-api/blobstore/blobnode
    admin-api/blobstore/clustermgr
    admin-api/blobstore/scheduler
-
+   admin-api/blobstore/cli
 
 使用CLI工具管理集群
 ===================
