@@ -6,7 +6,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://192.168.0.11:17010/metaNode/add?addr=192.168.0.33:17310&zoneName=default"
+   curl -v "http://192.168.0.11:17010/metaNode/add?addr=192.168.0.33:17310"
 
 
 在对应区域上添加新的元数据节点
@@ -14,8 +14,7 @@
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
 
-   "addr", "string", "数据节点和master的交互地址"
-   "zoneName", "string", "指定区域，如果为空则默认值为default"
+   "addr", "string", "元数据节点和master的交互地址"
 
 
 查询
@@ -61,7 +60,7 @@
 
 .. code-block:: bash
 
-   curl -v "http://192.168.0.11:17010/metaNode/decommission?addr=192.168.0.24:17210&zoneName=default&strict=true"
+  curl -v "http://10.196.59.198:17010/metaNode/decommission?addr=10.196.59.202:17210" 
 
 为了避免下线node时其被写入新数据，可以先进行设置节点状态操作
 从集群中下线某个元数据节点, 该节点上的所有元数据分片都会被异步的迁移到集群中其它可用的元数据节点，分为普通模式和严格模式。
@@ -70,8 +69,6 @@
    :header: "参数", "类型", "描述"
 
    "addr", "string", "元数据节点和master的交互地址"
-   "zoneName", "string", "指定区域，如果为空则默认值为原数据节点所属区域"
-   "strict", "bool", "是否为严格模式，默认false"
 
 
 设置阈值
