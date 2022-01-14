@@ -16,7 +16,7 @@
 
 通过 ``make cli`` 编译得到CLI工具。
 
-``./cli -c cli.conf`` 启动命令行工具；其中 ``-c cli.conf`` 是可选配置项，主要配置一些常用变量，
+``./bin/cli -c cli.conf`` 启动命令行工具；其中 ``-c cli.conf`` 是可选配置项，主要配置一些常用变量，
 比如access接入层服务发现地址，clustermgr服务地址等等。
 
 .. code-block:: json
@@ -54,7 +54,7 @@ cli 可以作为普通命令，比如：
     timestamp = 1640156245364981202 (seconds = 1640156245 nanosecs = 364981202)
             --> format: 2021-12-22T14:57:25.364981202+08:00 (now)
 
-``./cli`` 启动命令行。
+``./bin/cli`` 启动命令行。
 
 .. code-block:: txt
 
