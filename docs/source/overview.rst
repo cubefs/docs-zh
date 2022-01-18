@@ -8,7 +8,7 @@ ChubaoFS(储宝文件系统)是为大规模容器平台设计的分布式文件�
 
 .. image:: pic/cfs-arch-ec.png
    :align: center
-   :scale: 75 %
+   :scale: 100 %
    :alt: Architecture
 
 
