@@ -90,7 +90,7 @@ CLI主要分为六类管理命令：
 
 .. code-block:: bash
 
-    ./cfs-cli datapartition info [VOLUME] [Partition ID]        #获取指定data partition的信息
+    ./cfs-cli datapartition info [Partition ID]        #获取指定data partition的信息
 
 .. code-block:: bash
 
@@ -114,7 +114,7 @@ CLI主要分为六类管理命令：
 
 .. code-block:: bash
 
-    ./cfs-cli metapartition info [VOLUME] [Partition ID]        #获取指定meta partition的信息
+    ./cfs-cli metapartition info [Partition ID]        #获取指定meta partition的信息
 
 .. code-block:: bash
 
@@ -141,11 +141,12 @@ CLI主要分为六类管理命令：
 
 .. code-block:: bash
 
-    ./cfs-cli config set     #设置配置信息
-    root@fa27e115a0ba:/cfs#$ cfs-cli config set
-    Please input master host:
-    test.chubaofs.com
-    Config has been set successfully!
+    ./cfs-cli config set [flags] #设置配置信息
+
+    Flags:
+        --addr string      Specify master address [{HOST}:{PORT}]
+    -h, --help             help for set
+        --timeout uint16   Specify timeout for requests [Unit: s]
 
 
 自动补全管理
@@ -160,17 +161,23 @@ CLI主要分为六类管理命令：
 
 .. code-block:: bash
 
-    ./cfs-cli volume create [VOLUME NAME] [USER ID] [flags]     #创建所有者是[USER ID]的卷[VOLUME NAME]
+    ./cfs-cli volume create [VOLUME NAME] [USER ID] [flags]
+
     Flags:
-        --capacity uint                                     #指定卷的容量，单位GB（默认为10）
-        --dp-size  uint                                     #指定数据分片的大小，单位GB（默认为120）
-        --follower-read                                     #启用从follower副本中读取数据的功能（默认为true）
-        --mp-count int                                      #指定初始元数据分片的数量（默认为3）
-        -y, --yes                                           #跳过所有问题并设置回答为"yes"
+        --capacity uint     Specify volume capacity [Unit: GB] (default 10)
+        --crossZone         Disable cross zone
+        --dp-size uint      Specify size of data partition size [Unit: GB] (default 120)
+        --follower-read     Enable read form replica follower
+    -h, --help              help for create
+        --mp-count int      Specify init meta partition count (default 3)
+        --replicas int      Specify data partition replicas number (default 3)
+        --vol-type int      Specify volume type
+    -y, --yes               Answer yes for all questions
+        --zonename string   Specify volume zone name
 
 .. code-block:: bash
 
-    ./cfs-cli volume delete [VOLUME NAME] [flags]               #删除指定卷[VOLUME NAME]
+    ./cfs-cli volume delete [VOLUME NAME] [flags]               #删除指定卷[VOLUME NAME], ec卷大小为0才能删除
     Flags:
         -y, --yes                                           #跳过所有问题并设置回答为"yes"
 
@@ -237,24 +244,3 @@ CLI主要分为六类管理命令：
         --user-type string                      #更新后的用户类型，可选项为normal或admin
         -y, --yes                               #跳过所有问题并设置回答为"yes"
 
-
-兼容性测试
->>>>>>>>>>>>>>>>>>>>>>>>
-
-.. code-block:: bash
-
-    ./cfs-cli cptest meta [Snapshot Path] [Host] [Partition ID]         #meta data 兼容性测试
-    Parameters：
-            [Snapshot Path] string                     #快照文件存放路径
-            [Host] string                              #生成快照文件的MetaNode地址
-            [Partition ID] string                      #需要测试对比的meta partition ID
-例:
-    1. 使用旧版本server生成meta data, 停止meta data服务, 五分钟后会生成meta data快照数据, 然后拷贝快照文件到本地目录
-    2. 在本地机器执行 `cfs-cli cptest meta` 命令对刚刚拷贝的旧版本快照数据和线上的新数据对比验证
-
-    .. code-block:: bash
-
-        [Verify result]
-        All dentry are consistent
-        All inodes are consistent
-        All meta has checked

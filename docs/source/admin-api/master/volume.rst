@@ -25,7 +25,6 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    "followerRead", "bool", "允许从follower读取数据", "否", "false"
    "crossZone", "bool", "是否跨区域，如设为true，则不能设置zoneName参数", "否", "false"
    "zoneName", "string", "指定区域", "否", "如果crossZone设为false，则默认值为default"
-   "enableToken", "bool", "是否开启token控制读写权限", "否", "false"
 
 删除
 -------------
@@ -161,6 +160,7 @@ ChubaoFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中�
    :header: "参数", "类型", "描述"
 
    "name", "string", "卷名称"
+   "version", "int", "卷版本，0：副本卷， 1：ec-卷，默认0-副本卷，访问ec卷必填"
 
 响应示例
 
