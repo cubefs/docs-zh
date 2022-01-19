@@ -78,7 +78,7 @@ BlobStore部署文档
             "create_if_missing": true
         },
         "code_mode_policies": [ #编码模式策略
-            {"code_mode":11,"min_size":0,"max_size":1024,"size_ratio":0.2,"enable":true}
+            {"code_mode":"EC3P3","min_size":0,"max_size":1024,"size_ratio":0.2,"enable":true}
         ],
         "volume_mgr_config":{ # 卷管理配置
             "volume_db_path":"/tmp/volumedb0",
@@ -134,7 +134,7 @@ BlobStore部署文档
 
    {
         "bind_addr": ":8899",
-        "cluster": 1,
+        "cluster_id": 1,
         "idc": "z0",
         "rack": "testrack",
         "host": "http://127.0.0.1:8899",  #ip替换为主机ip
@@ -153,7 +153,6 @@ BlobStore部署文档
             "disk_reserved_space_B": 1,   # for debug
             "must_mount_point": true      # for debug
         },
-        "flock_filename": "./run/blobnode.0.flock",
         "log":{ # 运行日志相关配置
             "level":0,# 0:debug, 1:info, 2:warn, 3:error, 4:panic, 5:fatal
             "filename": "./run/blobnode.log" # 运行日志文件，会自动轮转
@@ -451,7 +450,7 @@ BlobStore部署文档
     .. code-block:: json
 
         {
-           "code_mode" : 11 # 第11种编码策略, 具体策略方案，详见附录
+           "code_mode" : "EC3P3" # 具体策略方案，详见附录
            "min_size" : 0 # 最小上传对象大小为0
            "max_size" : 1024 # 最大上传对象大小为1024
            "size_ratio" : 1 # 不同策略的存储空间比列
@@ -517,14 +516,14 @@ BlobStore部署文档
 1. 编码策略
 
 .. csv-table:: 常用策略表
-   :header: "类别", "编号", "描述"
+   :header: "类别", "描述"
 
-   "EC15P12", "1", "{N: 15, M: 12, L: 0, AZCount: 3, PutQuorum: 24, GetQuorum: 0, MinShardSize: 2048}"
-   "EC6P6", "2", "{N: 06, M: 06, L: 0, AZCount: 3, PutQuorum: 11, GetQuorum: 0, MinShardSize: 2048}"
-   "EC16P20L2", "3", "{N: 16, M: 20, L: 2, AZCount: 2, PutQuorum: 34, GetQuorum: 0, MinShardSize: 2048}"
-   "EC6P10L2", "4", "{N: 06, M: 10, L: 2, AZCount: 2, PutQuorum: 14, GetQuorum: 0, MinShardSize: 2048}"
-   "EC12P4", "9", "{N: 12, M: 04, L: 0, AZCount: 1, PutQuorum: 15, GetQuorum: 0, MinShardSize: 2048}"
-   "EC3P3", "11", "{N: 6, M: 3, L: 3, AZCount: 3, PutQuorum: 9, GetQuorum: 0, MinShardSize: 2048}"
+   "EC15P12", "{N: 15, M: 12, L: 0, AZCount: 3, PutQuorum: 24, GetQuorum: 0, MinShardSize: 2048}"
+   "EC6P6", "{N: 06, M: 06, L: 0, AZCount: 3, PutQuorum: 11, GetQuorum: 0, MinShardSize: 2048}"
+   "EC16P20L2", "{N: 16, M: 20, L: 2, AZCount: 2, PutQuorum: 34, GetQuorum: 0, MinShardSize: 2048}"
+   "EC6P10L2", "{N: 06, M: 10, L: 2, AZCount: 2, PutQuorum: 14, GetQuorum: 0, MinShardSize: 2048}"
+   "EC12P4", "{N: 12, M: 04, L: 0, AZCount: 1, PutQuorum: 15, GetQuorum: 0, MinShardSize: 2048}"
+   "EC3P3", "{N: 6, M: 3, L: 3, AZCount: 3, PutQuorum: 9, GetQuorum: 0, MinShardSize: 2048}"
 
 *其中N: 数据块数量, M: 校验块数量, L: 本地校验块数量, AZCount: AZ数量,  PutQuorum: (N + M) / AZCount + N <= PutQuorum <= M + N， MinShardSize: 最小shard大小,将数据连续填充到 0-N 分片中，如果数据大小小于 MinShardSize*N，则与零字节对齐*，详见
 `代码 <https://github.com/chubaofs/chubaofs/blobstore/common/codemode/codemode.go>`_
