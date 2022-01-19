@@ -78,7 +78,7 @@ BlobStore部署文档
             "create_if_missing": true
         },
         "code_mode_policies": [ #编码模式策略
-            {"code_mode":"EC3P3","min_size":0,"max_size":1024,"size_ratio":0.2,"enable":true}
+            {"mode_name":"EC3P3","min_size":0,"max_size":1024,"size_ratio":0.2,"enable":true}
         ],
         "volume_mgr_config":{ # 卷管理配置
             "volume_db_path":"/tmp/volumedb0",
