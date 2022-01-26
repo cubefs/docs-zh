@@ -8,14 +8,14 @@ CLI工具配置及使用方法
 编译及配置
 ----------
 
-下载ChubaoFS源码后，在 ``chubaofs/cli`` 目录下，运行 ``build.sh`` 文件 ，即可生成 ``cfs-cli`` 可执行程序。
+下载CubeFS源码后，在 ``cubefs/cli`` 目录下，运行 ``build.sh`` 文件 ，即可生成 ``cfs-cli`` 可执行程序。
 
 同时，在 ``root`` 目录下会生成名为 ``.cfs-cli.json`` 的配置文件，修改master地址为当前集群的master地址即可。也可使用命令 ``./cfs-cli config info`` 和 ``./cfs-cli config set`` 来查看和设置配置文件。
 
 使用方法
 ---------
 
-在 ``chubaofs/cli`` 目录下，执行命令 ``./cfs-cli --help`` 或 ``./cfs-cli -h`` ，可获取CLI的帮助文档。
+在 ``cubefs/cli`` 目录下，执行命令 ``./cfs-cli --help`` 或 ``./cfs-cli -h`` ，可获取CLI的帮助文档。
 
 CLI主要分为六类管理命令：
 

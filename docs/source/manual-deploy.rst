@@ -8,8 +8,8 @@
 
 .. code-block:: bash
 
-   $ git clone http://github.com/chubaofs/chubaofs.git
-   $ cd chubaofs
+   $ git clone http://github.com/cubeFS/cubefs.git
+   $ cd cubefs
    $ make build
 
 如果构建成功，将在`build/bin` 目录中生成可执行文件`cfs-server`和`cfs-client`。
@@ -43,7 +43,7 @@
      "storeDir":"/cfs/master/data/store",
      "consulAddr": "http://consul.prometheus-cfs.local",
      "exporterPort": 9500,
-     "clusterName":"chubaofs01",
+     "clusterName":"cubefs01",
      "metaNodeReservedMem": "1073741824"
    }
 
@@ -127,7 +127,7 @@
 
    **磁盘准备**
 
-    1.1 查看机器磁盘信息，选择给ChubaoFS使用的磁盘
+    1.1 查看机器磁盘信息，选择给CubeFS使用的磁盘
 
         .. code-block:: bash
 

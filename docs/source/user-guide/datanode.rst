@@ -4,7 +4,7 @@
 启动数据节点
 ---------------------
 
-通过执行ChubaoFS的二进制文件并用“-c”参数指定的配置文件来启动一个DATANODE进程。注意datanode的实例最少需要４个。
+通过执行CubeFS的二进制文件并用“-c”参数指定的配置文件来启动一个DATANODE进程。注意datanode的实例最少需要４个。
 
 .. code-block:: bash
 

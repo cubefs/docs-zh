@@ -1,10 +1,10 @@
 Q&A
 ==============
 
-- 如果你刚接触ChubaoFS，希望快速熟悉，请参考 :doc:`user-guide/docker`
-- 如果你对ChubaoFS感兴趣，希望使用ChubaoFS到您的生产环境，但是又要做性能测试来全方位体验和测评ChubaoFS，请参考 :doc:`evaluation`
-- 如果你已经完成对ChubaoFS的测试评估，希望正式投入生产环境，想了解如何进行容量规划及环境配置，请参考 :doc:`env`
-- 如果您希望了解ChubaoFS所使用的业务场景，可以参考 :doc:`use-case`
+- 如果你刚接触CubeFS，希望快速熟悉，请参考 :doc:`user-guide/docker`
+- 如果你对CubeFS感兴趣，希望使用CubeFS到您的生产环境，但是又要做性能测试来全方位体验和测评CubeFS，请参考 :doc:`evaluation`
+- 如果你已经完成对CubeFS的测试评估，希望正式投入生产环境，想了解如何进行容量规划及环境配置，请参考 :doc:`env`
+- 如果您希望了解CubeFS所使用的业务场景，可以参考 :doc:`use-case`
 - 如果您在实际生产环境中遇到了一些问题，不知道如何解决，接下来的内容可能会对你有所帮助。
 
 为了描述方便，定义以下几个关键词缩写
@@ -23,7 +23,7 @@ Q&A
 编译
 --------
 
-1.	本机编译ChubaoFS，部署到其它机器上无法启动
+1.	本机编译CubeFS，部署到其它机器上无法启动
 
 首先请确认使用 ``PORTABLE=1 make static_lib`` 命令编译rocksdb，然后使用ldd命令查看依赖的库，在机器上是否安装，安装缺少的库后，执行 ``ldconfig`` 命令
 
@@ -120,7 +120,7 @@ Q&A
 
 1. 业务存在大量小文件，元数据规模庞大，怎样提升集群性能
 
-ChubaoFS的元数据存储在内存中，提升mn机身内存或者横向扩展mn节点都会明显提升元数据性能，支撑海量小文件。
+CubeFS的元数据存储在内存中，提升mn机身内存或者横向扩展mn节点都会明显提升元数据性能，支撑海量小文件。
 
 2. 如果集群中新增了dn/mn，后台是否会自动rebalance，将旧节点上的dp/mp自动转移到新节点？
 
@@ -159,7 +159,7 @@ ChubaoFS的元数据存储在内存中，提升mn机身内存或者横向扩展m
 
 2. 如何提升Volume读写性能？
 
-可读写的dp数量越多，数据就会越分散，volume的读写性能会有响应提升。ChubaoFS采取动态空间分配机制，创建volume之后，会为volume预分配一定的数据分区dp，当可读写的dp数量少于10个，会自动扩充dp数量。而如果希望手动提升可读写dp数量可以用以下命令：
+可读写的dp数量越多，数据就会越分散，volume的读写性能会有响应提升。CubeFS采取动态空间分配机制，创建volume之后，会为volume预分配一定的数据分区dp，当可读写的dp数量少于10个，会自动扩充dp数量。而如果希望手动提升可读写dp数量可以用以下命令：
 
 .. code-block:: bash
 
@@ -202,7 +202,7 @@ ChubaoFS的元数据存储在内存中，提升mn机身内存或者横向扩展m
 
 3. NodeSet的意义？
 
-每个zone会有若干nodeset，每个nodeset的默认容量为18个节点。因为ChubaoFS实现了multi-raft，每个node启动了一个raft server进程, 每个raft server管理该节点上的m个raft实例，如果这些raft实例的其他复制组成员分布在n个node上，raft实例之间会发送raft心跳，那么心跳会在n个节点之间传递，随着集群规模的扩大，n也会变得比较大。而通过nodeset限制，心跳在nodeset内部相对独立，避免了集群维度的心跳风暴,我们是使用了multi raft和nodeset机制一起来避免产生raft心跳风暴问题。
+每个zone会有若干nodeset，每个nodeset的默认容量为18个节点。因为CubeFS实现了multi-raft，每个node启动了一个raft server进程, 每个raft server管理该节点上的m个raft实例，如果这些raft实例的其他复制组成员分布在n个node上，raft实例之间会发送raft心跳，那么心跳会在n个节点之间传递，随着集群规模的扩大，n也会变得比较大。而通过nodeset限制，心跳在nodeset内部相对独立，避免了集群维度的心跳风暴,我们是使用了multi raft和nodeset机制一起来避免产生raft心跳风暴问题。
 
 .. image:: pic/nodeset.png
    :align: center
@@ -268,7 +268,7 @@ dp/mp在ns中均匀分布，每创建一个dp/mp，都会从上一个dp/mp所在
 
 1.	升级步骤
 
-    a. 从ChubaoFS官方网站下载最新二进制文件压缩包https://github.com/chubaofs/chubaofs/releases,解压得到二进制server
+    a. 从CubeFS官方网站下载最新二进制文件压缩包https://github.com/cubeFS/cubefs/releases,解压得到二进制server
     b. 冻结集群
 
     .. code-block:: bash
@@ -495,7 +495,7 @@ Fuse客户端问题
 
         在线修改：http://{clientIP}:{profPort} /rate/set?write=800&read=800
 
-    - Fuse客户端性能优化请参考(https://chubaofs.readthedocs.io/zh_CN/latest/user-guide/fuse.html)
+    - Fuse客户端性能优化请参考(https://cubefs.readthedocs.io/zh_CN/latest/user-guide/fuse.html)
 
 2.	挂载问题
 
@@ -557,7 +557,7 @@ Fuse客户端问题
 
 4.	多客户端并发读写是否强一致？
 
-不是。ChubaoFS放宽了POSIX一致性语义，它只能确保文件/目录操作的顺序一致性，并没有任何阻止多个客户写入相同的文件/目录的leasing机制。这是因为在容器化环境中，许多情况下不需要严格的POSIX语义，即应用程序很少依赖文件系统来提供强一致性保障。并且在多租户系统中也很少会有两个互相独立的任务同时写入一个共享文件因此需要上层应用程序自行提供更严格的一致性保障。
+不是。CubeFS放宽了POSIX一致性语义，它只能确保文件/目录操作的顺序一致性，并没有任何阻止多个客户写入相同的文件/目录的leasing机制。这是因为在容器化环境中，许多情况下不需要严格的POSIX语义，即应用程序很少依赖文件系统来提供强一致性保障。并且在多租户系统中也很少会有两个互相独立的任务同时写入一个共享文件因此需要上层应用程序自行提供更严格的一致性保障。
 
 5.	Fsync chunk
 

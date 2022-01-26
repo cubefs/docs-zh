@@ -1,7 +1,7 @@
 yum工具自动部署集群
 ==================
 
-可以使用yum工具在CentOS 7+操作系统中快速部署和启动ChubaoFS集群. 该工具的rpm依赖项可通过以下命令安装:
+可以使用yum工具在CentOS 7+操作系统中快速部署和启动CubeFS集群. 该工具的rpm依赖项可通过以下命令安装:
 
 .. code-block:: bash
 
@@ -26,7 +26,7 @@ yum工具自动部署集群
          ├── metanode.json.j2
          └── objectnode.json.j2
 
-可根据实际环境，在 **iplist** 文件中修改ChubaoFS集群的参数.
+可根据实际环境，在 **iplist** 文件中修改CubeFS集群的参数.
 
 - **[master]** , **[datanode]** , **[metanode]** , **[objectnode]**, **[console]**, **[monitor]** , **[client]** 包含了每个模块的成员IP地址。
 
@@ -151,7 +151,7 @@ yum工具自动部署集群
 
 更多配置介绍请参考 :doc:`master`; :doc:`metanode`; :doc:`datanode`; :doc:`objectnode`; :doc:`client`; :doc:`monitor`; :doc:`console`. 。
 
-用 **install.sh** 脚本启动ChubaoFS集群，并确保首先启动Master。
+用 **install.sh** 脚本启动CubeFS集群，并确保首先启动Master。
 
 .. code-block:: bash
 
@@ -165,6 +165,6 @@ yum工具自动部署集群
     $ bash install.sh -r monitor
     $ bash install.sh -r client
 
-全部角色启动后，可以登录到 **client** 角色所在节点验证挂载点 **/cfs/mountpoint** 是否已经挂载ChubaoFS文件系统。
+全部角色启动后，可以登录到 **client** 角色所在节点验证挂载点 **/cfs/mountpoint** 是否已经挂载CubeFS文件系统。
 
 在浏览器中打开链接http://consul.prometheus-cfs.local 查看监控系统(监控系统的IP地址已在 **iplist** 文件的 **[monitor]** 模块定义).

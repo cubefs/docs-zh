@@ -20,9 +20,9 @@
 
 - 复制
 
-  成员间的文件复制，根据文件写入模式，ChubaoFS采用不同的复制策略。
+  成员间的文件复制，根据文件写入模式，CubeFS采用不同的复制策略。
 
-  当文件按顺序写入ChubaoFS时，使用主备份复制协议来确保与优化的IO吞吐量的强一致性。
+  当文件按顺序写入CubeFS时，使用主备份复制协议来确保与优化的IO吞吐量的强一致性。
 
   .. image:: ../pic/workflow-sequential-write.png
      :align: center

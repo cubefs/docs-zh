@@ -1,9 +1,9 @@
 启动docker集群
 ========================
 
-在docker目录下，run_docker.sh工具用来方便运行ChubaoFS docker-compose试用集群。
+在docker目录下，run_docker.sh工具用来方便运行CubeFS docker-compose试用集群。
 
-执行下面的命令，可完全重新创建一个最小的ChubaoFS集群。注意的是**/data/disk**是数据根目录，至少需要30GB大小空闲空间。
+执行下面的命令，可完全重新创建一个最小的CubeFS集群。注意的是**/data/disk**是数据根目录，至少需要30GB大小空闲空间。
 
 .. code-block:: bash
 
@@ -13,9 +13,9 @@
 
 .. code-block:: bash
 
-    $ mount | grep chubaofs
+    $ mount | grep cubefs
 
-在浏览器中打开http://127.0.0.1:3000，使用`admin/123456`登录，可查看chubaofs的grafana监控指标界面。
+在浏览器中打开http://127.0.0.1:3000，使用`admin/123456`登录，可查看cubefs的grafana监控指标界面。
 
 或者使用下面的命令分步运行:
 
