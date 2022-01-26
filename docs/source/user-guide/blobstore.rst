@@ -7,7 +7,7 @@ BlobStore部署文档
 
 .. code-block:: bash
 
-   $ git clone https://github.com/chubaofs/blobstore.git
+   $ git clone https://github.com/cubefs/blobstore.git
    $ cd blobstore
    $ source env.sh
    $ ./build.sh
@@ -526,5 +526,5 @@ BlobStore部署文档
    "EC3P3", "{N: 6, M: 3, L: 3, AZCount: 3, PutQuorum: 9, GetQuorum: 0, MinShardSize: 2048}"
 
 *其中N: 数据块数量, M: 校验块数量, L: 本地校验块数量, AZCount: AZ数量,  PutQuorum: (N + M) / AZCount + N <= PutQuorum <= M + N， MinShardSize: 最小shard大小,将数据连续填充到 0-N 分片中，如果数据大小小于 MinShardSize*N，则与零字节对齐*，详见
-`代码 <https://github.com/chubaofs/chubaofs/blobstore/common/codemode/codemode.go>`_
+`代码 <https://github.com/cubefs/cubefs/blobstore/common/codemode/codemode.go>`_
 。
