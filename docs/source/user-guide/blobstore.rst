@@ -44,6 +44,12 @@ BlobStore部署文档
 
     `Consul <https://learn.hashicorp.com/tutorials/consul/get-started-install?in=consul/getting-started>`_ （建议每节点部署Consul agent）
 
+3. **构建单节点consul**
+
+.. code-block:: bash
+
+   ./consul agent -dev -client 0.0.0.0
+
 启动clustermgr
 ::::::::::::::
 
