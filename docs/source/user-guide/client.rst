@@ -60,6 +60,7 @@ fuse.json
     "fsyncOnClose", "bool", "文件关闭后执行fsync操作，默认为true", "否"
     "maxcpus", "int", "最大可使用的cpu核数，可限制client进程cpu使用率", "否"
     "enableXattr", "bool", "是否使用*xattr*，默认是false", "否"
+    "enableBcache", "bool", "是否开启本地一级缓存，默认false", "否"
 
 挂载
 ---------------
@@ -68,7 +69,7 @@ fuse.json
 
 .. code-block:: bash
 
-   nohup ./cfs-client -c fuse.json &
+   ./cfs-client -c fuse.json
 
 如果使用示例的``fuse.json``，则客户端被挂载到``/mnt/fuse``。所有针对``/mnt/fuse``的操作都将被作用于CubeFS。
 
@@ -83,7 +84,7 @@ fuse.json
 
 .. code-block:: bash
 
-   nohup ./cfs- -c fuse.json &
+   ./cfs- -c fuse.json
 
 .. code-block:: json
 
@@ -120,4 +121,30 @@ fuse.json
     "preloadFileConcurrency", "string", "预热文件的并发数", "否"
     "preloadFileSizeLimit", "string", "预热文件的阈值，文件大小低于该阈值的文件才可以被预热", "否"
     "readBlockConcurrency", "string", "从纠删卷读取数据的并发数", "否"
+    "prof", "string", "golang pprof调试端口", "否"
+
+一级缓存
+-------------
+执行如下命令启动本地一级缓存服务：
+
+.. code-block:: bash
+
+   ./cfs-bcache -c cache.json
+
+.. code-block:: json
+
+   {
+      "role":"blockcache",
+      "cacheDir":"/cache_path_1:cache_size;/cache_path_2:cache_size",
+      "logDir":"/your/block/cache/logdir",
+      "logLevel":"warn"
+   }
+
+.. csv-table:: 配置选项
+   :header: "名称", "类型", "描述", "必需"
+
+    "role", "string", "role必须配置为blockcache", "是"
+    "cacheDir", "string", "缓存本地路径", "是"
+    "logDir", "string", "日志存放路径", "是"
+    "logLevel", "string", "日志级别：debug, info, warn, error", "是"
     "prof", "string", "golang pprof调试端口", "否"
