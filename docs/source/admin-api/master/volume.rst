@@ -25,6 +25,15 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    "followerRead", "bool", "允许从follower读取数据", "否", "false"
    "crossZone", "bool", "是否跨区域，如设为true，则不能设置zoneName参数", "否", "false"
    "zoneName", "string", "指定区域", "否", "如果crossZone设为false，则默认值为default"
+   "cacheRuleKey", "string", "低频卷使用", "否", "非空时，匹配该字段的才会写入cache，空"
+   "ebsBlkSize", "int", "每个块的大小，单位byte", "否", "默认8M"
+   "cacheCap", "int", "低频卷 cache容量的大小", "否", "单位G, 低频卷必填"
+   "cacheAction", "int", "低频卷写cache的场景，0-不写cache, 1-读数据回写cache, 2-读写数据都写到cache", "否", "0"
+   "cacheThreshold", "int", "低频卷小于该值时，才写入到cahce中,单位byte", "否", "默认10M"
+   "cacheTTL", "int", "低频卷cache淘汰时间，单位天", "否", "默认30"
+   "cacheHighWater", "int", "低频卷cache淘汰的阈值，dp内容量淘汰上水位，达到该值时，触发淘汰", "否", "默认80，即120G*80/100=96G时，dp开始淘汰数据"
+   "cacheLowWater", "int", "dp上容量淘汰下水位，达到该值时，不在淘汰，", "否", "默认60，即120G*60/100=72G，dp不再淘汰数据"
+   "cacheLRUInterval", "int", "低容量淘汰检测周期，单位分钟", "否", "默认5分钟"
 
 删除
 -------------
@@ -43,6 +52,7 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
 
    "name", "string", "卷名称"
    "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
+   "forceDelVol", "bool", "是否强制删除卷，默认false"
 
 
 查询卷详细信息
@@ -50,7 +60,7 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
 
 .. code-block:: bash
 
-   curl -v "http://10.196.59.198:17010/client/vol?name=test&authKey=md5(owner)" | python -m json.tool
+   curl -v "http://10.196.59.198:17010/admin/getVol?name=test" | python -m json.tool
 
 
 展示卷的基本信息，包括卷的名字、所有的数据分片和元数据分片信息等。
@@ -59,20 +69,48 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    :header: "参数", "类型", "描述"
 
    "name", "string", "卷名称"
-   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
 
 响应示例
 
 .. code-block:: json
 
    {
-       "Name": "test",
-       "Owner": "user",
-       "Status": "0",
-       "FollowerRead": "true",
-       "MetaPartitions": {},
-       "DataPartitions": {},
-       "CreateTime": 0
+       "Authenticate": false,
+        "CacheAction": 0,
+        "CacheCapacity": 0,
+        "CacheHighWater": 80,
+        "CacheLowWater": 60,
+        "CacheLruInterval": 5,
+        "CacheRule": "",
+        "CacheThreshold": 10485760,
+        "CacheTtl": 30,
+        "Capacity": 10,
+        "CreateTime": "2022-03-31 16:08:31",
+        "CrossZone": false,
+        "DefaultPriority": false,
+        "DefaultZonePrior": false,
+        "DentryCount": 0,
+        "Description": "",
+        "DomainOn": false,
+        "DpCnt": 0,
+        "DpReplicaNum": 16,
+        "DpSelectorName": "",
+        "DpSelectorParm": "",
+        "FollowerRead": true,
+        "ID": 706,
+        "InodeCount": 1,
+        "MaxMetaPartitionID": 2319,
+        "MpCnt": 3,
+        "MpReplicaNum": 3,
+        "Name": "abc",
+        "NeedToLowerReplica": false,
+        "ObjBlockSize": 8388608,
+        "Owner": "cfs",
+        "PreloadCapacity": 0,
+        "RwDpCnt": 0,
+        "Status": 0,
+        "VolType": 1,
+        "ZoneName": "default"
    }
 
 查询卷数据分片详细信息
@@ -167,12 +205,17 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
 .. code-block:: json
 
    {
-       "Name": "test",
-       "TotalSize": 322122547200000000,
-       "UsedSize": 155515112832780000,
-       "UsedRatio": "0.48",
-       "EnableToken": true
+       "CacheTotalSize": 0,
+       "CacheUsedRatio": "",
+       "CacheUsedSize": 0,
+       "EnableToken": false,
+       "InodeCount": 1,
+       "Name": "abc-test",
+       "TotalSize": 10737418240,
+       "UsedRatio": "0.00",
+       "UsedSize": 0
    }
+
 
 
 更新
@@ -188,11 +231,22 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    :header: "参数", "类型", "描述", "是否必需"
 
    "name", "string", "卷名称", "是"
+   "description", "string", "卷描述信息", "否"
    "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息", "是"
-   "capacity", "int", "扩充后卷的配额,单位是GB", "是"
+   "capacity", "int", "更新卷的datanode容量，单位G, 标准卷不能小于已使用容量", "否"
    "zoneName", "string", "更新后所在区域，若不设置将被更新至default区域", "是"
-   "enableToken", "bool", "是否开启token控制读写权限，默认设为``false``", "否"
+   "ebsBlkSize", "int", "低频卷的块大小，单位byte", "否"
    "followerRead", "bool", "允许从follower读取数据", "否"
+   "cacheCap", "int", "低频卷cache容量大小", "否"
+   "cacheAction", "int", "低频卷写cache的场景，0-不写cache, 1-读数据回写cache, 2-读写数据都写到cache", "否"
+   "cacheThreshold", "int", "低频卷小于该值时，才写入到cahce中，单位byte", "否"
+   "cacheTTL", "int", "低频卷cache淘汰时间，单位天", "否"
+   "cacheHighWater", "int", "低频卷cache淘汰的阈值，dp内容量淘汰上水位，达到该值时，触发淘汰", "否"
+   "cacheLowWater", "int", "dp上容量淘汰下水位，达到该值时，不再淘汰", "否"
+   "cacheLRUInterval", "int", "容量淘汰周期，单位分钟", "否"
+   "cacheRuleKey", "string", "修改cacheRule", "否"
+   "emptyCacheRule", "bool", "是否置空cacheRule", "否"
+
 
 获取卷列表
 ----------
@@ -231,3 +285,54 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
        }
     ]
 
+
+扩容
+----------
+
+.. code-block:: bash
+
+   curl -v "http://10.196.59.198:17010/vol/expand?name=test&capacity=100&authKey=md5(owner) "
+
+对指定卷进行扩容到指定容量
+
+.. csv-table:: 参数列表
+   :header: "参数", "类型", "描述", "是否必需"
+
+   "name", "string", "卷名称", "是"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息", "是"
+   "capacity", "int", "扩充后卷的配额,单位是GB", "是"
+
+
+缩容
+----------
+
+.. code-block:: bash
+
+   curl -v "http://10.196.59.198:17010/vol/shrink?name=test&capacity=100&authKey=md5(owner) "
+
+对指定卷进行缩小到指定容量
+
+.. csv-table:: 参数列表
+   :header: "参数", "类型", "描述", "是否必需"
+
+   "name", "string", "卷名称", "是"
+   "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息", "是"
+   "capacity", "int", "压缩后卷的配额,单位是GB", "是"
+
+
+预热卷
+----------
+
+.. code-block:: bash
+
+   curl -v "http://10.196.59.198:17010/dataPartition/createPreLoad?name=test&cacheTTL=60&capacity=100 "
+
+创建与热卷
+
+.. csv-table:: 参数列表
+   :header: "参数", "类型", "描述", "是否必需"
+
+   "name", "string", "卷名称", "是"
+   "cacheTTL", "int", "预热数据的淘汰时间, 单位天, "是"
+   "capacity", "int", "预热容量的大小,单位是GB", "是"
+   "zoneName", "string", "预热数据的所属zone", "否"

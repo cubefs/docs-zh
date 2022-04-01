@@ -31,7 +31,6 @@ CLI主要分为六类管理命令：
    "cfs-cli completion", "生成自动补全命令脚本"
    "cfs-cli volume, vol", "卷管理"
    "cfs-cli user", "用户管理"
-   "cfs-cli compatibility", "兼容性测试"
 
 集群管理命令
 >>>>>>>>>>>>>
@@ -164,16 +163,24 @@ CLI主要分为六类管理命令：
     ./cfs-cli volume create [VOLUME NAME] [USER ID] [flags]
 
     Flags:
-        --capacity uint     Specify volume capacity [Unit: GB] (default 10)
-        --crossZone         Disable cross zone
-        --dp-size uint      Specify size of data partition size [Unit: GB] (default 120)
-        --follower-read     Enable read form replica follower
-    -h, --help              help for create
-        --mp-count int      Specify init meta partition count (default 3)
-        --replicas int      Specify data partition replicas number (default 3)
-        --vol-type int      Specify volume type
-    -y, --yes               Answer yes for all questions
-        --zonename string   Specify volume zone name
+        --capacity uint         Specify volume capacity [Unit: GB] (default 10)
+        --crossZone             Disable cross zone
+        --dp-size uint          Specify size of data partition size [Unit: GB] (default 120)
+        --follower-read         Enable read form replica follower
+        --cache-action          Specify low volume cacheAction (default 0)
+        --cache-high-water      Specify cache high-water level(default 80)
+        --cache-low-water       Specify cache low-water level (default 60)
+        --cache-lru-interval    Specify interval expiration time[Unit: min] (default 5)
+        --cache-rule-key        Anything that match this field will be written to the cache
+        --cache-threshold       Specify cache threshold[Unit: byte] (default 10485760)
+        --cache-ttl int         Specify cache expiration time[Unit: day] (default 30)
+
+    -h, --help                  help for create
+        --mp-count int          Specify init meta partition count (default 3)
+        --replicas int          Specify data partition replicas number (default 3)
+        --vol-type int          Specify volume type
+    -y, --yes                   Answer yes for all questions
+        --zonename string       Specify volume zone name
 
 .. code-block:: bash
 

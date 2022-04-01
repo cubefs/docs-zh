@@ -76,3 +76,48 @@ fuse.json
 -------------
 
 建议使用标准的Linux ``umount`` 命令终止挂载。
+
+预热
+-------------
+执行如下命令预热文件或者目录：
+
+.. code-block:: bash
+
+   nohup ./cfs- -c fuse.json &
+
+.. code-block:: json
+
+   {
+      "target":"/", 
+      "volumeName": "cold4",
+      "masterAddr": "10.177.69.105:17010,10.177.69.106:17010,10.177.117.108:17010",
+      "logDir": "/mnt/hgfs/share/cfs-client-test",
+      "logLevel": "debug",
+      "ttl": "100",
+      "replicaNum": "1",
+      "zones": "",
+      "action":"clear",
+      "traverseDirConcurrency":"4",
+      "preloadFileConcurrency":"10",
+      "preloadFileSizeLimit":"10737418240",
+      "readBlockConcurrency":"10"
+      "prof":"27520"
+   }
+
+.. csv-table:: 配置选项
+   :header: "名称", "类型", "描述", "必需"
+
+    "target", "string", "要预热的目录或者文件", "是"
+    "volName", "string", "卷名称", "是"
+    "masterAddr", "string", "Master节点地址", "是"
+    "logDir", "string", "日志存放路径", "是"
+    "logLevel", "string", "日志级别：debug, info, warn, error", "是"
+    "ttl", "string", "预热缓存生存期", "是"
+    "action", "string", "预热行为:clear清理预热缓存;preload预热数据", "是"
+    "replicaNum", "string", "预热数据副本数(1-16)", "否"
+    "zones", "string", "预热副本所在zone", "否"
+    "traverseDirConcurrency", "string", "遍历目录的任务并发数", "否"
+    "preloadFileConcurrency", "string", "预热文件的并发数", "否"
+    "preloadFileSizeLimit", "string", "预热文件的阈值，文件大小低于该阈值的文件才可以被预热", "否"
+    "readBlockConcurrency", "string", "从纠删卷读取数据的并发数", "否"
+    "prof", "string", "golang pprof调试端口", "否"

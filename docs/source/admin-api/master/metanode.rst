@@ -85,3 +85,21 @@
    :header: "参数", "类型", "描述"
    
    "threshold", "float64", "元数据节点能使用本机内存的最大比率"
+
+
+迁移
+---------
+
+.. code-block:: bash
+
+   curl -v "http://10.196.59.198:17010/metaNode/migrate?srcAddr=src&targetAddr=dst&count=3"
+
+
+从源元数据节点迁移指定个数元数据分区至目标元数据节点。
+
+.. csv-table:: 参数列表
+   :header: "参数", "类型", "描述"
+   
+   "srcAddr", "string", "迁出元数据节点地址"
+   "targetAddr", "string", "迁入元数据节点地址率"
+   "count", "int", "迁移元数据分区的个数，非必填，默认15个"

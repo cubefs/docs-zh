@@ -71,3 +71,57 @@
    :header: "参数", "类型", "描述"
    
    "addr", "string", "数据节点和master的交互地址"
+
+获取磁盘信息
+---------
+
+.. code-block:: bash
+
+      curl -v "http://192.168.0.11:17320/disks"
+
+
+获取磁盘信息，包括磁盘路径，空间使用情况，磁盘状态等。
+
+
+获取节点分区信息
+---------
+
+.. code-block:: bash
+
+      curl -v "http://192.168.0.11:17320/partitions"
+
+
+获取磁盘信息，包括分区ID，分区大小和状态等。
+
+
+磁盘下线
+---------
+
+.. code-block:: bash
+
+      curl -v "http://192.168.0.11:17320/disk/decommission"
+
+
+.. csv-table:: 参数列表
+   :header: "参数", "类型", "描述"
+   
+   "addr", "string", "要下线的副本地址"
+   "disk", "string", "故障磁盘"
+
+
+迁移
+---------
+
+.. code-block:: bash
+
+   curl -v "http://10.196.59.198:17010/dataNode/migrate?srcAddr=src&targetAddr=dst&count=3"
+
+
+从源数据节点迁移指定个数元数据分区至目标数据节点。
+
+.. csv-table:: 参数列表
+   :header: "参数", "类型", "描述"
+   
+   "srcAddr", "string", "迁出数据节点地址"
+   "targetAddr", "string", "迁入数据节点地址率"
+   "count", "int", "迁移数据分区的个数，非必填，默认50个"
