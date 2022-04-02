@@ -327,7 +327,7 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
 
    curl -v "http://10.196.59.198:17010/dataPartition/createPreLoad?name=test&cacheTTL=60&capacity=100 "
 
-创建与热卷
+创建预热卷
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述", "是否必需"
