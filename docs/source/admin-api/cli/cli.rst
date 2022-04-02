@@ -51,6 +51,9 @@ CLI主要分为六类管理命令：
 
     ./cfs-cli cluster threshold [float]     #设置集群中每个MetaNode的内存阈值
 
+.. code-block:: bash
+
+    ./cli cluster cluster set [flags]    #设置集群的参数.
 
 元数据节点管理命令
 >>>>>>>>>>>>>>>>>
@@ -209,6 +212,25 @@ CLI主要分为六类管理命令：
     Flags：
         -f, --force                                         #强制转交
         -y, --yes                                           #跳过所有问题并设置回答为"yes"
+
+.. code-block:: bash
+
+    ./cli volume update                                     #更新集群的参数
+    Flags:
+        --cache-action string      Specify low volume cacheAction (default 0)
+        --cache-capacity string    Specify low volume capacity[Unit: GB]
+        --cache-high-water int      (default 80)
+        --cache-low-water int       (default 60)
+        --cache-lru-interval int   Specify interval expiration time[Unit: min] (default 5)
+        --cache-rule string        Specify cache rule
+        --cache-threshold int      Specify cache threshold[Unit: byte] (default 10M)
+        --cache-ttl int            Specify cache expiration time[Unit: day] (default 30)
+        --capacity uint            Specify volume datanode capacity [Unit: GB]
+        --description string       The description of volume
+        --ebs-blk-size int         Specify ebsBlk Size[Unit: byte]
+        --follower-read string     Enable read form replica follower (default false)
+        -y, --yes               Answer yes for all questions
+        --zonename string   Specify volume zone name
 
 用户管理命令
 >>>>>>>>>>>>>>>>>

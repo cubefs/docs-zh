@@ -68,7 +68,7 @@ fuse.json
 
 .. code-block:: bash
 
-   nohup ./cfs-client -c fuse.json &
+   ./cfs-client -c fuse.json
 
 如果使用示例的``fuse.json``，则客户端被挂载到``/mnt/fuse``。所有针对``/mnt/fuse``的操作都将被作用于CubeFS。
 
@@ -83,7 +83,7 @@ fuse.json
 
 .. code-block:: bash
 
-   nohup ./cfs- -c fuse.json &
+   /cfs-preload -c preload.json 
 
 .. code-block:: json
 
@@ -113,7 +113,7 @@ fuse.json
     "logDir", "string", "日志存放路径", "是"
     "logLevel", "string", "日志级别：debug, info, warn, error", "是"
     "ttl", "string", "预热缓存生存期", "是"
-    "action", "string", "预热行为:clear清理预热缓存;preload预热数据", "是"
+    "action", "string", "预热行为:clear-清理预热缓存;preload-预热数据", "是"
     "replicaNum", "string", "预热数据副本数(1-16)", "否"
     "zones", "string", "预热副本所在zone", "否"
     "traverseDirConcurrency", "string", "遍历目录的任务并发数", "否"

@@ -117,7 +117,7 @@
    curl -v "http://10.196.59.198:17010/dataNode/migrate?srcAddr=src&targetAddr=dst&count=3"
 
 
-从源数据节点迁移指定个数元数据分区至目标数据节点。
+从源数据节点迁移指定个数数据分区至目标数据节点。
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"

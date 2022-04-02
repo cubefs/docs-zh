@@ -27,12 +27,12 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    "zoneName", "string", "指定区域", "否", "如果crossZone设为false，则默认值为default"
    "cacheRuleKey", "string", "低频卷使用", "否", "非空时，匹配该字段的才会写入cache，空"
    "ebsBlkSize", "int", "每个块的大小，单位byte", "否", "默认8M"
-   "cacheCap", "int", "低频卷 cache容量的大小", "否", "单位G, 低频卷必填"
+   "cacheCap", "int", "低频卷 cache容量的大小,单位GB", "否", "低频卷必填"
    "cacheAction", "int", "低频卷写cache的场景，0-不写cache, 1-读数据回写cache, 2-读写数据都写到cache", "否", "0"
    "cacheThreshold", "int", "低频卷小于该值时，才写入到cahce中,单位byte", "否", "默认10M"
    "cacheTTL", "int", "低频卷cache淘汰时间，单位天", "否", "默认30"
    "cacheHighWater", "int", "低频卷cache淘汰的阈值，dp内容量淘汰上水位，达到该值时，触发淘汰", "否", "默认80，即120G*80/100=96G时，dp开始淘汰数据"
-   "cacheLowWater", "int", "dp上容量淘汰下水位，达到该值时，不在淘汰，", "否", "默认60，即120G*60/100=72G，dp不再淘汰数据"
+   "cacheLowWater", "int", "dp上容量淘汰下水位，达到该值时，不再淘汰，", "否", "默认60，即120G*60/100=72G，dp不再淘汰数据"
    "cacheLRUInterval", "int", "低容量淘汰检测周期，单位分钟", "否", "默认5分钟"
 
 删除
