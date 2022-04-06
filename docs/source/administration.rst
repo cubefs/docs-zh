@@ -13,6 +13,7 @@
    admin-api/master/data-partition
    admin-api/master/management
    admin-api/master/user
+   admin-api/master/failureDomain
    
 元数据节点
 ===============
