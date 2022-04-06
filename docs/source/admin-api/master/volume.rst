@@ -22,7 +22,7 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    "owner", "string", "卷的所有者，同时也是用户ID", "是", "无"
    "mpCount", "int", "初始化元数据分片个数", "否", "3"
    "size", "int", "数据分片大小，单位GB", "否", "120"
-   "followerRead", "bool", "允许从follower读取数据", "否", "false"
+   "followerRead", "bool", "允许从follower读取数据，纠删码卷默认true", "否", "false"
    "crossZone", "bool", "是否跨区域，如设为true，则不能设置zoneName参数", "否", "false"
    "zoneName", "string", "指定区域", "否", "如果crossZone设为false，则默认值为default"
    "cacheRuleKey", "string", "低频卷使用", "否", "非空时，匹配该字段的才会写入cache，空"
@@ -43,7 +43,7 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    curl -v "http://10.196.59.198:17010/vol/delete?name=test&authKey=md5(owner)"
 
 
-首先把卷标记为逻辑删除（status设为1）, 然后通过周期性任务删除所有数据分片和元数据分片,最终从持久化存储中删除。ec卷使用大小为0时才能删除
+首先把卷标记为逻辑删除（status设为1）, 然后通过周期性任务删除所有数据分片和元数据分片,最终从持久化存储中删除。纠删码卷使用大小为0时才能删除
 
 在删除卷的同时，将会在所有用户的信息中删除与该卷有关的权限信息。
 
@@ -237,15 +237,16 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    "zoneName", "string", "更新后所在区域，若不设置将被更新至default区域", "是"
    "ebsBlkSize", "int", "低频卷的块大小，单位byte", "否"
    "followerRead", "bool", "允许从follower读取数据", "否"
-   "cacheCap", "int", "低频卷cache容量大小", "否"
-   "cacheAction", "int", "低频卷写cache的场景，0-不写cache, 1-读数据回写cache, 2-读写数据都写到cache", "否"
-   "cacheThreshold", "int", "低频卷小于该值时，才写入到cahce中，单位byte", "否"
-   "cacheTTL", "int", "低频卷cache淘汰时间，单位天", "否"
-   "cacheHighWater", "int", "低频卷cache淘汰的阈值，dp内容量淘汰上水位，达到该值时，触发淘汰", "否"
-   "cacheLowWater", "int", "dp上容量淘汰下水位，达到该值时，不再淘汰", "否"
-   "cacheLRUInterval", "int", "容量淘汰周期，单位分钟", "否"
-   "cacheRuleKey", "string", "修改cacheRule", "否"
-   "emptyCacheRule", "bool", "是否置空cacheRule", "否"
+   "emptyCacheRule", "string", "是否置空cacheRule", "否", "默认为false, true代表设置cacheRule=''"
+   "cacheRuleKey", "string", "缓存规则,纠删码卷使用，满足对应规则的才缓存", "否", "默认为空，不限制"
+   "ebsBlkSize", "int", "纠删码卷的每个块的大小", "否", "默认8M"
+   "cacheCap", "int", "纠删码卷使用二级cache时，cache的容量大小", "否", "0"
+   "cacheAction", "int", "纠删码卷使用，0：不写cache, 1-读数据写cache, 2-读写数据都写到cache", "否", "默认0"
+   "cacheThreshold", "int", "缓存文件大小限制，纠删码卷小于该值时，才会写到cache当中", "否", "默认10M"
+   "cacheTTL", "int", "缓存过期时间，单位天", "否", "默认30天"
+   "cacheHighWater", "int", "淘汰高水位", "否", "默认80, 即80%时，触发淘汰"
+   "cacheLowWater", "int", "缓存淘汰低水位", "否", "默认40, 每次淘汰到40%停止淘汰"
+   "cacheLRUInterval", "int", "缓存检测周期，单位分钟", "否", "默认5分钟"
 
 
 获取卷列表

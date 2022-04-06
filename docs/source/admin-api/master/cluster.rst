@@ -16,20 +16,39 @@
 .. code-block:: json
 
    {
-       "Name": "test",
-       "LeaderAddr": "10.196.59.198:17010",
-       "DisableAutoAlloc": false,
-       "Applied": 225,
-       "MaxDataPartitionID": 100,
-       "MaxMetaNodeID": 3,
-       "MaxMetaPartitionID": 1,
-       "DataNodeStatInfo": {},
-       "MetaNodeStatInfo": {},
-       "VolStatInfo": {},
-       "BadPartitionIDs": {},
-       "BadMetaPartitionIDs": {},
-       "MetaNodes": {},
-       "DataNodes": {}
+    "code":0,
+    "data":{
+        "Applied":886268,
+        "BadMetaPartitionIDs":[
+
+        ],
+        "BadPartitionIDs":[
+
+        ],
+        "DataNodeStatInfo":{
+
+        },
+        "DataNodes":[
+
+        ],
+        "DisableAutoAlloc":false,
+        "LeaderAddr":"127.0.0.1:17010",
+        "MaxDataPartitionID":735,
+        "MaxMetaNodeID":57,
+        "MaxMetaPartitionID":59,
+        "MetaNodeStatInfo":{
+
+        },
+        "MetaNodeThreshold":0.75,
+        "MetaNodes":[
+
+        ],
+        "Name":"cluster",
+        "VolStatInfo":[
+
+        ]
+    },
+    "msg":"success"
    }
 
 
@@ -194,11 +213,14 @@
 
     {
         "code": 0,
-        "msg": "success",
         "data": {
-            "batchCount": 0,
-            "markDeleteRate": 0
-        }
+            "autoRepairRate": "0",
+            "batchCount": "0",
+            "deleteWorkerSleepMs": "0",
+            "loadFactor": "0",
+            "markDeleteRate": "0"
+        },
+        "msg": "success"
     }
 
 
@@ -217,5 +239,8 @@
 
    "batchCount", "uint64", "metanode 删除批量大小"
    "markDeleteRate", "uint64", "datanode批量删除限速设置. 0代表未做限速设置"
+   "autoRepairRate", "uint64", "datanode上同时修复的extent个数"
+   "deleteWorkerSleepMs", "uint64", "删除间隔时间"
+   "loadFactor", "uint64", "集群超卖比，默认0，不限制"
 
 
