@@ -24,6 +24,7 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    "size", "int", "数据分片大小，单位GB", "否", "120"
    "followerRead", "bool", "允许从follower读取数据，纠删码卷默认true", "否", "false"
    "crossZone", "bool", "是否跨区域，如设为true，则不能设置zoneName参数", "否", "false"
+   "normalZonesFirst", "bool", "是否优先写普通域", "否", "false"
    "zoneName", "string", "指定区域", "否", "如果crossZone设为false，则默认值为default"
    "cacheRuleKey", "string", "低频卷使用", "否", "非空时，匹配该字段的才会写入cache，空"
    "ebsBlkSize", "int", "每个块的大小，单位byte", "否", "默认8M"

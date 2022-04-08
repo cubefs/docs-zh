@@ -70,6 +70,9 @@ CLI主要分为六类管理命令：
 
     ./cfs-cli metanode decommission [Address] #将该元数据节点下线，该节点上的partition将自动转移至其他可用节点
 
+.. code-block:: bash
+
+    ./cfs-cli metanode migrate [srcAddress] [dstAddress] #将源元数据节点上的meta partition转移至目标元数据节点
 
 数据节点管理命令
 >>>>>>>>>>>>>>>>>
@@ -85,6 +88,10 @@ CLI主要分为六类管理命令：
 .. code-block:: bash
 
     ./cfs-cli datanode decommission [Address] #将该数据节点下线，该节点上的data partition将自动转移至其他可用节点
+
+.. code-block:: bash
+
+    ./cfs-cli datanode migrate [srcAddress] [dstAddress] #将源数据节点上的data partition转移至目标数据节点
 
 
 数据分片管理命令
@@ -168,6 +175,7 @@ CLI主要分为六类管理命令：
     Flags:
         --capacity uint         Specify volume capacity [Unit: GB] (default 10)
         --crossZone             Disable cross zone
+        --normalZonesFirst      Write to normal zone first (default "false")
         --dp-size uint          Specify size of data partition size [Unit: GB] (default 120)
         --follower-read         Enable read form replica follower
         --cache-action          Specify low volume cacheAction (default 0)
