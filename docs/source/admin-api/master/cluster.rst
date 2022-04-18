@@ -205,7 +205,7 @@
    curl -v "http://192.168.0.11:17010/admin/getNodeInfo"
 
 
-获取metanode、datanode节点信息
+获取集群信息
 
 响应示例
 
@@ -231,7 +231,7 @@
 
    curl -v "http://192.168.0.11:17010/admin/setNodeInfo?batchCount=100&markDeleteRate=100"
 
-设置metanode、datanode节点信息
+设置集群信息
 
 
 .. csv-table:: 参数列表
