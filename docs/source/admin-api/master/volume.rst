@@ -236,7 +236,6 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息", "是"
    "capacity", "int", "更新卷的datanode容量，单位G, 标准卷不能小于已使用容量", "否"
    "zoneName", "string", "更新后所在区域，若不设置将被更新至default区域", "是"
-   "ebsBlkSize", "int", "低频卷的块大小，单位byte", "否"
    "followerRead", "bool", "允许从follower读取数据", "否"
    "emptyCacheRule", "string", "是否置空cacheRule", "否", "默认为false, true代表设置cacheRule=''"
    "cacheRuleKey", "string", "缓存规则,纠删码卷使用，满足对应规则的才缓存", "否", "默认为空，不限制"
