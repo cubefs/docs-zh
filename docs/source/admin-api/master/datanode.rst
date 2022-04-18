@@ -105,7 +105,7 @@
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
    
-   "addr", "string", "要下线的副本地址"
+   "addr", "string", "要下线的磁盘的节点地址"
    "disk", "string", "故障磁盘"
    "count","int", "每次下线个数，默认0，代表全部下线"
 
