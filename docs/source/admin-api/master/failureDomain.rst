@@ -22,26 +22,7 @@ crossZone        bool  //跨zone
 default_priority为true在生效，优先选择原有的zone，而不是从故障域里面分配
 
 
-
-故障域zone识别
----------------------------
-1. cluster配置故障域选项，如果此时master重启，zoneset重新加载，Putnodeset到group里面，如何判断nodeset是属于故障域呢？？
-
-2. 如果cluster不配置，直接添加zone，cluster如何区分zone属于故障域？
-
-3. 全部掉电，新增zone的机器和普通的机器无法区分，除了部分已经持久化
-
-
-解决方案：
-
-1. 配置当前master为crosszone，master重启，之后再添加新的zone；
-
-2. 重启为了将当前的zone持久化为非故障域zone（持久化层没有该信息，默认当前zone应该全部持久化为旧的zone（default zone））；
-
-3. 重启后加载，后面添加新的zone，则默认为新的故障域zone；并持久化；
-
-
-二、配置小结
+配置小结
 ---------------------------
 1. 现有的cluster，无论是自建的，还是社区的，无论是单个zone，还是跨zone，如果需要故障域启用，需要cluster支持，master重启，配置更新，同时管控更新现有volume的策略。否则继续沿用原有策略。
 
@@ -59,6 +40,14 @@ Y                                  Y                          N                 
 Y                                  Y                          Y                 Write origin resources first before fault domain until origin reach threshold
 =========================  =========================  ======================  ===================================================================================
 
+二、注意
+---------------------------
+1.启用容错域后，新区域中的所有设备都将加入故障域
+
+2.创建的volume会优先选择原zone的资源
+
+3.新建卷时需要根据上表添加配置项使用域资源。默认情况下，如果可用，则首先使用原始zone资源
+
 
 三、管理命令
 ---------------------------
@@ -67,7 +56,7 @@ Y                                  Y                          Y                 
 
 .. code-block:: bash
 
-      curl "http://192.168.0.11:17010/admin/createVol?name=volDomain&capacity=1000&owner=cfs&crossZone=true&normalZonesFirst=true"
+      curl "http://192.168.0.11:17010/admin/createVol?name=volDomain&capacity=1000&owner=cfs&crossZone=true&normalZonesFirst=false"
 
 
 .. csv-table:: 参数列表
@@ -76,6 +65,11 @@ Y                                  Y                          Y                 
    "crossZone", "string", "是否跨zone"
    "normalZonesFirst", "非故障域优先", ""
 
+更新故障域是否启用
+---------
+.. code-block:: bash
+
+      curl "http://192.168.0.11:17010/admin/getIsDomainOn"
 
 查看故障域使用情况
 ---------
@@ -84,11 +78,11 @@ Y                                  Y                          Y                 
       curl -v  "http://192.168.0.11:17010/admin/getDomainInfo"
 
 
-更新故障域数据使用上限
+更新故障域copyset group的使用情况
 ---------
 .. code-block:: bash
 
-      curl "http://192.168.0.11:17010/admin/updateDomainDataRatio?ratio=0.7"
+      curl "http://192.168.0.11:17010/admin/getDomainNodeSetGrpInfo?id=37"
       
       
 查看非故障域数据使用上限
