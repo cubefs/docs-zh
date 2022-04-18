@@ -54,7 +54,6 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
 
    "name", "string", "卷名称"
    "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息"
-   "forceDelVol", "bool", "是否强制删除卷，默认false"
 
 
 查询卷详细信息
