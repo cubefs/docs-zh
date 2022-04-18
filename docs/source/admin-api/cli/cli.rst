@@ -189,11 +189,12 @@ CLI主要分为六类管理命令：
      -h, --help                      help for create
          --mp-count int              Specify init meta partition count (default 3)
          --normalZonesFirst string   Write to normal zone first (default "false")
-         --replica-num int           Specify data partition replicas number (default 3)
+         --replica-num string        Specify data partition replicas number(default 3 for normal volume,1 for low volume)
          --size int                  Specify data partition size[Unit: GB] (default 120)
          --vol-type int              Type of volume (default 0)
      -y, --yes                       Answer yes for all questions
          --zone-name string          Specify volume zone name
+
 
 
 .. code-block:: bash
