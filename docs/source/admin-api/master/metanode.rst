@@ -101,5 +101,5 @@
    :header: "参数", "类型", "描述"
    
    "srcAddr", "string", "迁出元数据节点地址"
-   "targetAddr", "string", "迁入元数据节点地址率"
+   "targetAddr", "string", "迁入元数据节点地址"
    "count", "int", "迁移元数据分区的个数，非必填，默认15个"
