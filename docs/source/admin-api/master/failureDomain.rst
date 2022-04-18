@@ -63,9 +63,9 @@ Y                                  Y                          Y                 
    :header: "参数", "类型", "描述"
    
    "crossZone", "string", "是否跨zone"
-   "normalZonesFirst", "非故障域优先", ""
+   "normalZonesFirst", "故障域优先", ""
 
-更新故障域是否启用
+查看故障域是否启用
 ---------
 .. code-block:: bash
 
@@ -78,14 +78,14 @@ Y                                  Y                          Y                 
       curl -v  "http://192.168.0.11:17010/admin/getDomainInfo"
 
 
-更新故障域copyset group的使用情况
+查看故障域copyset group的使用情况
 ---------
 .. code-block:: bash
 
       curl "http://192.168.0.11:17010/admin/getDomainNodeSetGrpInfo?id=37"
       
       
-查看非故障域数据使用上限
+更新非故障域数据使用上限
 ---------
 .. code-block:: bash
 
