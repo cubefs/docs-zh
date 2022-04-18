@@ -173,25 +173,28 @@ CLI主要分为六类管理命令：
     ./cfs-cli volume create [VOLUME NAME] [USER ID] [flags]
 
     Flags:
-        --capacity uint         Specify volume capacity [Unit: GB] (default 10)
-        --crossZone             Disable cross zone
-        --normalZonesFirst      Write to normal zone first (default "false")
-        --dp-size uint          Specify size of data partition size [Unit: GB] (default 120)
-        --follower-read         Enable read form replica follower
-        --cache-action          Specify low volume cacheAction (default 0)
-        --cache-high-water      Specify cache high-water level(default 80)
-        --cache-low-water       Specify cache low-water level (default 60)
-        --cache-lru-interval    Specify interval expiration time[Unit: min] (default 5)
-        --cache-rule-key        Anything that match this field will be written to the cache
-        --cache-threshold       Specify cache threshold[Unit: byte] (default 10485760)
-        --cache-ttl int         Specify cache expiration time[Unit: day] (default 30)
+         --cache-action int          Specify low volume cacheAction (default 0)
+         --cache-capacity int        Specify low volume capacity[Unit: GB]
+         --cache-high-water int       (default 80)
+         --cache-low-water int        (default 60)
+         --cache-lru-interval int    Specify interval expiration time[Unit: min] (default 5)
+         --cache-rule-key string     Anything that match this field will be written to the cache
+         --cache-threshold int       Specify cache threshold[Unit: byte] (default 10485760)
+         --cache-ttl int             Specify cache expiration time[Unit: day] (default 30)
+         --capacity uint             Specify volume capacity (default 10)
+         --crossZone string          Disable cross zone (default "false")
+         --description string        Description
+         --ebs-blk-size int          Specify ebsBlk Size[Unit: byte] (default 8388608)
+         --follower-read string      Enable read form replica follower (default "true")
+     -h, --help                      help for create
+         --mp-count int              Specify init meta partition count (default 3)
+         --normalZonesFirst string   Write to normal zone first (default "false")
+         --replica-num int           Specify data partition replicas number (default 3)
+         --size int                  Specify data partition size[Unit: GB] (default 120)
+         --vol-type int              Type of volume (default 0)
+     -y, --yes                       Answer yes for all questions
+         --zone-name string          Specify volume zone name
 
-    -h, --help                  help for create
-        --mp-count int          Specify init meta partition count (default 3)
-        --replicas int          Specify data partition replicas number (default 3)
-        --vol-type int          Specify volume type
-    -y, --yes                   Answer yes for all questions
-        --zonename string       Specify volume zone name
 
 .. code-block:: bash
 
