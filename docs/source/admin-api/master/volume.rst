@@ -21,6 +21,7 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    "capacity", "int", "卷的配额,单位是GB", "是", "无"
    "owner", "string", "卷的所有者，同时也是用户ID", "是", "无"
    "mpCount", "int", "初始化元数据分片个数", "否", "3"
+   "replicaNum", "int", "初始化数据分片个数", "否", "3"
    "size", "int", "数据分片大小，单位GB", "否", "120"
    "followerRead", "bool", "允许从follower读取数据，纠删码卷默认true", "否", "false"
    "crossZone", "bool", "是否跨区域，如设为true，则不能设置zoneName参数", "否", "false"
