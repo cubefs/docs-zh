@@ -23,7 +23,7 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    "mpCount", "int", "初始化元数据分片个数", "否", "3"
    "replicaNum", "int", "初始化数据分片个数", "否", "标准卷默认3（支持1,3），纠删码卷默认1（支持1-16个）"
    "size", "int", "数据分片大小，单位GB", "否", "120"
-   "followerRead", "bool", "允许从follower读取数据，纠删码卷卷默认true", "否", "false"
+   "followerRead", "bool", "允许从follower读取数据，纠删码卷默认true", "否", "false"
    "crossZone", "bool", "是否跨区域，如设为true，则不能设置zoneName参数", "否", "false"
    "normalZonesFirst", "bool", "是否优先写普通域", "否", "false"
    "zoneName", "string", "指定区域", "否", "如果crossZone设为false，则默认值为default"
