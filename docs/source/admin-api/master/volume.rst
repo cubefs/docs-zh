@@ -17,23 +17,23 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    :header: "参数", "类型", "描述", "是否必需", "默认值"
 
    "name", "string", "卷名称", "是", "无"
-   "volType", "int", "卷类型：0：副本卷，1：低频卷", "否", "0"
+   "volType", "int", "卷类型：0：副本卷，1：纠删码卷", "否", "0"
    "capacity", "int", "卷的配额,单位是GB", "是", "无"
    "owner", "string", "卷的所有者，同时也是用户ID", "是", "无"
    "mpCount", "int", "初始化元数据分片个数", "否", "3"
-   "replicaNum", "int", "初始化数据分片个数", "否", "标准卷默认3（支持1,3），低频卷默认1（支持1-16个）"
+   "replicaNum", "int", "初始化数据分片个数", "否", "标准卷默认3（支持1,3），纠删码卷默认1（支持1-16个）"
    "size", "int", "数据分片大小，单位GB", "否", "120"
-   "followerRead", "bool", "允许从follower读取数据，低频卷卷默认true", "否", "false"
+   "followerRead", "bool", "允许从follower读取数据，纠删码卷卷默认true", "否", "false"
    "crossZone", "bool", "是否跨区域，如设为true，则不能设置zoneName参数", "否", "false"
    "normalZonesFirst", "bool", "是否优先写普通域", "否", "false"
    "zoneName", "string", "指定区域", "否", "如果crossZone设为false，则默认值为default"
-   "cacheRuleKey", "string", "低频卷使用", "否", "非空时，匹配该字段的才会写入cache，空"
+   "cacheRuleKey", "string", "纠删码卷使用", "否", "非空时，匹配该字段的才会写入cache，空"
    "ebsBlkSize", "int", "每个块的大小，单位byte", "否", "默认8M"
-   "cacheCap", "int", "低频卷 cache容量的大小,单位GB", "否", "低频卷必填"
-   "cacheAction", "int", "低频卷写cache的场景，0-不写cache, 1-读数据回写cache, 2-读写数据都写到cache", "否", "0"
-   "cacheThreshold", "int", "低频卷小于该值时，才写入到cahce中,单位byte", "否", "默认10M"
-   "cacheTTL", "int", "低频卷cache淘汰时间，单位天", "否", "默认30"
-   "cacheHighWater", "int", "低频卷cache淘汰的阈值，dp内容量淘汰上水位，达到该值时，触发淘汰", "否", "默认80，即120G*80/100=96G时，dp开始淘汰数据"
+   "cacheCap", "int", "纠删码卷 cache容量的大小,单位GB", "否", "纠删码卷必填"
+   "cacheAction", "int", "纠删码卷写cache的场景，0-不写cache, 1-读数据回写cache, 2-读写数据都写到cache", "否", "0"
+   "cacheThreshold", "int", "纠删码卷小于该值时，才写入到cahce中,单位byte", "否", "默认10M"
+   "cacheTTL", "int", "纠删码卷cache淘汰时间，单位天", "否", "默认30"
+   "cacheHighWater", "int", "纠删码卷cache淘汰的阈值，dp内容量淘汰上水位，达到该值时，触发淘汰", "否", "默认80，即120G*80/100=96G时，dp开始淘汰数据"
    "cacheLowWater", "int", "dp上容量淘汰下水位，达到该值时，不再淘汰，", "否", "默认60，即120G*60/100=72G，dp不再淘汰数据"
    "cacheLRUInterval", "int", "低容量淘汰检测周期，单位分钟", "否", "默认5分钟"
 
@@ -45,7 +45,7 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    curl -v "http://10.196.59.198:17010/vol/delete?name=test&authKey=md5(owner)"
 
 
-首先把卷标记为逻辑删除（status设为1）, 然后通过周期性任务删除所有数据分片和元数据分片,最终从持久化存储中删除。低频卷使用大小为0时才能删除
+首先把卷标记为逻辑删除（status设为1）, 然后通过周期性任务删除所有数据分片和元数据分片,最终从持久化存储中删除。纠删码卷使用大小为0时才能删除
 
 在删除卷的同时，将会在所有用户的信息中删除与该卷有关的权限信息。
 
@@ -199,7 +199,7 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    :header: "参数", "类型", "描述"
 
    "name", "string", "卷名称"
-   "version", "int", "卷版本，0：副本卷， 1：ec-卷，默认0-副本卷，访问ec卷必填"
+   "version", "int", "卷版本，0：副本卷， 1：ec-卷，默认0-副本卷，访问纠删码卷必填"
 
 响应示例
 
@@ -238,11 +238,11 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    "zoneName", "string", "更新后所在区域，若不设置将被更新至default区域", "是"
    "followerRead", "bool", "允许从follower读取数据", "否"
    "emptyCacheRule", "string", "是否置空cacheRule", "否", "默认为false, true代表设置cacheRule=''"
-   "cacheRuleKey", "string", "缓存规则,低频卷使用，满足对应规则的才缓存", "否", "默认为空，不限制"
-   "ebsBlkSize", "int", "低频卷的每个块的大小", "否", "默认8M"
-   "cacheCap", "int", "低频卷使用二级cache时，cache的容量大小", "否", "0"
-   "cacheAction", "int", "低频卷使用，0：不写cache, 1-读数据写cache, 2-读写数据都写到cache", "否", "默认0"
-   "cacheThreshold", "int", "缓存文件大小限制，低频卷小于该值时，才会写到cache当中", "否", "默认10M"
+   "cacheRuleKey", "string", "缓存规则,纠删码卷使用，满足对应规则的才缓存", "否", "默认为空，不限制"
+   "ebsBlkSize", "int", "纠删码卷的每个块的大小", "否", "默认8M"
+   "cacheCap", "int", "纠删码卷使用二级cache时，cache的容量大小", "否", "0"
+   "cacheAction", "int", "纠删码卷使用，0：不写cache, 1-读数据写cache, 2-读写数据都写到cache", "否", "默认0"
+   "cacheThreshold", "int", "缓存文件大小限制，纠删码卷小于该值时，才会写到cache当中", "否", "默认10M"
    "cacheTTL", "int", "缓存过期时间，单位天", "否", "默认30天"
    "cacheHighWater", "int", "淘汰高水位", "否", "默认80, 即80%时，触发淘汰"
    "cacheLowWater", "int", "缓存淘汰低水位", "否", "默认40, 每次淘汰到40%停止淘汰"
