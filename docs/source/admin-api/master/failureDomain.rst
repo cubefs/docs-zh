@@ -5,21 +5,26 @@
 ---------------------------
 Cluster级别配置
 ---------------------------
-默认是要支持原有的配置，启用故障域需要一个特殊的配置，增加cluster级别的配置，是否支持故障域
+启用故障域需要增加cluster级别的配置，否则无法区分，新增zone是故障域zone还是归属于原有cross_zone
 
-FaultDomain               bool  // 默认false
+.. code-block:: bash
 
-否则无法区分，新增zone是故障域zone还是归属于原有cross_zone
+  FaultDomain               bool  // 默认false
+
 
 Volume级别配置
 ---------------------------
 保留：
 
-crossZone        bool  //跨zone
+.. code-block:: bash
+  
+  crossZone        bool  //跨zone
 
 新增：
 
-default_priority为true在生效，优先选择原有的zone，而不是从故障域里面分配
+.. code-block:: bash
+
+  default_priority  bool  // true优先选择原有的zone，而不是从故障域里面分配
 
 
 配置小结
@@ -63,7 +68,7 @@ Y                                  Y                          Y                 
    :header: "参数", "类型", "描述"
    
    "crossZone", "string", "是否跨zone"
-   "normalZonesFirst", "故障域优先", ""
+   "normalZonesFirst", "bool", "非故障域优先"
 
 查看故障域是否启用
 ---------
