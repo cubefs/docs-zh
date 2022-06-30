@@ -67,8 +67,8 @@ POSIX兼容
 
 纠删码卷支持多级缓存加速能力，针对热点数据，提供更高数据访问性能
 
--  一级缓存：可以在Client机器上同机部署BlockCache组件，管理本地磁盘作为一级Cache. 可以不经过网络读取本地Cache当中的数据, 容量受本地磁盘限制
--  二级缓存：使用副本组件DataNode搭建的分布式Cache, 比如可以通过部署客户端同机房的SSD磁盘的DataNode作为二级cache, 相对于一级cache, 需要经过网络, 但是容量更大, 可动态扩缩容, 副本数可调
+-  本地缓存：可以在Client机器上同机部署BlockCache组件，管理本地磁盘作为本地缓存. 可以不经过网络读取本地Cache当中的数据, 容量受本地磁盘限制
+-  全局缓存：使用副本组件DataNode搭建的分布式全局Cache, 比如可以通过部署客户端同机房的SSD磁盘的DataNode作为全局cache, 相对于本地cache, 需要经过网络, 但是容量更大, 可动态扩缩容, 副本数可调
 
 .. image:: pic/cfs-cache.png
    :align: center
