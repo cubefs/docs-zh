@@ -29,7 +29,6 @@
    user-guide/metanode
    user-guide/datanode
    user-guide/objectnode
-   user-guide/console
    user-guide/client
    user-guide/authnode
    user-guide/monitor
