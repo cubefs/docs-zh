@@ -218,6 +218,7 @@
             "batchCount": "0",
             "deleteWorkerSleepMs": "0",
             "loadFactor": "0",
+            "maxDpCntLimit":"0",
             "markDeleteRate": "0"
         },
         "msg": "success"
@@ -242,5 +243,6 @@
    "autoRepairRate", "uint64", "datanode上同时修复的extent个数"
    "deleteWorkerSleepMs", "uint64", "删除间隔时间"
    "loadFactor", "uint64", "集群超卖比，默认0，不限制"
+   "maxDpCntLimit", "uint64", "每个节点上dp最大数量，默认3000， 0 代表默认值"
 
 
