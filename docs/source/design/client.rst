@@ -28,13 +28,13 @@ CubeFS客户端通过对接FUSE为提供用户态文件系统接口。之前，�
 一级缓存（数据缓存）
 -----------------------
 
-BlockCache是独立于客户端的本地数据缓存服务，对外提供Put/Get/Delete接口，基于数据块（Block）进行缓存读写、淘汰操作，整体结构如下图所示。
+L1Cache是独立于客户端的本地数据缓存服务，对外提供Put/Get/Delete接口，基于数据块（Block）进行缓存读写、淘汰操作，整体结构如下图所示。
 
 .. image:: pic/block-cache.png
    :align: center
    :alt: block cache
 
 
-BlockCache缓存服务为本机所有打开一级缓存配置的客户端提供缓存服务。本地缓存数据块与远端存储数据块一一对应，并按块进行索引（BlockKey）访问，数据块索引BlockKey生成方式为：VolumeName_Inode_hex(FileOffset)。数据块索引经过两次取模计算将内存数据块结构映射到本地缓存文件，LocalPath / hash(BlockKey)%512 / hash(BlockKey)%256 / BlockKey。BlockCacheStoreService统一维护全局的BlockKeys，定期按照LRU进行淘汰。
+L1Cache缓存服务为本机所有打开一级缓存配置的客户端提供缓存服务。本地缓存数据块与远端存储数据块一一对应，并按块进行索引（BlockKey）访问，数据块索引BlockKey生成方式为：VolumeName_Inode_hex(FileOffset)。数据块索引经过两次取模计算将内存数据块结构映射到本地缓存文件，LocalPath / hash(BlockKey)%512 / hash(BlockKey)%256 / BlockKey。L1CacheStoreService统一维护全局的BlockKeys，定期按照LRU进行淘汰。
 
-BlockCache服务重启时自动扫描磁盘上的缓存数据，并重建缓存索引信息。缓存目录的增加和退出不涉及数据迁移，丢失的缓存数据重新缓存，残留的缓存数据最终会被LRU淘汰。
+L1Cache服务重启时自动扫描磁盘上的缓存数据，并重建缓存索引信息。缓存目录的增加和退出不涉及数据迁移，丢失的缓存数据重新缓存，残留的缓存数据最终会被LRU淘汰。
