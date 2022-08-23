@@ -3,7 +3,7 @@
 
 在docker目录下，run_docker.sh工具用来方便运行CubeFS docker-compose试用集群。
 
-执行下面的命令，可完全重新创建一个最小的CubeFS集群。注意的是**/data/disk**是数据根目录，至少需要30GB大小空闲空间。
+执行下面的命令，可完全重新创建一个最小的CubeFS集群。注意的是**/data/disk**是数据根目录，至少需要10GB大小空闲空间。
 
 .. code-block:: bash
 

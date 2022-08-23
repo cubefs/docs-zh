@@ -322,3 +322,162 @@ CubeFS以 **Owner** 参数作为用户ID。在创建卷时，如果集群中没�
    "authKey", "string", "计算vol的所有者字段的32位MD5值作为认证信息", "是"
    "capacity", "int", "压缩后卷的配额,单位是GB", "是"
 
+
+两副本
+----------
+
+主要事项
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+两个副本可以正常支持修改和写入（使用其他dp及其范围）
+
+1. 支持已创建的3副本卷设置2副本，并在创建新dp生效，但不包括老的dp。
+2. 两副本卷有一个副本崩溃然后没有leader的情况下，使用force raft del 接口删除2replicas 。
+
+异常场景处理
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+例如存在一个dp，有两个副本A、B
+
+- 两副本迁移的异常场景
+
+迁移目标是C，我们实现的过程是先添加副本C，然后删除源A，迁移过程B crash
+
+解决方式：如果B crash了，raft不可用，先删除B，等待迁移完成，删除A，再添加一个副本
+
+- 正常运营过程某一个副本crash，例如B
+
+没有leader，根据raft规则两副本不能删除B的，因为需要需要先commit 然后apply，但commit的条件是大多数存活。
+ 
+解决方式:
+   - 新命令
+   强制删除B  /dataReplica/delete?....force=true。raft支持新接口del replcia直接不使用raft log commit（先备份dp数据）
+
+   - datanode 将检查副本数（volume 和 dp 必须都是 2 个副本，以防使用不挡）和 force字段。
+
+命令行
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. 两副本卷的创建
+
+ .. code-block:: bash
+
+      curl -v "http://192.168.0.11:17010/admin/createVol?name=2replica&capacity=100&owner=cfs&mpCount=3&replicaNum=2&followerRead=true"
+
+2. 原有三副本卷降为两副本
+
+- 存量的数据只读（建议批量脚本执行）
+
+ .. code-block:: bash
+
+      curl -v "http://192.168.0.13:17010/admin/setDpRdOnly?id=**&rdOnly=true
+
+- 更新卷副本数量
+
+ .. code-block:: bash
+
+      curl -v "http://192.168.0.13:17010/vol/update?name=ltptest&replicaNum=2&followerRead=true&authKey=0e20229116d5a9a4a9e876806b514a85"
+
+3. 强制删除(确定副本不可用使用）
+
+ .. code-block:: bash
+
+      curl "10.86.180.77:17010/dataReplica/delete?raftForceDel=true&addr=10.33.64.33:17310&id=47128"  
+
+流控
+----------
+
+主要事项
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. 考虑到不区分volume的存储组件，在client端做volume限流
+
+2. 分布式场景，需要中心控制client端流量，master做中心，保证iops，不增加额外流控server，可以减少运维压力
+
+3. client采用幂函数控制流量增长，在流量在资源充足的场景下，可以快速增长
+
+4. 保证volume整体流量调控下平稳
+
+5. master可以均衡客户端流量，根据客户端请求情况自适应调节
+
+配置项
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+无配置项，通过url命令设置
+
+QOS流控参数字段及接口
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- 创建卷时启用QOS：
+
+.. code-block:: bash
+
+   curl -v "http://192.168.0.11:17010/admin/createVol?name=volName&capacity=100&owner=cfs&qosEnable=true&flowWKey=10000"
+
+   启用qos，写流量设置为10000MB
+
+- 获取卷的流量情况：
+
+.. code-block:: bash
+
+   curl  "http://192.168.0.11:17010/qos/getStatus?name=ltptest"
+
+- 获取客户端数据：
+
+.. code-block:: bash
+
+   curl  "http://192.168.0.11:17010/qos/getClientsInfo?name=ltptest”
+
+- 更新服务端参数，关闭、启用流控，调节读写流量值：
+
+.. code-block:: bash
+
+   curl  "http://192.168.0.11:17010/qos/update?name=ltptest&qosEnable=true&flowWKey=100000"|jq
+
+涉及字段包括：
+FlowWKey                = "flowWKey"   //写（卷）
+FlowRKey                = "flowRKey"     //读（卷）   
+
+一些系统参数说明
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. 默认单位
+
+无论是client端还是datanode端，目前流量都是MB为单位
+ 
+2. 最低参数流量和io，作用于datanode和volume的设置，如果设置值，则需要
+
+MinFlowLimit    = 100 * util.MB
+
+MinIoLimit      = 100
+
+否则报错
+ 
+3. 如果没有设置流量值，但启用限流，则使用默认值（Byte）
+
+defaultIopsRLimit                     uint64 = 1 << 16
+
+defaultIopsWLimit                     uint64 = 1 << 16
+
+defaultFlowWLimit                     uint64 = 1 << 35
+
+defaultFlowRLimit                     uint64 = 1 << 35
+
+
+client和master通信
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. client长时间收不到master的流量控制日志会warn出来
+
+2. client和master无法不通讯，会维持原有流量限制，也会warn出来
+
+3.流量长时间为0则不会主动请求master流量，不上报给master，减少通信请求。master会清理长时间不上报客户端信息。
+
+冷卷
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1. 读一级缓存不算作流量
+
+2. cache写不计入写流量控制
+
+3. 其他都算作流量

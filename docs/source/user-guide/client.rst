@@ -125,26 +125,42 @@ fuse.json
 
 一级缓存
 -------------
-执行如下命令启动本地一级缓存服务：
+
+部署在用户客户端的本地读cache服务，对于数据集有修改写，需要强一致的场景不建议使用。
+
+启动命令
+^^^^^^^^^^^
 
 .. code-block:: bash
 
-   ./cfs-bcache -c cache.json
+   ./cfs-client -c client.conf
+
+配置文件
+^^^^^^^^^^^
 
 .. code-block:: json
 
    {
-      "role":"blockcache",
-      "cacheDir":"/cache_path_1:cache_size;/cache_path_2:cache_size",
-      "logDir":"/your/block/cache/logdir",
-      "logLevel":"warn"
+      "mountPoint": "/home/service/mnt",
+      "volName": "ltptest",
+      "owner": "ltptest",
+      "masterAddr": "xxx",
+      "logDir": "/cfs/client/log",
+      "logLevel": "info",
+      "profPort": "27510",
+      "maxStreamerLimit":"10000000",
+      "bcacheDir":"/home/service/mnt"
    }
 
 .. csv-table:: 配置选项
    :header: "名称", "类型", "描述", "必需"
 
-    "role", "string", "role必须配置为blockcache", "是"
-    "cacheDir", "string", "缓存本地路径", "是"
-    "logDir", "string", "日志存放路径", "是"
-    "logLevel", "string", "日志级别：debug, info, warn, error", "是"
-    "prof", "string", "golang pprof调试端口", "否"
+    "mountPoint", "string", "挂载点", "是"
+    "volName", "string", "卷名称", "是"
+    "owner", "string", "所有者", "是"
+    "masterAddr", "string", "Master节点地址", "是"
+    "logDir", "string", "日志存放路径", "否"
+    "logLevel", "string", "日志级别：debug, info, warn, error", "否"
+    "profPort", "string", "golang pprof调试端口", "否"
+    "maxStreamerLimit", "string", "文件元数据缓存数目", "否"
+    "bcacheDir", "string", "需要开启读缓存的目录路径", "使用缓存时（必须）"
