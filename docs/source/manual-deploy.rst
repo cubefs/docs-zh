@@ -42,7 +42,6 @@
      "walDir":"/cfs/master/data/wal",
      "storeDir":"/cfs/master/data/store",
      "consulAddr": "http://consul.prometheus-cfs.local",
-     "exporterPort": 9500,
      "clusterName":"cubefs01",
      "metaNodeReservedMem": "1073741824"
    }

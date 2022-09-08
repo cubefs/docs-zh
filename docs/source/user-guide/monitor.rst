@@ -14,7 +14,7 @@ CubeFS 集成了prometheus作为性能监控指标采集模块。在各模块配
    }
 
 
-* exporterPort: prometheus获取监控数据端口。设置后，可通过URL(http://$hostip:$exproterProt/metrics) 暴露prometheus监控指标。若不设置，prometheus指标监控模块将不会工作。
+* exporterPort: prometheus获取监控数据端口。设置后，可通过URL(http://$hostip:$exproterPort/metrics) 暴露prometheus监控指标。若不设置，prometheus指标监控模块将不会工作。
 * consulAddr: consul注册服务器地址。设置后, 可配合prometheus的自动发现机制实现CubeFS节点exporter的自动发现服务。若不设置，将不会启用consul自动注册服务。
 * consulMeta: conusl 元数据配置。 非必填项, 在注册到conusl时设置元数据信息。
 * ipFilter: 基于正则表达式的过滤器。 非必填项，默认为空。暴露给consul,  当机器存在多个ip时使用. 支持正向和反向过滤, 比如:
