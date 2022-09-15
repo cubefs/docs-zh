@@ -386,7 +386,7 @@ BlobStore部署文档
    {
       "bind_addr": ":9700", # 服务端口
       "cluster_id":1, # 集群id
-      "database_conf": {# mongodb相关配置
+      "database": {# mongodb相关配置
           "mongo": {
             "uri": "mongodb://127.0.0.1:27017" # mongodb地址
           },
