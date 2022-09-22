@@ -127,13 +127,26 @@ fuse.json
 -------------
 
 部署在用户客户端的本地读cache服务，对于数据集有修改写，需要强一致的场景不建议使用。
+部署缓存后，客户端需要增加以下挂载参数，重新挂载后缓存才能生效。
+
+.. code-block:: json
+   {
+       "maxStreamerLimit":"10000000",
+       "bcacheDir":"/home/service/mnt"
+   }
+
+.. csv-table:: 客户端缓存配置参数
+   :header: "名称", "类型", "描述", "必需"
+
+    "maxStreamerLimit", "string", "文件元数据缓存数目", "是"
+    "bcacheDir", "string", "需要开启读缓存的目录路径", "是"
 
 启动命令
 ^^^^^^^^^^^
 
 .. code-block:: bash
 
-   ./cfs-client -c client.conf
+   ./cfs-bcache -c bcache.json
 
 配置文件
 ^^^^^^^^^^^
@@ -141,26 +154,14 @@ fuse.json
 .. code-block:: json
 
    {
-      "mountPoint": "/home/service/mnt",
-      "volName": "ltptest",
-      "owner": "ltptest",
-      "masterAddr": "xxx",
-      "logDir": "/cfs/client/log",
-      "logLevel": "info",
-      "profPort": "27510",
-      "maxStreamerLimit":"10000000",
-      "bcacheDir":"/home/service/mnt"
+      "cacheDir":"/home/service/var:1099511627776",
+      "logDir":"/home/service/var/logs/cachelog",
+      "logLevel":"warn"
    }
 
-.. csv-table:: 配置选项
+.. csv-table:: 缓存服务配置选项
    :header: "名称", "类型", "描述", "必需"
 
-    "mountPoint", "string", "挂载点", "是"
-    "volName", "string", "卷名称", "是"
-    "owner", "string", "所有者", "是"
-    "masterAddr", "string", "Master节点地址", "是"
-    "logDir", "string", "日志存放路径", "否"
-    "logLevel", "string", "日志级别：debug, info, warn, error", "否"
-    "profPort", "string", "golang pprof调试端口", "否"
-    "maxStreamerLimit", "string", "文件元数据缓存数目", "否"
-    "bcacheDir", "string", "需要开启读缓存的目录路径", "使用缓存时（必须）"
+    "cacheDir", "string", "缓存数据的本地存储路径:分配空间（单位Byte)", "是"
+    "logDir", "string", "日志路径", "是"
+    "logLevel", "string", "日志级别", "是"
