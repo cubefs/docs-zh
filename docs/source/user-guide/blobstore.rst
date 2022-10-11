@@ -7,22 +7,19 @@ BlobStore部署文档
 
 .. code-block:: bash
 
-   $ git clone https://github.com/cubefs/cubefs-blobstore.git
-   $ cd blobstore
+   $ git clone https://github.com/cubefs/cubefs.git
+   $ cd cubefs/blobstore
    $ source env.sh
-   $ ./build.sh
+   $ sh build.sh
 
-如果构建成功，将在 ``bin`` 目录中生成以下可执行文件：
+构建成功后，将在 ``bin`` 目录中生成以下可执行文件：
 
     1. clustermgr
-    2. blobnode
-    3. allocator
-    4. mqproxy
+    2. proxy
+    3. scheduler
+    4. blobnode
     5. access
-    6. scheduler
-    7. tinker
-    8. worker
-    9. cli
+    6. cli
 
 集群部署
 --------
@@ -38,17 +35,13 @@ BlobStore部署文档
 
 2. **依赖组件**
 
-    `MongoDB <https://docs.mongodb.com/manual/tutorial/>`_
-
     `Kafka <https://kafka.apache.org/documentation/#basic_ops>`_
 
-    `Consul <https://learn.hashicorp.com/tutorials/consul/get-started-install?in=consul/getting-started>`_ （建议每节点部署Consul agent）
+    `Consul <https://learn.hashicorp.com/tutorials/consul/get-started-install?in=consul/getting-started>`_ （可选，支持consul）
 
-3. **构建单节点consul**
+3. **语言环境**
 
-.. code-block:: bash
-
-   ./consul agent -dev -client 0.0.0.0
+    `Go <https://go.dev/>`_ (1.16.x)
 
 启动clustermgr
 ::::::::::::::
@@ -70,63 +63,151 @@ BlobStore部署文档
    {
         "bind_addr":":9998",
         "cluster_id":1,
-        "idc":["z0"], #机房列表
-        "log": { # 系统日志
-            "level": 0,
-            "filename": "./run/cluster0.log"
+        "idc":["z0"],#集群部署模式，可以制定多个AZ
+        "chunk_size": 16777216, # blobnode中对应的chunk的大小
+        "log": {
+            "level": "info",
+            "filename": "./run/logs/clustermgr.log"#运行日志输出路径
+         },
+        "auth": {# 鉴权配置
+            "enable_auth": false,
+            "secret": "testsecret"
         },
-        "auditlog":{ # 审计日志
-            "logdir": "/tmp/clustermgr/"
-        },
-        "region": "test-region-name",
-        "normal_db_path":"/tmp/normaldb0",
-        "normal_db_option": { # 自动创建目录
-            "create_if_missing": true
-        },
-        "code_mode_policies": [ #编码模式策略
-            {"mode_name":"EC3P3","min_size":0,"max_size":1024,"size_ratio":0.2,"enable":true}
+        "region": "test-region",
+        "db_path":"./run/db0",
+        "code_mode_policies": [ # 编码模式
+            {"mode_name":"EC3P3","min_size":0,"max_size":50331648,"size_ratio":0.2,"enable":true}
         ],
-        "volume_mgr_config":{ # 卷管理配置
-            "volume_db_path":"/tmp/volumedb0",
-            "volume_db_option": {
-                "create_if_missing": true
-            }
-        },
-        "cluster_config":{ # 集群配置
-            "init_volume_num":100
-        },
-        "raft_config": {
-            "raft_db_path": "/tmp/raftdb0",
-            "raft_db_option": {
-                "create_if_missing": true
-            },
+        "raft_config": { # raft 集群配置
             "server_config": {
                 "nodeId": 1,
-                "listen_port": 10110,
-                "raft_wal_dir": "/tmp/raftwal0",
-                "peers": {"1":"127.0.0.1:10110","2":"127.0.0.1:10111","3":"127.0.0.1:10112"}
+                "listen_port": 10110, #与menber中对应nodeID的host端口保持一致
+                "raft_wal_dir": "./run/raftwal0"
             },
             "raft_node_config":{
                 "node_protocol": "http://",
-                "nodes": {"1":"127.0.0.1:9998", "2":"127.0.0.1:9999", "3":"127.0.0.1:10000"}
-            }
-        },
-        "disk_mgr_config":{
+                "members": [ # raft成员列表
+                        {"id":1, "host":"127.0.0.1:10110", "learner": false, "node_host":"127.0.0.1:9998"},
+                        {"id":2, "host":"127.0.0.1:10111", "learner": false, "node_host":"127.0.0.1:9999"},
+                        {"id":3, "host":"127.0.0.1:10112", "learner": false, "node_host":"127.0.0.1:10000"}]
+                ]},
+        "disk_mgr_config": { # 磁盘管理配置
+            "refresh_interval_s": 10,
             "rack_aware":false,
             "host_aware":false
         }
    }
 
-启动blobnode
+启动proxy
 ::::::::::::
 
-1. 在编译好的 ``blobnode`` 二进制目录下创建相关目录
+1. ``proxy`` 依赖kafka组件，需要提前创建blob_delete_topic、shard_repair_topic、shard_repair_priority_topic对应主题
 
 .. code-block:: bash
 
-   # 该目录对应配置文件的路径
-   mkdir -p ./run/disks/disk{1..6} # 每个目录需要挂载磁盘，保证数据收集准确性
-   mkdir -p ./run/auditlog
+    bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic blob_delete shard_repair shard_repair_priority
+
+
+2. 启动服务
+
+.. code-block:: bash
+
+    # 保证可用性，每个机房 ``idc`` 至少需要部署一个proxy节点
+    nohup ./proxy -f proxy.conf &
+
+3. 示例 ``proxy.conf``:
+
+.. code-block:: json
+
+   {
+      "bind_addr": ":9600",
+      "host": "http://127.0.0.1:9600",
+      "idc": "z0",
+      "cluster_id": 1,
+      "clustermgr": { # clustermgr 服务地址
+        "hosts": [
+          "http://127.0.0.1:9998",
+          "http://127.0.0.1:9999",
+          "http://127.0.0.1:10000"
+          ]
+      },
+      "auth": {
+          "enable_auth": false,
+          "secret": "test"
+      },
+      "mq": { # kafka配置
+        "blob_delete_topic": "blob_delete",
+        "shard_repair_topic": "shard_repair",
+        "shard_repair_priority_topic": "shard_repair_prior",
+        "msg_sender": {
+          "broker_list": ["127.0.0.1:9092"]
+        }
+      },
+      "log": {
+        "level": "info",
+        "filename": "./run/logs/proxy.log"
+      }
+   }
+
+启动scheduler
+:::::::::::::
+
+1. 启动服务
+
+.. code-block:: bash
+
+   nohup ./scheduler -f scheduler.conf &
+
+2. 示例 ``scheduler.conf``: 注意scheduler模块单节点部署
+
+.. code-block:: json
+
+   {
+      "bind_addr": ":9800",
+      "cluster_id": 1,
+      "services": { # scheduler服务
+        "leader": 1,
+        "node_id": 1,
+        "members": {"1": "127.0.0.1:9800"}
+      },
+      "service_register": {
+        "host": "http://127.0.0.1:9800",
+        "idc": "z0"
+      },
+      "clustermgr": { # clustermgr服务地址
+        "hosts": ["http://127.0.0.1:9998", "http://127.0.0.1:9999", "http://127.0.0.1:10000"]
+      },
+      "kafka": { # kafka服务
+        "broker_list": ["127.0.0.1:9092"]
+      },
+      "blob_delete": {
+        "delete_log": {
+          "dir": "./run/delete_log"
+        }
+      },
+      "shard_repair": {
+        "orphan_shard_log": {
+          "dir": "./run/orphan_shard_log"
+        }
+      },
+      "log": {
+        "level": "info",
+        "filename": "./run/logs/scheduler.log"
+      },
+      "task_log": {
+        "dir": "./run/task_log"
+      }
+   }
+
+启动blobnode
+:::::::::::
+
+1. 在编译好的 ``blobnode`` 二进制目录下**创建相关目录**
+
+.. code-block:: bash
+
+    # 该目录对应配置文件的路径
+    mkdir -p ./run/disks/disk{1..8} # 每个目录需要挂载磁盘，保证数据收集准确性
 
 2. 启动服务
 
@@ -139,118 +220,70 @@ BlobStore部署文档
 .. code-block:: json
 
    {
-        "bind_addr": ":8899",
-        "cluster_id": 1,
-        "idc": "z0",
-        "rack": "testrack",
-        "host": "http://127.0.0.1:8899",  #ip替换为主机ip
-        "disks": [ # 所需要创建目录结构
-            {"path": "./run/disks/disk1", "auto_format": true,"max_chunks": 1024},
-            {"path": "./run/disks/disk2", "auto_format": true,"max_chunks": 1024},
-            {"path": "./run/disks/disk3", "auto_format": true,"max_chunks": 1024},
-            {"path": "./run/disks/disk4", "auto_format": true,"max_chunks": 1024},
-            {"path": "./run/disks/disk5", "auto_format": true,"max_chunks": 1024},
-            {"path": "./run/disks/disk6", "auto_format": true,"max_chunks": 1024}
-        ],
-        "clustermgr": {
-            "hosts": ["http://127.0.0.1:9998", "http://127.0.0.1:9999", "http://127.0.0.1:10000"]
+      "bind_addr": ":8899",
+      "cluster_id": 1,
+      "idc": "z0",
+      "rack": "testrack",
+      "host": "http://127.0.0.1:8899",
+      "dropped_bid_record": {
+        "dir": "./run/logs/blobnode_dropped"
+      },
+      "disks": [
+        {
+          "path": "./run/disks/disk1",
+          "auto_format": true,
+          "max_chunks": 1024 # chunk大小以clustermgr配置中的定义为准
         },
-        "disk_config":{
-            "disk_reserved_space_B": 1,   # for debug
-            "must_mount_point": true      # for debug
+        {
+          "path": "./run/disks/disk2",
+          "auto_format": true,
+          "max_chunks": 1024
         },
-        "log":{ # 运行日志相关配置
-            "level":0,# 0:debug, 1:info, 2:warn, 3:error, 4:panic, 5:fatal
-            "filename": "./run/blobnode.log" # 运行日志文件，会自动轮转
+        {
+          "path": "./run/disks/disk3",
+          "auto_format": true,
+          "max_chunks": 1024
         },
-        "auditlog": {
-            "logdir": "./run/auditlog"
+        {
+          "path": "./run/disks/disk4",
+          "auto_format": true,
+          "max_chunks": 1024
+        },
+        {
+          "path": "./run/disks/disk5",
+          "auto_format": true,
+          "max_chunks": 1024
+        },
+        {
+          "path": "./run/disks/disk6",
+          "auto_format": true,
+          "max_chunks": 1024
+        },
+        {
+          "path": "./run/disks/disk7",
+          "auto_format": true,
+          "max_chunks": 1024
+        },
+        {
+          "path": "./run/disks/disk8",
+          "auto_format": true,
+          "max_chunks": 1024
         }
-   }
-
-启动allocator
-:::::::::::::
-
-部署allocator建议至少部署两个节点保证高可用。
-
-1. 创建审计日志目录并启动服务
-
-.. code-block:: bash
-
-   mkdir /tmp/allocator
-   nohup ./allocator -f allocator.conf
-
-2. 示例 ``allocator.conf``:
-
-.. code-block:: json
-
-   {
-        "bind_addr": ":9100",
-        "host": "http://127.0.0.1:9100", #ip替换为主机ip
-        "cluster_id": 1,
-        "idc": "z0",
-        "clustermgr": {
-            "hosts": [
-                "http://127.0.0.1:9998",
-                "http://127.0.0.1:9999",
-                "http://127.0.0.1:10000"
-            ]
-        },
-        "log":{ # 运行日志相关配置
-            "level":0,# 0:debug, 1:info, 2:warn, 3:error, 4:panic, 5:fatal
-            "filename": "/tmp/allocator.log" # 运行日志文件，会自动轮转
-        },
-        "auditlog": {
-            "logdir": "/tmp/allocator"
-        }
-   }
-
-启动mqproxy
-:::::::::::
-
-1. 依赖kafka组件，需要提前创建blob_delete_topic、shard_repair_topic、shard_repair_priority_topic对应主题
-
-.. code-block:: bash
-
-   # 例如创建blob_delete_topic对应主题
-   bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic blob_delete
-
-2. 启动服务
-
-.. code-block:: bash
-
-   # 保证可用性，每个机房`idc`至少需要部署一个mqproxy节点
-   nohup ./mqproxy -f mqproxy.conf
-
-3. 示例 ``mqproxy.conf``:
-
-.. code-block:: json
-
-   {
-        "bind_addr": ":9600", # 服务端口
-        "cluster_id":1, # 集群id
-        "clustermgr":{ # clustermgr服务地址
-            "hosts": ["http://127.0.0.1:9998", "http://127.0.0.1:9999", "http://127.0.0.1:10000"]
-        },
-        "mq":{
-            "blob_delete_topic":"blob_delete", # 删除消息主题
-            "shard_repair_topic":"shard_repair", # 修复消息主题
-            "shard_repair_priority_topic":"shard_repair_prior", # 高优先级修复主题
-            "msg_sender":{ # kafka地址
-                "broker_list":["127.0.0.1:9092"]
-            }
-        },
-        "service_register":{ # 自身服务注册信息
-            "host":"http://127.0.0.1:9600", # 服务地址
-            "idc":"z0"# 服务所属机房
-        },
-        "log":{ # 运行日志相关配置
-          "level":0,# 0:debug, 1:info, 2:warn, 3:error, 4:panic, 5:fatal
-          "filename": "/tmp/mqproxy.log" # 运行日志文件，会自动轮转
-        },
-        "auditlog": {# 审计日志相关配置
-            "logdir": "./auditlog/mqproxy" # 审计日志目录
-        }
+      ],
+      "clustermgr": {
+        "hosts": [
+          "http://127.0.0.1:9998",
+          "http://127.0.0.1:9999",
+          "http://127.0.0.1:10000"
+        ]
+      },
+      "disk_config":{
+        "disk_reserved_space_B":1
+      },
+      "log": {
+        "level": "info",
+        "filename": "./run/logs/blobnode.log"
+      }
    }
 
 启动access
@@ -269,182 +302,19 @@ BlobStore部署文档
 
    {
         "bind_addr": ":9500", # 服务端口
-        "log": { # 运行日志相关配置
-            "filename": "/tmp/access.log" # 运行日志文件
-        },
-        "auditlog": { # 审计日志相关配置
-            "logdir": "./auditlog/access" # 审计日志目录
-        },
-        "consul_agent_addr": "127.0.0.1:8500", # 获取相关服务的consul地址
-        "service_register": {
-            "consul_addr": "127.0.0.1:8500", # access 服务注册地址
-            "service_ip": "x.x.x.x" # access 服务IP
-        },
-        "stream": { # access server配置
-            "idc": "z0", # access所在idc信息
-            "cluster_config": { # cm 配置
-                "region": "test-region" # region信息
+        "log": {
+            "level": "info",
+            "filename": "./run/logs/access.log"
+         },
+        "stream": {
+            "idc": "z0",
+            "cluster_config": {
+                "region": "test-region",
+                "clusters":[
+                    {"cluster_id":1,"hosts":["http://127.0.0.1:9998","http://127.0.0.1:9999","http://127.0.0.1:10000"]}]
             }
         }
    }
-
-启动scheduler
-:::::::::::::
-
-1. 依赖mongodb，需要创建database.db_name、task_archive_store_db_name数据库
-
-2. 启动服务
-
-.. code-block:: bash
-
-   nohup ./scheduler -f scheduler.conf
-
-2. 示例 ``scheduler.conf``: 注意scheduler模块单节点部署
-
-.. code-block:: json
-
-   {
-      "bind_addr": ":9800", # 服务端口
-      "cluster_id": 1, # 集群id
-      "clustermgr": { # clustermgr地址
-        "hosts": ["http://127.0.0.1:9998", "http://127.0.0.1:9999", "http://127.0.0.1:10000"]
-      },
-      "database": {# 后台任务相关配置
-        "mongo": {
-          "uri": "mongodb://127.0.0.1:27017" # mongodb 地址
-        },
-        "db_name": "scheduler" # 数据库名
-      },
-      "task_archive_store_db": {# 后台任务备份表
-        "mongo": {
-          "uri": "mongodb://127.0.0.1:27017" # mongodb 地址
-        },
-        "db_name": "task_archive_store" # 数据库名
-      },
-      "log":{ # 运行日志相关配置
-        "level":0,# 0:debug, 1:info, 2:warn, 3:error, 4:panic, 5:fatal
-        "filename": "/tmp/scheduler.log" # 运行日志文件，会自动轮转
-      },
-      "auditlog": {# 审计日志相关配置
-        "logdir": "./auditlog/scheduler" # 审计日志目录
-      }
-   }
-
-启动worker
-::::::::::
-
-1. 启动服务
-
-.. code-block:: bash
-
-   # 每个机房`idc`至少部署一个worker节点
-   nohup ./worker -f worker.conf
-
-2. 示例 ``worker.conf``:
-
-.. code-block:: json
-
-   {
-      "bind_addr": ":9910", # 服务端口
-      "cluster_id": 1, # 集群id
-      "service_register": { # 自身服务注册信息
-        "host": "http://127.0.0.1:9910", # 服务地址
-        "idc": "z0" # 服务所属机房
-      },
-      "scheduler": {# scheduler服务相关配置
-        "host": "http://127.0.0.1:9800" # 服务地址
-      },
-      "dropped_bid_record": { # 丢弃blob id原因记录
-        "dir": "./dropped" # 记录目录
-      },
-      "log":{ # 运行日志相关配置
-        "level":0,# 0:debug, 1:info, 2:warn, 3:error, 4:panic, 5:fatal
-        "filename": "/tmp/worker.log" # 运行日志文件，会自动轮转
-      },
-      "auditlog": { # 审计日志相关配置
-        "logdir": "./auditlog/worker" # 审计日志目录
-      }
-   }
-
-启动tinker
-::::::::::
-
-1. 依赖kafka组件，需要提前创建shard_repair_conf.fail_topic_cfg.topic与viblob_delete_conf.fail_topic_cfg.topic
-
-2. 依赖mongodb，需要创建数据库database_conf.db_name
-
-3. 启动服务
-
-.. code-block:: bash
-
-   nohup ./tinker -f tinker.conf
-
-4. 示例 ``tinker.conf``: 至少部署一个节点，配置消费kafka主题中的所有分区
-
-.. code-block:: json
-
-   {
-      "bind_addr": ":9700", # 服务端口
-      "cluster_id":1, # 集群id
-      "database": {# mongodb相关配置
-          "mongo": {
-            "uri": "mongodb://127.0.0.1:27017" # mongodb地址
-          },
-          "db_name": "tinker" # 数据库名
-      },
-      "shard_repair":{# 数据修补相关配置
-           "broker_list":["127.0.0.1:9092"], # kafka 地址
-           "priority_topics":[ # 修补主题配置
-               {
-                    "priority":1, # 修复优先级，数值越大优先级越高
-                    "topic":"shard_repair", # 主题
-                    "partitions":[0] # 消费分区
-               },
-               {
-                   "priority":2, # 修复优先级，数值越大优先级越高
-                   "topic":"shard_repair_prior", # 主题
-                   "partitions":[0] # 消费分区
-                }
-           ],
-           "fail_topic":{# 修补主题消费配置
-                "topic":"shard_repair_failed", # 主题
-                "partitions":[0] # 消费分区
-           }
-      },
-      "blob_delete":{# 数据删除相关配置
-            "broker_list":["127.0.0.1:9092"], # kafka地址
-            "normal_topic":{ # 删除消息消费配置
-                "topic":"blob_delete",# 主题
-                "partitions":[0] # 消费分区
-            },
-            "fail_topic":{# 删除失败消息消费配置
-                "topic":"fail_blob_delete", # 主题
-                "partitions":[0] # 分区
-            },
-            "safe_delay_time_h":72, # 删除保护期
-            "dellog":{ # 删除记录相关配置
-                "dir": "./delete_log" # 删除日志目录
-            }
-      },
-      "clustermgr": { # clustermgr地址
-          "hosts": ["http://127.0.0.1:9998", "http://127.0.0.1:9999", "http://127.0.0.1:10000"]
-       },
-      "scheduler": {# scheduler服务地址
-          "host": "http://127.0.0.1:9800"
-      },
-      "service_register":{ # 自身服务注册信息
-          "host":"http://127.0.0.1:9700",# 服务地址
-          "idc":"z0" # 服务所属机房
-      },
-      "log":{ # 运行日志相关配置
-        "level":0,# 0:debug, 1:info, 2:warn, 3:error, 4:panic, 5:fatal
-        "filename": "/tmp/tinker.log" # 运行日志文件，会自动轮转
-      },
-      "auditlog": {# 审计日志相关配置
-        "logdir": "./auditlog/tinker" # 审计日志目录
-      }
-   }
-
 
 配置说明
 :::::::::
@@ -487,6 +357,7 @@ BlobStore部署文档
    # 上传文件，成功后会返回一个location，（-d 参数为文件实际内容）
    $> access put -v -d "test -data-"
    # 返回结果
+   #"code_mode":11是clustermgr配置文件中制定的编码模式，11就是EC3P3编码模式
    {"cluster_id":1,"code_mode":10,"size":11,"blob_size":8388608,"crc":2359314771,"blobs":[{"min_bid":1844899,"vid":158458,"count":1}]}
 
    # 下载文件，用上述得到的location作为参数（-l），即可下载文件内容
@@ -515,6 +386,33 @@ BlobStore部署文档
    rm -f -r /tmp/normalwal0
 
 2. 所有模块部署成功后，上传验证需要延缓一段时间，等待创建卷成功。
+
+单机部署
+------
+
+一、物理机部署
+:::::::::::
+
+blobstore支持单机部署，运行一键启动命令即可，当显示有start blobstore service successfully便表示部署成功，具体操作如下：
+
+.. code-block:: bash
+
+    $> cd blobstore
+    $> ./run.sh
+    ...
+    start blobstore service successfully, wait minutes for internal state preparation
+    $>
+
+二、容器部署
+:::::::::::
+
+blobstore支持docker镜像部署，具体操作如下：
+
+.. code-block:: bash
+
+    $> cd blobstore
+    $> ./run_docker.sh
+
 
 附录
 -----

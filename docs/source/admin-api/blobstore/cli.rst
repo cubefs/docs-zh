@@ -1,9 +1,9 @@
-管理命令行工具
-==============
+Blobstore命令行工具
+==================
 
 使用命令行工具（CLI）可以实现方便快捷的集群管理。该工具为类unix命令行风格，可以查看集群的状态，实现了各模块的接口和功能。
 
-目前CLI还不够完善，功能覆盖不到30%；通过我们不断完善，最终将会实现对于集群各模块接口功能的100%覆盖。
+目前CLI还不够完善，功能覆盖不到70%；后续会不断完善，最终将会实现对于集群各模块接口功能的100%覆盖。
 
 .. code-block:: txt
 
@@ -12,29 +12,26 @@
 
 
 编译及配置
-----------
+---------
 
 通过 ``make cli`` 编译得到CLI工具。
 
 ``./bin/cli -c cli.conf`` 启动命令行工具；其中 ``-c cli.conf`` 是可选配置项，主要配置一些常用变量，
-比如access接入层服务发现地址，clustermgr服务地址等等。
+比如access接入层服务发现地址，clustermgr服务地址等。
 
 .. code-block:: json
 
     {
         "access": {
-            "consul_addr": "http://127.0.0.1:8500",
+            "conn_mode": 4,
             "priority_addrs": [
-                "http://localhost:9500",
-                "http://127.0.0.1:9500"
+                "http://localhost:9500"
             ]
         },
-        "cm_addrs": [
-            "http://localhost:9998",
-            "http://127.0.0.1:9998"
-        ],
-        "verbose": true,
-        "vverbose": false
+        "default_cluster_id": 1,
+        "cm_cluster": {
+            "1": "http://127.0.0.1:9998 http://127.0.0.1:9999 http://127.0.0.1:10000"
+        }
     }
 
 
@@ -70,10 +67,11 @@ cli 可以作为普通命令，比如：
    "cli util", "小工具集合，如解析location、解析时间、生成特定数据"
    "cli access", "文件的上传、下载、删除等"
    "cli cm", "集群信息查看和管理"
+   "cli scheduler", 后台任务管理
    "cli ...", "补充完善中 ......"
 
 
-命令config
+Config
 ----------
 
 .. code-block:: bash
@@ -90,7 +88,7 @@ cli 可以作为普通命令，比如：
       type  print type in cache
 
 
-命令util
+Util
 --------
 
 .. code-block:: bash
@@ -108,8 +106,8 @@ cli 可以作为普通命令，比如：
       vuid      parse vuid <vuid>
 
 
-命令access
-----------
+Access
+------
 
 .. code-block:: bash
 
@@ -126,8 +124,8 @@ cli 可以作为普通命令，比如：
       put      put file
 
 
-命令cm
-------
+Clustermgr
+----------
 
 .. code-block:: bash
 
@@ -137,10 +135,32 @@ cli 可以作为普通命令，比如：
       cm [flags]
 
     Sub Commands:
+      cluster    cluster tools
       config     config tools
       disk       disk tools
+      kv         kv tools
       listAllDB  list all db tools
       service    service tools
       stat       show stat of clustermgr
       volume     volume tools
       wal        wal tools
+
+
+Scheduler
+---------
+
+.. code-block:: bash
+
+    scheduler tools
+
+    Usage:
+      scheduler [flags]
+
+    Flags:
+      -h, --help     display help
+
+    Sub Commands:
+      checkpoint  inspect checkpoint tools
+      kafka       kafka consume tools
+      migrate     migrate tools
+      stat        show leader stat of scheduler

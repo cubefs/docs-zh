@@ -6,7 +6,7 @@ Clustermgr管理
 
 .. code-block:: bash
 
-	curl "http://127.0.0.1:9998/stat" | python3 -m json.tool 
+	curl "http://127.0.0.1:9998/stat" | python -m json.tool
 
 展示集群状态，包括raft状态、空间状态、卷信息统计等等。
 
@@ -16,84 +16,91 @@ Clustermgr管理
 
    {
 	    "leader_host": "127.0.0.1:9998",
-	    "raft_status": {
-		"nodeId": 1,
-		"term": 1,
-		"vote": 1,
-		"commit": 5,
-		"leader": 1,
-		"raftState": "StateLeader",
-		"applied": 5,
-		"raftApplied": 5,
-		"transferee": 0,
-		"peers": [
-		    {
-			"id": 2,
-			"host": "127.0.0.1:10111",
-			"match": 5,
-			"next": 6,
-			"state": "ProgressStateReplicate",
-			"paused": false,
-			"pendingSnapshot": 0,
-			"active": true,
-			"isLearner": false
-		    },
-		    {
-			"id": 3,
-			"host": "127.0.0.1:10112",
-			"match": 5,
-			"next": 6,
-			"state": "ProgressStateReplicate",
-			"paused": false,
-			"pendingSnapshot": 0,
-			"active": true,
-			"isLearner": false
-		    },
-		    {
-			"id": 1,
-			"host": "127.0.0.1:10110",
-			"match": 5,
-			"next": 6,
-			"state": "ProgressStateProbe",
-			"paused": false,
-			"pendingSnapshot": 0,
-			"active": true,
-			"isLearner": false
-		    }
-		]
-	    },
-	    "space_stat": {
-		"total_space": 0,
-		"free_space": 0,
-		"used_space": 0,
-		"writable_space": 0,
-		"total_blob_node": 0,
-		"total_disk": 0,
-		"disk_stat_infos": [
-		    {
-			"idc": "z0",
-			"total": 0,
-			"total_chunk": 0,
-			"total_free_chunk": 0,
-			"available": 0,
-			"readonly": 0,
-			"expired": 0,
-			"broken": 0,
-			"repairing": 0,
-			"repaired": 0,
-			"dropping": 0,
-			"dropped": 0
-		    }
-		]
-	    },
-	    "volume_stat": {
-		"total_volume": 0,
-		"idle_volume": 0,
-		"can_alloc_volume": 0,
-		"active_volume": 0,
-		"lock_volume": 0,
-		"unlocking_volume": 0
-	    }
+        "read_only": false,
+        "raft_status": {
+            "nodeId": 1,
+            "term": 2,
+            "vote": 1,
+            "commit": 909,
+            "leader": 1,
+            "raftState": "StateLeader",
+            "applied": 909,
+            "raftApplied": 909,
+            "transferee": 0,
+            "peers": [
+                {
+                    "id": 1,
+                    "host": "127.0.0.1:10110",
+                    "match": 909,
+                    "next": 910,
+                    "state": "StateReplicate",
+                    "paused": false,
+                    "pendingSnapshot": 0,
+                    "active": true,
+                    "isLearner": false,
+                    "isInflightFull": false,
+                    "inflightCount": 0
+                },
+                {
+                    "id": 2,
+                    "host": "127.0.0.1:10111",
+                    "match": 909,
+                    "next": 910,
+                    "state": "StateReplicate",
+                    "paused": false,
+                    "pendingSnapshot": 0,
+                    "active": true,
+                    "isLearner": false,
+                    "isInflightFull": false,
+                    "inflightCount": 0
+                },
+                {
+                    "id": 3,
+                    "host": "127.0.0.1:10112",
+                    "match": 909,
+                    "next": 910,
+                    "state": "StateReplicate",
+                    "paused": false,
+                    "pendingSnapshot": 0,
+                    "active": true,
+                    "isLearner": false,
+                    "isInflightFull": false,
+                    "inflightCount": 0
+                }
+            ]
+        },
+        "space_stat": {
+            "total_space": 314304364536,
+            "free_space": 105832886264,
+            "used_space": 208471478272,
+            "writable_space": 52898562048,
+            "total_blob_node": 1,
+            "total_disk": 8,
+            "disk_stat_infos": [
+                {
+                    "idc": "z0",
+                    "total": 8,
+                    "total_chunk": 18728,
+                    "total_free_chunk": 6303,
+                    "available": 8,
+                    "readonly": 0,
+                    "expired": 0,
+                    "broken": 0,
+                    "repairing": 0,
+                    "repaired": 0,
+                    "dropping": 0,
+                    "dropped": 0
+                }
+            ]
+        },
+        "volume_stat": {
+            "total_volume": 9,
+            "idle_volume": 5,
+            "can_alloc_volume": 5,
+            "active_volume": 4,
+            "lock_volume": 0,
+            "unlocking_volume": 0
+        }
    }
    
 
