@@ -7,7 +7,7 @@ BlobStore部署文档
 
 .. code-block:: bash
 
-   $ git clone https://github.com/cubefs/blobstore.git
+   $ git clone https://github.com/cubefs/cubefs-blobstore.git
    $ cd blobstore
    $ source env.sh
    $ ./build.sh
