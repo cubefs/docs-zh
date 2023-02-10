@@ -1,4 +1,4 @@
-欢迎使用ChubaoFS(储宝文件系统)
+欢迎使用CubeFS(储宝文件系统)
 ==================================
 
 .. toctree::
@@ -17,6 +17,7 @@
    design/metanode
    design/datanode
    design/objectnode.rst
+   design/blobstore
    design/client
    design/authnode
 
@@ -28,14 +29,14 @@
    user-guide/metanode
    user-guide/datanode
    user-guide/objectnode
-   user-guide/console
    user-guide/client
    user-guide/authnode
    user-guide/monitor
    user-guide/fuse
-   user-guide/yum
    user-guide/docker
    user-guide/csi-driver
+   user-guide/hadoop
+   user-guide/blobstore
    
 .. toctree::
    :maxdepth: 2

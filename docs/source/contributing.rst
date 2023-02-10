@@ -1,10 +1,10 @@
-对ChubaoFS作出贡献
+对CubeFS作出贡献
 ========================
 
 报告问题
 -----------
 
-请合理的使用关键字搜索 `查找问题 <https://github.com/chubaofs/chubaofs/search?q=&type=Issues&utf8=%E2%9C%93>`_ ，以确保问题没有提交。然后通过 `打开问题 <https://github.com/chubaofs/chubaofs/issues>`_ 提交问题描述和复现方法。
+请合理的使用关键字搜索 `查找问题 <https://github.com/cubeFS/cubefs/search?q=&type=Issues&utf8=%E2%9C%93>`_ ，以确保问题没有提交。然后通过 `打开问题 <https://github.com/cubeFS/cubefs/issues>`_ 提交问题描述和复现方法。
 
 补丁指南
 ----------------

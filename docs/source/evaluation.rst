@@ -59,7 +59,7 @@
 
     #!/bin/bash
     set -e
-    TARGET_PATH="/mnt/test/mdtest" # mount point of ChubaoFS volume
+    TARGET_PATH="/mnt/test/mdtest" # mount point of CubeFS volume
     for FILE_SIZE in 1024 2048 4096 8192 16384 32768 65536 131072 # file size
     do
     mpirun --allow-run-as-root -np 512 --hostfile hfile64 mdtest -n 1000 -w $i -e $FILE_SIZE -y -u -i 3 -N 1 -F -R -d $TARGET_PATH;
@@ -300,7 +300,7 @@ IO性能评估
 .. code-block:: bash
 
     #!/bin/bash
-    TEST_PATH=/mnt/cfs/mdtest # mount point of ChubaoFS volume
+    TEST_PATH=/mnt/cfs/mdtest # mount point of CubeFS volume
     for CLIENTS in 1 2 4 8 # number of clients
     do
     mpirun --allow-run-as-root -np $CLIENTS --hostfile hfile01 mdtest -n 5000 -u -z 2 -i 3 -d $TEST_PATH;
