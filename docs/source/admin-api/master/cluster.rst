@@ -3,6 +3,7 @@
 
 概述
 --------
+调用资源管理节点提供的API进行集群管理。curl命令中的IP和端口地址分别为资源管理节点配置文件中的ip和listen选项。
 
 .. code-block:: bash
 
@@ -16,20 +17,39 @@
 .. code-block:: json
 
    {
-       "Name": "test",
-       "LeaderAddr": "10.196.59.198:17010",
-       "DisableAutoAlloc": false,
-       "Applied": 225,
-       "MaxDataPartitionID": 100,
-       "MaxMetaNodeID": 3,
-       "MaxMetaPartitionID": 1,
-       "DataNodeStatInfo": {},
-       "MetaNodeStatInfo": {},
-       "VolStatInfo": {},
-       "BadPartitionIDs": {},
-       "BadMetaPartitionIDs": {},
-       "MetaNodes": {},
-       "DataNodes": {}
+    "code":0,
+    "data":{
+        "Applied":886268,
+        "BadMetaPartitionIDs":[
+
+        ],
+        "BadPartitionIDs":[
+
+        ],
+        "DataNodeStatInfo":{
+
+        },
+        "DataNodes":[
+
+        ],
+        "DisableAutoAlloc":false,
+        "LeaderAddr":"127.0.0.1:17010",
+        "MaxDataPartitionID":735,
+        "MaxMetaNodeID":57,
+        "MaxMetaPartitionID":59,
+        "MetaNodeStatInfo":{
+
+        },
+        "MetaNodeThreshold":0.75,
+        "MetaNodes":[
+
+        ],
+        "Name":"cluster",
+        "VolStatInfo":[
+
+        ]
+    },
+    "msg":"success"
    }
 
 
@@ -40,7 +60,7 @@
 
    curl -v "http://10.196.59.198:17010/cluster/freeze?enable=true"
 
-如果启用了冻结集群功能,卷就不再自动地创建数据分片。
+如果启用了冻结集群功能,卷就不再自动地创建数据分片，也不能手动创建分片。
 
 .. csv-table:: 参数列表
    :header: "参数", "类型", "描述"
@@ -178,7 +198,7 @@
     ]
 
 
-获取节点信息
+获取集群信息
 -----------
 
 .. code-block:: bash
@@ -186,7 +206,7 @@
    curl -v "http://192.168.0.11:17010/admin/getNodeInfo"
 
 
-获取metanode、datanode节点信息
+获取集群信息
 
 响应示例
 
@@ -194,22 +214,26 @@
 
     {
         "code": 0,
-        "msg": "success",
         "data": {
-            "batchCount": 0,
-            "markDeleteRate": 0
-        }
+            "autoRepairRate": "0",
+            "batchCount": "0",
+            "deleteWorkerSleepMs": "0",
+            "loadFactor": "0",
+            "maxDpCntLimit":"0",
+            "markDeleteRate": "0"
+        },
+        "msg": "success"
     }
 
 
-设置节点信息
+设置集群信息
 -----------
 
 .. code-block:: bash
 
    curl -v "http://192.168.0.11:17010/admin/setNodeInfo?batchCount=100&markDeleteRate=100"
 
-设置metanode、datanode节点信息
+设置集群信息
 
 
 .. csv-table:: 参数列表
@@ -217,5 +241,9 @@
 
    "batchCount", "uint64", "metanode 删除批量大小"
    "markDeleteRate", "uint64", "datanode批量删除限速设置. 0代表未做限速设置"
+   "autoRepairRate", "uint64", "datanode上同时修复的extent个数"
+   "deleteWorkerSleepMs", "uint64", "删除间隔时间"
+   "loadFactor", "uint64", "集群超卖比，默认0，不限制"
+   "maxDpCntLimit", "uint64", "每个节点上dp最大数量，默认3000， 0 代表默认值"
 
 

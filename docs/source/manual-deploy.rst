@@ -1,6 +1,19 @@
 手动部署集群
 =================
 
+编译依赖项
+--------
+
+.. csv-table::
+   :header: "依赖项", "版本要求"
+
+   "gcc-c++","4.8.5及以上"
+   "CMake","3.1及以上"
+   "Go","1.16及以上"
+   "bzip2-devel","1.0.6及以上"
+   "mvn","3.8.4及以上"
+
+
 编译构建
 --------
 
@@ -8,8 +21,8 @@
 
 .. code-block:: bash
 
-   $ git clone http://github.com/chubaofs/chubaofs.git
-   $ cd chubaofs
+   $ git clone http://github.com/cubeFS/cubefs.git
+   $ cd cubefs
    $ make build
 
 如果构建成功，将在`build/bin` 目录中生成可执行文件`cfs-server`和`cfs-client`。
@@ -22,7 +35,7 @@
 
 .. code-block:: bash
 
-   nohup ./cfs-server -c master.json &
+   ./cfs-server -c master.json
 
 
 示例 ``master.json`` ：注意：master服务最少应该启动3个节点实例
@@ -42,8 +55,7 @@
      "walDir":"/cfs/master/data/wal",
      "storeDir":"/cfs/master/data/store",
      "consulAddr": "http://consul.prometheus-cfs.local",
-     "exporterPort": 9500,
-     "clusterName":"chubaofs01",
+     "clusterName":"cubefs01",
      "metaNodeReservedMem": "1073741824"
    }
 
@@ -55,7 +67,7 @@
 .. code-block:: bash
 
 
-   nohup ./cfs-server -c metanode.json &
+   ./cfs-server -c metanode.json
 
 示例 ``meta.json`` ：注意：metanode服务最少应该启动3个节点实例
 
@@ -82,43 +94,19 @@
    }
 
 
-启动元数据节点
+详细配置参数请参考 :doc:`user-guide/metanode`.
+
+启动纠删码子系统
 ^^^^^^^^^^^^^^^^^^^^^
-.. code-block:: bash
 
+部署参考 :doc:`user-guide/blobstore` 。
 
-   nohup ./cfs-server -c metanode.json &
-
-示例 ``meta.json`` ：注意：metanode服务最少应该启动3个节点实例
-
-.. code-block:: json
-
-   {
-       "role": "metanode",
-       "listen": "17210",
-       "prof": "17220",
-       "logLevel": "info",
-       "metadataDir": "/cfs/metanode/data/meta",
-       "logDir": "/cfs/metanode/log",
-       "raftDir": "/cfs/metanode/data/raft",
-       "raftHeartbeatPort": "17230",
-       "raftReplicaPort": "17240",
-       "totalMem":  "8589934592",
-       "consulAddr": "http://consul.prometheus-cfs.local",
-       "exporterPort": 9501,
-       "masterAddr": [
-           "10.196.59.198:17010",
-           "10.196.59.199:17010",
-           "10.196.59.200:17010"
-       ]
-   }
-
-启动动 ObjectNode
+启动 ObjectNode
 ^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
-   nohup ./cfs-server -c objectnode.json &
+   ./cfs-server -c objectnode.json
 
 示例 ``objectnode.json`` 内容如下
 
@@ -142,41 +130,6 @@
 
 配置文件的详细信息 *objectnode.json*, 请参阅 :doc:`user-guide/objectnode`.
 
-启动管理平台（非必须）
-^^^^^^^^^^^^^^^^
-
-.. code-block:: bash
-
-   nohup ./cfs-server -c console.json &
-
-示例 ``console.json`` 内容如下
-
-.. code-block:: json
-
-    {
-        "role": "console",
-        "logDir": "/cfs/log/",
-        "logLevel": "debug",
-        "listen": "80",
-        "masterAddr": [
-            "192.168.0.11:17010",
-            "192.168.0.12:17010",
-            "192.168.0.13:17010"
-        ],
-        "objectNodeDomain": "object.chubao.io",
-        "master_instance": "192.168.0.11:9066",
-        "monitor_addr": "http://192.168.0.102:9090",
-        "dashboard_addr": "http://192.168.0.103",
-        "monitor_app": "cfs",
-        "monitor_cluster": "cfs"
-    }
-
-
-配置文件的详细信息 *console.json*, 请参阅 :doc:`user-guide/console`.
-
-
-详细配置参数请参考 :doc:`user-guide/metanode`.
-
 启动数据节点
 ^^^^^^^^^^^^^^
 
@@ -186,7 +139,7 @@
 
    **磁盘准备**
 
-    1.1 查看机器磁盘信息，选择给ChubaoFS使用的磁盘
+    1.1 查看机器磁盘信息，选择给CubeFS使用的磁盘
 
         .. code-block:: bash
 
@@ -214,7 +167,7 @@
 
    .. code-block:: bash
 
-      nohup ./cfs-server -c datanode.json &
+      ./cfs-server -c datanode.json
 
    示例 ``datanode.json`` :注意：datanode服务最少应该启动4个节点实例
 
@@ -242,53 +195,25 @@
        ]
       }
 
-   详细配置参数请参考 :doc:`user-guide/datanode`.
-
-启动对象管理节点
-^^^^^^^^^^^^^^^^
-
-.. code-block:: bash
-
-   nohup ./cfs-server -c objectnode.json &
-
-示例 *objectnode.json is* 如下：
-
-.. code-block:: json
-
-    {
-        "role": "objectnode",
-        "domains": [
-            "object.cfs.local"
-        ],
-        "listen": 17410,
-        "masterAddr": [
-           "10.196.59.198:17010",
-           "10.196.59.199:17010",
-           "10.196.59.200:17010"
-        ],
-        "logLevel": "info",
-        "logDir": "/cfs/Logs/objectnode"
-    }
-
-
-关于 *object.json* 的更多详细配置请参考 :doc:`user-guide/objectnode`.
+详细配置参数请参考 :doc:`user-guide/datanode`.
 
 
 创建Volume卷
-^^^^^^^^^^^^^
+------------
 
 .. code-block:: bash
 
-   curl -v "http://10.196.59.198:17010/admin/createVol?name=test&capacity=10000&owner=cfs"
+   curl -v "http://10.196.59.198:17010/admin/createVol?name=ltptest&capacity=10000&owner=ltptest"
 
    如果执行性能测试，请调用相应的API，创建足够多的数据分片（data partition）,如果集群中有8块磁盘，那么需要创建80个datapartition
+卷创建详细参数请参考 :doc:`admin-api/master/volume`.
 
 挂载客户端
 ------------
 
 1. 运行 ``modprobe fuse`` 插入FUSE内核模块。
 2. 运行 ``yum install -y fuse`` 安装libfuse。
-3. 运行 ``nohup client -c fuse.json &`` 启动客户端。
+3. 运行 ``client -c fuse.json`` 启动客户端。
 
    样例 *fuse.json* ,
 

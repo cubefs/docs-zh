@@ -5,7 +5,7 @@ Console
 ---------------------
 
 
-通过执行使用-c参数构建的ChubaoFS的服务器二进制文件来启动控制台进程，并指定配置文件
+通过执行使用-c参数构建的CubeFS的服务器二进制文件来启动控制台进程，并指定配置文件
 
 .. code-block:: bash
 
@@ -55,6 +55,6 @@ Notice
 -------------
 
   * 你可以通过这个网址来访问console `http://127.0.0.1:80`
-  * 在console里默认用户名是 `root` 密码 `ChubaoFSRoot`
+  * 在console里默认用户名是 `root` 密码 `CubeFSRoot`
   * 如果你的系统是升级来的可能发生密码格式不兼容, 你可以通过 `curl -H "Content-Type:application/json" -X POST --data '{"id":"testuser","pwd":"12345","type":2}' "http://10.196.59.198:17010/user/create"` 创建一个新用户来登陆
 

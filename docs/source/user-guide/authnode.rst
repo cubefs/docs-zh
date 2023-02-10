@@ -1,7 +1,7 @@
 授权节点
 ====================
 
-authnode负责授权客户端对ChubaoFS的Master节点的访问。通过此文档可以创建一个authnode docker-compose试用集群。
+authnode负责授权客户端对CubeFS的Master节点的访问。通过此文档可以创建一个authnode docker-compose试用集群。
 
 authnode功能的整体流程是：创建key --> 使用key获取访问指定服务的ticket --> 使用ticket访问服务。
 
@@ -12,8 +12,8 @@ authnode功能的整体流程是：创建key --> 使用key获取访问指定服�
 
 .. code-block:: bash
 
-   $ git clone http://github.com/chubaofs/chubaofs.git
-   $ cd chubaofs
+   $ git clone http://github.com/cubeFS/cubefs.git
+   $ cd cubefs
    $ make build
 
 如果构建成功，将在 `build/bin` 目录中生成可执行文件 `cfs-authtool` 。
@@ -164,7 +164,7 @@ authnode功能的整体流程是：创建key --> 使用key获取访问指定服�
 
       $ ./cfs-authtool ticket -host=192.168.0.14:8080 -keyfile=key_client.json -output=ticket_client.json getticket MasterService
  
-在ChubaoFS集群中添加授权功能
+在CubeFS集群中添加授权功能
 -------------------------------
 
 - 为Master节点创建key
@@ -241,7 +241,7 @@ authnode功能的整体流程是：创建key --> 使用key获取访问指定服�
       
       enableHTTPS：是否使用https协议传输。
   
-- 启动ChubaoFS集群
+- 启动CubeFS集群
 
   .. code-block:: bash
   

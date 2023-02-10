@@ -8,14 +8,14 @@ CLI工具配置及使用方法
 编译及配置
 ----------
 
-下载ChubaoFS源码后，在 ``chubaofs/cli`` 目录下，运行 ``build.sh`` 文件 ，即可生成 ``cfs-cli`` 可执行程序。
+下载CubeFS源码后，在 ``cubefs/cli`` 目录下，运行 ``build.sh`` 文件 ，即可生成 ``cfs-cli`` 可执行程序。
 
 同时，在 ``root`` 目录下会生成名为 ``.cfs-cli.json`` 的配置文件，修改master地址为当前集群的master地址即可。也可使用命令 ``./cfs-cli config info`` 和 ``./cfs-cli config set`` 来查看和设置配置文件。
 
 使用方法
 ---------
 
-在 ``chubaofs/cli`` 目录下，执行命令 ``./cfs-cli --help`` 或 ``./cfs-cli -h`` ，可获取CLI的帮助文档。
+在 ``cubefs/cli`` 目录下，执行命令 ``./cfs-cli --help`` 或 ``./cfs-cli -h`` ，可获取CLI的帮助文档。
 
 CLI主要分为六类管理命令：
 
@@ -31,7 +31,6 @@ CLI主要分为六类管理命令：
    "cfs-cli completion", "生成自动补全命令脚本"
    "cfs-cli volume, vol", "卷管理"
    "cfs-cli user", "用户管理"
-   "cfs-cli compatibility", "兼容性测试"
 
 集群管理命令
 >>>>>>>>>>>>>
@@ -52,6 +51,9 @@ CLI主要分为六类管理命令：
 
     ./cfs-cli cluster threshold [float]     #设置集群中每个MetaNode的内存阈值
 
+.. code-block:: bash
+
+    ./cli cluster cluster set [flags]    #设置集群的参数.
 
 元数据节点管理命令
 >>>>>>>>>>>>>>>>>
@@ -68,6 +70,9 @@ CLI主要分为六类管理命令：
 
     ./cfs-cli metanode decommission [Address] #将该元数据节点下线，该节点上的partition将自动转移至其他可用节点
 
+.. code-block:: bash
+
+    ./cfs-cli metanode migrate [srcAddress] [dstAddress] #将源元数据节点上的meta partition转移至目标元数据节点
 
 数据节点管理命令
 >>>>>>>>>>>>>>>>>
@@ -84,13 +89,17 @@ CLI主要分为六类管理命令：
 
     ./cfs-cli datanode decommission [Address] #将该数据节点下线，该节点上的data partition将自动转移至其他可用节点
 
+.. code-block:: bash
+
+    ./cfs-cli datanode migrate [srcAddress] [dstAddress] #将源数据节点上的data partition转移至目标数据节点
+
 
 数据分片管理命令
 >>>>>>>>>>>>>>>>>
 
 .. code-block:: bash
 
-    ./cfs-cli datapartition info [VOLUME] [Partition ID]        #获取指定data partition的信息
+    ./cfs-cli datapartition info [Partition ID]        #获取指定data partition的信息
 
 .. code-block:: bash
 
@@ -114,7 +123,7 @@ CLI主要分为六类管理命令：
 
 .. code-block:: bash
 
-    ./cfs-cli metapartition info [VOLUME] [Partition ID]        #获取指定meta partition的信息
+    ./cfs-cli metapartition info [Partition ID]        #获取指定meta partition的信息
 
 .. code-block:: bash
 
@@ -141,11 +150,12 @@ CLI主要分为六类管理命令：
 
 .. code-block:: bash
 
-    ./cfs-cli config set     #设置配置信息
-    root@fa27e115a0ba:/cfs#$ cfs-cli config set
-    Please input master host:
-    test.chubaofs.com
-    Config has been set successfully!
+    ./cfs-cli config set [flags] #设置配置信息
+
+    Flags:
+        --addr string      Specify master address [{HOST}:{PORT}]
+    -h, --help             help for set
+        --timeout uint16   Specify timeout for requests [Unit: s]
 
 
 自动补全管理
@@ -160,17 +170,36 @@ CLI主要分为六类管理命令：
 
 .. code-block:: bash
 
-    ./cfs-cli volume create [VOLUME NAME] [USER ID] [flags]     #创建所有者是[USER ID]的卷[VOLUME NAME]
+    ./cfs-cli volume create [VOLUME NAME] [USER ID] [flags]
+
     Flags:
-        --capacity uint                                     #指定卷的容量，单位GB（默认为10）
-        --dp-size  uint                                     #指定数据分片的大小，单位GB（默认为120）
-        --follower-read                                     #启用从follower副本中读取数据的功能（默认为true）
-        --mp-count int                                      #指定初始元数据分片的数量（默认为3）
-        -y, --yes                                           #跳过所有问题并设置回答为"yes"
+         --cache-action int          Specify low volume cacheAction (default 0)
+         --cache-capacity int        Specify low volume capacity[Unit: GB]
+         --cache-high-water int       (default 80)
+         --cache-low-water int        (default 60)
+         --cache-lru-interval int    Specify interval expiration time[Unit: min] (default 5)
+         --cache-rule-key string     Anything that match this field will be written to the cache
+         --cache-threshold int       Specify cache threshold[Unit: byte] (default 10485760)
+         --cache-ttl int             Specify cache expiration time[Unit: day] (default 30)
+         --capacity uint             Specify volume capacity (default 10)
+         --crossZone string          Disable cross zone (default "false")
+         --description string        Description
+         --ebs-blk-size int          Specify ebsBlk Size[Unit: byte] (default 8388608)
+         --follower-read string      Enable read form replica follower (default "true")
+     -h, --help                      help for create
+         --mp-count int              Specify init meta partition count (default 3)
+         --normalZonesFirst string   Write to normal zone first (default "false")
+         --replica-num string        Specify data partition replicas number(default 3 for normal volume,1 for low volume)
+         --size int                  Specify data partition size[Unit: GB] (default 120)
+         --vol-type int              Type of volume (default 0)
+     -y, --yes                       Answer yes for all questions
+         --zone-name string          Specify volume zone name
+
+
 
 .. code-block:: bash
 
-    ./cfs-cli volume delete [VOLUME NAME] [flags]               #删除指定卷[VOLUME NAME]
+    ./cfs-cli volume delete [VOLUME NAME] [flags]               #删除指定卷[VOLUME NAME], ec卷大小为0才能删除
     Flags:
         -y, --yes                                           #跳过所有问题并设置回答为"yes"
 
@@ -195,6 +224,25 @@ CLI主要分为六类管理命令：
     Flags：
         -f, --force                                         #强制转交
         -y, --yes                                           #跳过所有问题并设置回答为"yes"
+
+.. code-block:: bash
+
+    ./cli volume update                                     #更新集群的参数
+    Flags:
+        --cache-action string      Specify low volume cacheAction (default 0)
+        --cache-capacity string    Specify low volume capacity[Unit: GB]
+        --cache-high-water int      (default 80)
+        --cache-low-water int       (default 60)
+        --cache-lru-interval int   Specify interval expiration time[Unit: min] (default 5)
+        --cache-rule string        Specify cache rule
+        --cache-threshold int      Specify cache threshold[Unit: byte] (default 10M)
+        --cache-ttl int            Specify cache expiration time[Unit: day] (default 30)
+        --capacity uint            Specify volume datanode capacity [Unit: GB]
+        --description string       The description of volume
+        --ebs-blk-size int         Specify ebsBlk Size[Unit: byte]
+        --follower-read string     Enable read form replica follower (default false)
+        -y, --yes               Answer yes for all questions
+        --zonename string   Specify volume zone name
 
 用户管理命令
 >>>>>>>>>>>>>>>>>
@@ -237,24 +285,3 @@ CLI主要分为六类管理命令：
         --user-type string                      #更新后的用户类型，可选项为normal或admin
         -y, --yes                               #跳过所有问题并设置回答为"yes"
 
-
-兼容性测试
->>>>>>>>>>>>>>>>>>>>>>>>
-
-.. code-block:: bash
-
-    ./cfs-cli cptest meta [Snapshot Path] [Host] [Partition ID]         #meta data 兼容性测试
-    Parameters：
-            [Snapshot Path] string                     #快照文件存放路径
-            [Host] string                              #生成快照文件的MetaNode地址
-            [Partition ID] string                      #需要测试对比的meta partition ID
-例:
-    1. 使用旧版本server生成meta data, 停止meta data服务, 五分钟后会生成meta data快照数据, 然后拷贝快照文件到本地目录
-    2. 在本地机器执行 `cfs-cli cptest meta` 命令对刚刚拷贝的旧版本快照数据和线上的新数据对比验证
-
-    .. code-block:: bash
-
-        [Verify result]
-        All dentry are consistent
-        All inodes are consistent
-        All meta has checked
