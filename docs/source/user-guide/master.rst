@@ -1,7 +1,7 @@
 资源管理节点
 ====================
 
-Master负责管理ChubaoFS整个集群，主要存储5种元数据，包括：数据节点、元数据节点、卷、数据分片、元数据分片。所有的元数据都保存在master的内存中，并且持久化到RocksDB。
+Master负责管理CubeFS整个集群，主要存储5种元数据，包括：数据节点、元数据节点、卷、数据分片、元数据分片。所有的元数据都保存在master的内存中，并且持久化到RocksDB。
 多个Master之间通过raft协议保证集群元数据的一致性。注意：master的实例最少需要3个
 
 系统特性
@@ -14,7 +14,7 @@ Master负责管理ChubaoFS整个集群，主要存储5种元数据，包括：�
 配置参数
 --------------
 
-ChubaoFS 使用 **JSON** 作为配置文件的格式.
+CubeFS 使用 **JSON** 作为配置文件的格式.
 
 .. csv-table:: 属性
    :header: "配置项", "类型", "描述", "是否必需", "默认值"
@@ -31,6 +31,7 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
    "walDir", "字符串", "raft wal日志存储目录.", "是"
    "storeDir", "字符串", "RocksDB数据存储目录.此目录必须存在，如果目录不存在，无法启动服务", "是"
    "clusterName", "字符串", "集群名字", "是"
+   "ebsAddr","字符串","纠删码子系统的地址，使用纠删码子系统时需配置","否", ""
    "exporterPort", "整型", "prometheus获取监控数据端口", "否"
    "consulAddr", "字符串", "consul注册地址，供prometheus exporter使用", "否"
    "metaNodeReservedMem","字符串","元数据节点预留内存大小，单位：字节", "否", "1073741824"
@@ -64,7 +65,7 @@ ChubaoFS 使用 **JSON** 作为配置文件的格式.
     "storeDir":"/cfs/master/data/store",
     "exporterPort": 9500,
     "consulAddr": "http://consul.prometheus-cfs.local",
-    "clusterName":"chubaofs01",
+    "clusterName":"cubefs01",
     "metaNodeReservedMem": "1073741824"
    }
 
