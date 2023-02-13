@@ -174,4 +174,4 @@ CubeFS将卷的 **Owner** 字段看作一个用户ID。例如，创建卷时Owne
    "volume", "string", "待转交权限的卷名", "是"
    "user_src", "string", "该卷原来的所有者，必须与卷的Owner字段原取值相同", "是"
    "user_dst", "string", "转交权限后的目标用户ID", "是"
-   "force", "bool", "是否强制转交卷。如果该值设为true，即使user_src的取值与卷的Owner取值不等，也会将卷变更至目标用户名下", "否"
+   "force", "bool", "是否强制转交卷。如果该值设为true，即使user_src的取值与卷的Owner取值不等，也会将卷变更至目标用户名下,但不会修改该卷的原拥有者", "否"
