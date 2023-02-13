@@ -175,3 +175,17 @@ CubeFS将卷的 **Owner** 字段看作一个用户ID。例如，创建卷时Owne
    "user_src", "string", "该卷原来的所有者，必须与卷的Owner字段原取值相同", "是"
    "user_dst", "string", "转交权限后的目标用户ID", "是"
    "force", "bool", "是否强制转交卷。如果该值设为true，即使user_src的取值与卷的Owner取值不等，也会将卷变更至目标用户名下", "否"
+
+查询具有该卷权限的用户
+-----------------------
+
+.. code-block:: bash
+
+   curl -v "http://10.196.59.198:17010/vol/users?name=vol" | python -m json.tool
+
+查询具有该卷权限的所有用户。
+
+.. csv-table:: body参数列表
+   :header: "参数", "类型", "描述", "是否必需"
+
+   "name", "string", "卷名称", "是"
